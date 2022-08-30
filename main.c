@@ -36,10 +36,12 @@ int main(void) {
     while (*s)
         putchar(*s++);
 
-    char c = getchar();
-    putchar(c);
+    while (1) {
+        char c = getchar();
+        putchar(c+1);
+    }
 
-    while (1);
+    //while (1);
 }
 
 
