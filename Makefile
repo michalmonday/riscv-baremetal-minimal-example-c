@@ -1,16 +1,22 @@
-PROG_NAME 	= riscv-example
-RISCV64_GCC = riscv64-unknown-elf-gcc
-RISCV64_OBJCOPY = riscv64-unknown-elf-objcopy
+# Switched gcc with clang, added -target, changed -march and -mabi, added -mno-relax because it was in:
+# https://github.com/CTSRD-CHERI/cheri-exercises/blob/master/tools/ccc
 
-# may consider using -ffreestanding and -march=rv64gc
-GCC_FLAGS	= -march=rv64g -mabi=lp64 -static -mcmodel=medany \
-			  -fvisibility=hidden -fno-builtin \
-			  -nostdlib -nostartfiles
+PROG_NAME 	= riscv-example
+# RISCV64_GCC = riscv64-unknown-elf-gcc
+# RISCV64_GCC = /home/michal/cheri/output/sdk/bin/clang
+RISCV64_GCC = /home/michal/cheri/output/sdk/bin/riscv64-unknown-freebsd-clang
+GCC_FLAGS	= -target riscv64 \
+		  -march=rv64gcxcheri \
+		  -mabi=l64pc128d \
+		  -mno-relax \
+		  -ffreestanding -static -mcmodel=medany \
+		  -fvisibility=hidden -fno-builtin \
+		  -nostdlib -nostartfiles
 
 LD_FLAGS=-T example.ld
 
 .PHONY: all clean qemu
-all: $(PROG_NAME).bin
+all: $(PROG_NAME)
 
 start.o: 
 	$(RISCV64_GCC) $(GCC_FLAGS) -c start.s
@@ -20,10 +26,6 @@ main.o: main.c
 
 $(PROG_NAME): start.o main.o
 	$(RISCV64_GCC) $(GCC_FLAGS) -o $@ start.o main.o $(LD_FLAGS)
-
-$(PROG_NAME).bin: $(PROG_NAME)
-	$(RISCV64_OBJCOPY) -O binary $(PROG_NAME) $(PROG_NAME).bin
-	cp $(PROG_NAME).bin "/mnt/hgfs/shared ubuntu vm"
 
 clean:
 	rm *.o $(PROG_NAME)

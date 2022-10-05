@@ -1,12 +1,12 @@
 .global _start
 
 _start:
-    csrr    t0, mhartid             # read current hart id
-    bnez    t0, park                # single core only, park hart != 0
+    #csrr    ct0, mhartid             # read current hart id
+    #bnez    ct0, park                # single core only, park hart != 0
 
-    la      sp, stack_top           # setup stack
+    #lc      csp, stack_top           # setup stack
     j       main                    # jump to c
 
 park:
-    wfi
+    # wfi
     j       park

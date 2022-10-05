@@ -5,6 +5,9 @@ SECTIONS
   START_ADDRESS = 0x80000000;
   STACK_SIZE = 0x800;
   
+  /* start addresss */
+  . = START_ADDRESS;
+
   /* text */
   .text : { *(.text) }
   
@@ -16,8 +19,9 @@ SECTIONS
   .debug : { *(.debug) }
 
   /* stack */
-  stack_bottom = 0x80000000;
-  stack_top = 0x80000800;
+  stack_bottom =.;
+  . += STACK_SIZE;
+  stack_top = .;
 
-  _end = 0x80000800;
+  _end = .;
 }
