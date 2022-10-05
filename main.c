@@ -32,7 +32,7 @@ static int getchar() {
 }
 
 int main(void) {
-    const char *s = "Hello world!\n";
+    const char *s = "New program!\n";
     while (*s)
         putchar(*s++);
 
