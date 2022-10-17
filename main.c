@@ -4,8 +4,8 @@
 // address alignment to multiples of 4)
 //
 // Using information from: Flute/src_Testbench/UART_Model.bsv
-static volatile int *uart = (int *)(void *)0xC0000000;
-//static volatile int *uart = (int *)(void *)0x62300000;
+//static volatile int *uart = (int *)(void *)0xC0000000;
+static volatile int *uart = (int *)(void *)0x62300000;
 
 // It seems that receive and transmit addresses of console are the same
 // in Flute which distinguishes them at hardware level.

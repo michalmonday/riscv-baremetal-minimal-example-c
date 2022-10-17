@@ -4,13 +4,13 @@ GCC_FLAGS	= -ffreestanding -march=rv64gc -mabi=lp64 -static -mcmodel=medany \
 			  -fvisibility=hidden -fno-builtin \
 			  -nostdlib -nostartfiles
 
-LD_FLAGS=-T example_original.ld
+LD_FLAGS=-T example_p2.ld
 
 .PHONY: all clean qemu
 all: $(PROG_NAME)
 
 start.o: 
-	$(RISCV64_GCC) $(GCC_FLAGS) -c start_original.s -o start.o
+	$(RISCV64_GCC) $(GCC_FLAGS) -c start_p2.s -o start.o
 
 main.o: main.c
 	$(RISCV64_GCC) $(GCC_FLAGS) -c main.c
