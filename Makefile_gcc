@@ -20,6 +20,7 @@ $(PROG_NAME): start.o main.o
 	riscv64-unknown-elf-objdump -sSD $(PROG_NAME) > gcc_objdump.txt
 	riscv64-unknown-elf-objcopy -O binary $(PROG_NAME) $(PROG_NAME).bin
 	cp $(PROG_NAME) /home/michal/CHERI_FPGA/Flute/Tests/isa/
+	python3 tools/convert_to_coe.py $(PROG_NAME).coe $(PROG_NAME).bin
 
 clean:
 	rm *.o $(PROG_NAME)
