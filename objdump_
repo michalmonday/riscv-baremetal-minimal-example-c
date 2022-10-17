@@ -1,0 +1,713 @@
+
+riscv-example:	file format elf64-littleriscv
+Contents of section .text:
+ 80000000 17012000 01000100 01009700 0000e780  .. .............
+ 80000010 40010100 01009700 0000e780 e0012340  @.............#@
+ 80000020 21000f26 01005b26 46006780 00006f00  !..&..[&F.g...o.
+ 80000030 00000000 5b1101f9 23401106 23488104  ....[...#@..#H..
+ 80000040 5b140107 db15c4fd 5ba64500 db1504fc  [.......[.E.....
+ 80000050 dba50501 2348b4f8 db16f4fb dba61600  ....#H..........
+ 80000060 2340d4fa 2320a600 17150100 0f258500  #@..# .......%..
+ 80000070 23c0a500 6f004000 0f2504f9 0f250500  #...o.@..%...%..
+ 80000080 03450500 81456304 b5026f00 40000f26  .E...Ec...o.@..&
+ 80000090 04f90f25 0600db15 15002340 b6000345  ...%......#@...E
+ 800000a0 05009700 0000e780 80036ff0 fffc6f00  ..........o...o.
+ 800000b0 40009700 0000e780 6007aa85 0f2504fa  @.......`....%..
+ 800000c0 2300b500 03050500 05051375 f50f9700  #..........u....
+ 800000d0 0000e780 c0006ff0 dffd5b11 01fd2340  ......o...[...#@
+ 800000e0 11022348 81005b14 01032a86 5b15c4fd  ..#H..[...*.[...
+ 800000f0 5b254500 db15b4fd dba51500 2380c500  [%E.........#...
+ 80000100 83c50500 17160100 0f26c6f7 0f260600  .........&...&..
+ 80000110 2320b600 03250500 0f240101 8f200102  # ...%...$... ..
+ 80000120 5b110103 67800000 5b1101fe 23481100  [...g...[...#H..
+ 80000130 23408100 5b140102 6f004000 97000000  #@..[...o.@.....
+ 80000140 e780a003 81456316 b5006f00 40006ff0  .....Ec...o.@.o.
+ 80000150 fffe1715 01000f25 e5f20f25 05000365  .......%...%...e
+ 80000160 05001375 f50f0f24 01008f20 01015b11  ...u...$... ..[.
+ 80000170 01026780 00005b11 01fe2348 11002340  ..g...[...#H..#@
+ 80000180 81005b14 01021715 01000f25 a5ef0f25  ..[........%...%
+ 80000190 05000365 45010589 0f240100 8f200101  ...eE....$... ..
+ 800001a0 5b110102 67800000                    [...g...
+Contents of section .data:
+ 80011000 00003062 00000000 00000000 00000000  ..0b............
+Contents of section .rodata.str1.1:
+ 80011010 4e657720 70726f67 72616d21 0a00      New program!..
+Contents of section __cap_relocs:
+ 80011020 70100180 00000000 10100180 00000000  p...............
+ 80011030 00000000 00000000 0e000000 00000000  ................
+ 80011040 00000000 00000040 80100180 00000000  .......@........
+ 80011050 00100180 00000000 00000000 00000000  ................
+ 80011060 10000000 00000000 00000000 00000000  ................
+Contents of section .captable:
+ 80011070 00000000 00000000 00000000 00000000  ................
+ 80011080 00000000 00000000 00000000 00000000  ................
+Contents of section .comment:
+ 0000 636c616e 67207665 7273696f 6e203133  clang version 13
+ 0010 2e302e30 20286874 7470733a 2f2f6769  .0.0 (https://gi
+ 0020 74687562 2e636f6d 2f435453 52442d43  thub.com/CTSRD-C
+ 0030 48455249 2f6c6c76 6d2d7072 6f6a6563  HERI/llvm-projec
+ 0040 742e6769 74203962 30646539 38363334  t.git 9b0de98634
+ 0050 34663239 31323635 63343832 34396534  4f291265c48249e4
+ 0060 63623432 30626639 34383330 35632900  cb420bf948305c).
+ 0070 004c696e 6b65723a 204c4c44 2031332e  .Linker: LLD 13.
+ 0080 302e3020 28687474 70733a2f 2f676974  0.0 (https://git
+ 0090 6875622e 636f6d2f 43545352 442d4348  hub.com/CTSRD-CH
+ 00a0 4552492f 6c6c766d 2d70726f 6a656374  ERI/llvm-project
+ 00b0 2e676974 20396230 64653938 36333434  .git 9b0de986344
+ 00c0 66323931 32363563 34383234 39653463  f291265c48249e4c
+ 00d0 62343230 62663934 38333035 632900    b420bf948305c).
+Contents of section .riscv.attributes:
+ 0000 413e0000 00726973 63760001 34000000  A>...riscv..4...
+ 0010 04100572 76363469 3270305f 6d327030  ...rv64i2p0_m2p0
+ 0020 5f613270 305f6632 70305f64 3270305f  _a2p0_f2p0_d2p0_
+ 0030 63327030 5f786368 65726930 703000    c2p0_xcheri0p0.
+Contents of section .symtab:
+ 0000 00000000 00000000 00000000 00000000  ................
+ 0010 00000000 00000000 01000000 00000100  ................
+ 0020 1e000080 00000000 00000000 00000000  ................
+ 0030 06000000 00000100 2e000080 00000000  ................
+ 0040 00000000 00000000 0b000000 0400f1ff  ................
+ 0050 00000000 00000000 00000000 00000000  ................
+ 0060 12000000 00000100 68000080 00000000  ........h.......
+ 0070 00000000 00000000 1a000000 02000100  ................
+ 0080 da000080 00000000 4e000000 00000000  ........N.......
+ 0090 22000000 02000100 28010080 00000000  ".......(.......
+ 00a0 4e000000 00000000 2a000000 00000100  N.......*.......
+ 00b0 04010080 00000000 00000000 00000000  ................
+ 00c0 32000000 01000200 00100180 00000000  2...............
+ 00d0 10000000 00000000 37000000 02000100  ........7.......
+ 00e0 76010080 00000000 32000000 00000000  v.......2.......
+ 00f0 46000000 00000100 52010080 00000000  F.......R.......
+ 0100 00000000 00000000 4e000000 00000100  ........N.......
+ 0110 86010080 00000000 00000000 00000000  ................
+ 0120 5d000000 02020100 34000080 00000000  ].......4.......
+ 0130 a6000000 00000000 97000000 00000500  ................
+ 0140 70100180 00000000 20000000 00000000  p....... .......
+ 0150 56000000 10000100 00000080 00000000  V...............
+ 0160 00000000 00000000 62000000 1000f1ff  ........b.......
+ 0170 00200080 00000000 00000000 00000000  . ..............
+ 0180 70000000 1000f1ff 00100000 00000000  p...............
+ 0190 00000000 00000000 7b000000 10000500  ........{.......
+ 01a0 90100180 00000000 00000000 00000000  ................
+ 01b0 88000000 10000500 90200180 00000000  ......... ......
+ 01c0 00000000 00000000 92000000 10000500  ................
+ 01d0 90200180 00000000 00000000 00000000  . ..............
+Contents of section .shstrtab:
+ 0000 002e7465 7874002e 64617461 002e726f  ..text..data..ro
+ 0010 64617461 2e737472 312e3100 5f5f6361  data.str1.1.__ca
+ 0020 705f7265 6c6f6373 002e6361 70746162  p_relocs..captab
+ 0030 6c65002e 636f6d6d 656e7400 2e726973  le..comment..ris
+ 0040 63762e61 74747269 62757465 73002e73  cv.attributes..s
+ 0050 796d7461 62002e73 68737472 74616200  ymtab..shstrtab.
+ 0060 2e737472 74616200                    .strtab.
+Contents of section .strtab:
+ 0000 00746573 74007061 726b006d 61696e2e  .test.park.main.
+ 0010 63002e4c 4242305f 35007075 74636861  c..LBB0_5.putcha
+ 0020 72006765 74636861 72002e4c 4242315f  r.getchar..LBB1_
+ 0030 31007561 72740064 6174615f 61766169  1.uart.data_avai
+ 0040 6c61626c 65002e4c 4242325f 34002e4c  lable..LBB2_4..L
+ 0050 4242335f 31005f73 74617274 006d6169  BB3_1._start.mai
+ 0060 6e005354 4152545f 41444452 45535300  n.START_ADDRESS.
+ 0070 53544143 4b5f5349 5a450073 7461636b  STACK_SIZE.stack
+ 0080 5f626f74 746f6d00 73746163 6b5f746f  _bottom.stack_to
+ 0090 70005f65 6e64005f 43484552 495f4341  p._end._CHERI_CA
+ 00a0 50414249 4c495459 5f544142 4c455f00  PABILITY_TABLE_.
+
+Disassembly of section .text:
+
+0000000080000000 <_start>:
+80000000: 17 01 20 00  	auipcc	csp, 512
+80000004: 01 00        	nop
+80000006: 01 00        	nop
+80000008: 01 00        	nop
+8000000a: 97 00 00 00  	auipcc	cra, 0
+8000000e: e7 80 40 01  	cjalr	20(cra)
+80000012: 01 00        	nop
+80000014: 01 00        	nop
+80000016: 97 00 00 00  	auipcc	cra, 0
+8000001a: e7 80 e0 01  	cjalr	30(cra)
+
+000000008000001e <test>:
+8000001e: 23 40 21 00  	csc	csp, 0(csp)
+80000022: 0f 26 01 00  	clc	ca2, 0(csp)
+80000026: 5b 26 46 00  	csetbounds	ca2, ca2, 4
+8000002a: 67 80 00 00  	cret
+
+000000008000002e <park>:
+8000002e: 6f 00 00 00  	j	0x8000002e <park>
+80000032: 00 00        	unimp	
+
+0000000080000034 <main>:
+80000034: 5b 11 01 f9  	cincoffset	csp, csp, -112
+80000038: 23 40 11 06  	csc	cra, 96(csp)
+8000003c: 23 48 81 04  	csc	cs0, 80(csp)
+80000040: 5b 14 01 07  	cincoffset	cs0, csp, 112
+80000044: db 15 c4 fd  	cincoffset	ca1, cs0, -36
+80000048: 5b a6 45 00  	csetbounds	ca2, ca1, 4
+8000004c: db 15 04 fc  	cincoffset	ca1, cs0, -64
+80000050: db a5 05 01  	csetbounds	ca1, ca1, 16
+80000054: 23 48 b4 f8  	csc	ca1, -112(cs0)
+80000058: db 16 f4 fb  	cincoffset	ca3, cs0, -65
+8000005c: db a6 16 00  	csetbounds	ca3, ca3, 1
+80000060: 23 40 d4 fa  	csc	ca3, -96(cs0)
+80000064: 23 20 a6 00  	csw	a0, 0(ca2)
+
+0000000080000068 <.LBB0_5>:
+80000068: 17 15 01 00  	auipcc	ca0, 17
+8000006c: 0f 25 85 00  	clc	ca0, 8(ca0)
+80000070: 23 c0 a5 00  	csc	ca0, 0(ca1)
+80000074: 6f 00 40 00  	j	0x80000078 <.LBB0_5+0x10>
+80000078: 0f 25 04 f9  	clc	ca0, -112(cs0)
+8000007c: 0f 25 05 00  	clc	ca0, 0(ca0)
+80000080: 03 45 05 00  	clbu	a0, 0(ca0)
+80000084: 81 45        	mv	a1, zero
+80000086: 63 04 b5 02  	beq	a0, a1, 0x800000ae <.LBB0_5+0x46>
+8000008a: 6f 00 40 00  	j	0x8000008e <.LBB0_5+0x26>
+8000008e: 0f 26 04 f9  	clc	ca2, -112(cs0)
+80000092: 0f 25 06 00  	clc	ca0, 0(ca2)
+80000096: db 15 15 00  	cincoffset	ca1, ca0, 1
+8000009a: 23 40 b6 00  	csc	ca1, 0(ca2)
+8000009e: 03 45 05 00  	clbu	a0, 0(ca0)
+800000a2: 97 00 00 00  	auipcc	cra, 0
+800000a6: e7 80 80 03  	cjalr	56(cra)
+800000aa: 6f f0 ff fc  	j	0x80000078 <.LBB0_5+0x10>
+800000ae: 6f 00 40 00  	j	0x800000b2 <.LBB0_5+0x4a>
+800000b2: 97 00 00 00  	auipcc	cra, 0
+800000b6: e7 80 60 07  	cjalr	118(cra)
+800000ba: aa 85        	mv	a1, a0
+800000bc: 0f 25 04 fa  	clc	ca0, -96(cs0)
+800000c0: 23 00 b5 00  	csb	a1, 0(ca0)
+800000c4: 03 05 05 00  	clb	a0, 0(ca0)
+800000c8: 05 05        	addi	a0, a0, 1
+800000ca: 13 75 f5 0f  	andi	a0, a0, 255
+800000ce: 97 00 00 00  	auipcc	cra, 0
+800000d2: e7 80 c0 00  	cjalr	12(cra)
+800000d6: 6f f0 df fd  	j	0x800000b2 <.LBB0_5+0x4a>
+
+00000000800000da <putchar>:
+800000da: 5b 11 01 fd  	cincoffset	csp, csp, -48
+800000de: 23 40 11 02  	csc	cra, 32(csp)
+800000e2: 23 48 81 00  	csc	cs0, 16(csp)
+800000e6: 5b 14 01 03  	cincoffset	cs0, csp, 48
+800000ea: 2a 86        	mv	a2, a0
+800000ec: 5b 15 c4 fd  	cincoffset	ca0, cs0, -36
+800000f0: 5b 25 45 00  	csetbounds	ca0, ca0, 4
+800000f4: db 15 b4 fd  	cincoffset	ca1, cs0, -37
+800000f8: db a5 15 00  	csetbounds	ca1, ca1, 1
+800000fc: 23 80 c5 00  	csb	a2, 0(ca1)
+80000100: 83 c5 05 00  	clbu	a1, 0(ca1)
+
+0000000080000104 <.LBB1_1>:
+80000104: 17 16 01 00  	auipcc	ca2, 17
+80000108: 0f 26 c6 f7  	clc	ca2, -132(ca2)
+8000010c: 0f 26 06 00  	clc	ca2, 0(ca2)
+80000110: 23 20 b6 00  	csw	a1, 0(ca2)
+80000114: 03 25 05 00  	clw	a0, 0(ca0)
+80000118: 0f 24 01 01  	clc	cs0, 16(csp)
+8000011c: 8f 20 01 02  	clc	cra, 32(csp)
+80000120: 5b 11 01 03  	cincoffset	csp, csp, 48
+80000124: 67 80 00 00  	cret
+
+0000000080000128 <getchar>:
+80000128: 5b 11 01 fe  	cincoffset	csp, csp, -32
+8000012c: 23 48 11 00  	csc	cra, 16(csp)
+80000130: 23 40 81 00  	csc	cs0, 0(csp)
+80000134: 5b 14 01 02  	cincoffset	cs0, csp, 32
+80000138: 6f 00 40 00  	j	0x8000013c <getchar+0x14>
+8000013c: 97 00 00 00  	auipcc	cra, 0
+80000140: e7 80 a0 03  	cjalr	58(cra)
+80000144: 81 45        	mv	a1, zero
+80000146: 63 16 b5 00  	bne	a0, a1, 0x80000152 <.LBB2_4>
+8000014a: 6f 00 40 00  	j	0x8000014e <getchar+0x26>
+8000014e: 6f f0 ff fe  	j	0x8000013c <getchar+0x14>
+
+0000000080000152 <.LBB2_4>:
+80000152: 17 15 01 00  	auipcc	ca0, 17
+80000156: 0f 25 e5 f2  	clc	ca0, -210(ca0)
+8000015a: 0f 25 05 00  	clc	ca0, 0(ca0)
+8000015e: 03 65 05 00  	clwu	a0, 0(ca0)
+80000162: 13 75 f5 0f  	andi	a0, a0, 255
+80000166: 0f 24 01 00  	clc	cs0, 0(csp)
+8000016a: 8f 20 01 01  	clc	cra, 16(csp)
+8000016e: 5b 11 01 02  	cincoffset	csp, csp, 32
+80000172: 67 80 00 00  	cret
+
+0000000080000176 <data_available>:
+80000176: 5b 11 01 fe  	cincoffset	csp, csp, -32
+8000017a: 23 48 11 00  	csc	cra, 16(csp)
+8000017e: 23 40 81 00  	csc	cs0, 0(csp)
+80000182: 5b 14 01 02  	cincoffset	cs0, csp, 32
+
+0000000080000186 <.LBB3_1>:
+80000186: 17 15 01 00  	auipcc	ca0, 17
+8000018a: 0f 25 a5 ef  	clc	ca0, -262(ca0)
+8000018e: 0f 25 05 00  	clc	ca0, 0(ca0)
+80000192: 03 65 45 01  	clwu	a0, 20(ca0)
+80000196: 05 89        	andi	a0, a0, 1
+80000198: 0f 24 01 00  	clc	cs0, 0(csp)
+8000019c: 8f 20 01 01  	clc	cra, 16(csp)
+800001a0: 5b 11 01 02  	cincoffset	csp, csp, 32
+800001a4: 67 80 00 00  	cret
+
+Disassembly of section .data:
+
+0000000080011000 <uart>:
+80011000: 00 00        	unimp	
+80011002: 30 62        	cld	a2, 64(ca2)
+		...
+
+Disassembly of section .rodata.str1.1:
+
+0000000080011010 <.rodata.str1.1>:
+80011010: 4e 65        	cld	a0, 208(csp)
+80011012: 77 20 70 72  	<unknown>
+80011016: 6f 67 72 61  	cjal	ca4, 0x80037e2c <stack_top+0x25d9c>
+8001101a: 6d 21        	addiw	sp, sp, 27
+8001101c: 0a 00        	c.slli	zero, 2
+
+Disassembly of section __cap_relocs:
+
+0000000080011020 <__cap_relocs>:
+80011020: 70 10        	cincoffset	ca2, csp, 44
+80011022: 01 80        	c.srli64	s0
+80011024: 00 00        	unimp	
+80011026: 00 00        	unimp	
+80011028: 10 10        	cincoffset	ca2, csp, 32
+8001102a: 01 80        	c.srli64	s0
+		...
+80011038: 0e 00        	c.slli	zero, 3
+		...
+80011046: 00 40        	clw	s0, 0(cs0)
+80011048: 80 10        	cincoffset	cs0, csp, 96
+8001104a: 01 80        	c.srli64	s0
+8001104c: 00 00        	unimp	
+8001104e: 00 00        	unimp	
+80011050: 00 10        	cincoffset	cs0, csp, 32
+80011052: 01 80        	c.srli64	s0
+		...
+80011060: 10 00        	<unknown>
+		...
+8001106e: 00 00        	unimp	
+
+Disassembly of section .captable:
+
+0000000080011070 <_CHERI_CAPABILITY_TABLE_>:
+		...
+
+Disassembly of section .comment:
+
+0000000000000000 <.comment>:
+       0: 63 6c 61 6e  	bltu	sp, t1, 0x6f8 <.comment+0x6f8>
+       4: 67 20 76 65  	<unknown>
+       8: 72 73        	cld	t1, 312(csp)
+       a: 69 6f        	lui	t5, 26
+       c: 6e 20        	<unknown>
+       e: 31 33        	addiw	t1, t1, -20
+      10: 2e 30        	<unknown>
+      12: 2e 30        	<unknown>
+      14: 20 28        	clc	cs0, 80(cs0)
+      16: 68 74        	cld	a0, 232(cs0)
+      18: 74 70        	cld	a3, 224(cs0)
+      1a: 73 3a 2f 2f  	csrrc	s4, 754, t5
+      1e: 67 69 74 68  	<unknown>
+      22: 75 62        	lui	tp, 29
+      24: 2e 63        	cld	t1, 200(csp)
+      26: 6f 6d 2f 43  	cjal	cs10, 0xf6458 <.comment+0xf6458>
+      2a: 54 53        	clw	a3, 36(ca4)
+      2c: 52 44        	clw	s0, 20(csp)
+      2e: 2d 43        	addi	t1, zero, 11
+      30: 48 45        	clw	a0, 12(ca0)
+      32: 52 49        	clw	s2, 20(csp)
+      34: 2f 6c 6c 76  	<unknown>
+      38: 6d 2d        	addiw	s10, s10, 27
+      3a: 70 72        	cld	a2, 224(ca2)
+      3c: 6f 6a 65 63  	cjal	cs4, 0x56672 <.comment+0x56672>
+      40: 74 2e        	clc	ca3, 464(ca2)
+      42: 67 69 74 20  	<unknown>
+      46: 39 62        	lui	tp, 14
+      48: 30 64        	cld	a2, 72(cs0)
+      4a: 65 39        	addiw	s2, s2, -7
+      4c: 38 36        	clc	ca4, 352(ca2)
+      4e: 33 34 34 66  	<unknown>
+      52: 32 39        	clc	cs2, 800(csp)
+      54: 31 32        	addiw	tp, tp, -20
+      56: 36 35        	clc	ca0, 864(csp)
+      58: 63 34 38 32  	<unknown>
+      5c: 34 39        	clc	ca3, 112(ca0)
+      5e: 65 34        	addiw	s0, s0, -7
+      60: 63 62 34 32  	bltu	s0, gp, 0x384 <.comment+0x384>
+      64: 30 62        	cld	a2, 64(ca2)
+      66: 66 39        	clc	cs2, 624(csp)
+      68: 34 38        	clc	ca3, 112(cs0)
+      6a: 33 30 35 63  	<unknown>
+      6e: 29 00        	c.nop	10
+      70: 00 4c        	clw	s0, 24(cs0)
+      72: 69 6e        	lui	t3, 26
+      74: 6b 65 72 3a  	<unknown>
+      78: 20 4c        	clw	s0, 88(cs0)
+      7a: 4c 44        	clw	a1, 12(cs0)
+      7c: 20 31        	clc	cs0, 96(ca0)
+      7e: 33 2e 30 2e  	<unknown>
+      82: 30 20        	clc	ca2, 64(cs0)
+      84: 28 68        	cld	a0, 80(cs0)
+      86: 74 74        	cld	a3, 232(cs0)
+      88: 70 73        	cld	a2, 224(ca4)
+      8a: 3a 2f        	clc	ct5, 896(csp)
+      8c: 2f 67 69 74  	<unknown>
+      90: 68 75        	cld	a0, 232(ca0)
+      92: 62 2e        	clc	ct3, 528(csp)
+      94: 63 6f 6d 2f  	bltu	s10, s6, 0x392 <.comment+0x392>
+      98: 43 54 53 52  	<unknown>
+      9c: 44 2d        	clc	cs1, 400(ca0)
+      9e: 43 48 45 52  	fmadd.d	fa6, fa0, ft4, fa0, rmm
+      a2: 49 2f        	addiw	t5, t5, 18
+      a4: 6c 6c        	cld	a1, 216(cs0)
+      a6: 76 6d        	cld	s10, 344(csp)
+      a8: 2d 70        	c.lui	zero, -21
+      aa: 72 6f        	cld	t5, 280(csp)
+      ac: 6a 65        	cld	a0, 152(csp)
+      ae: 63 74 2e 67  	bgeu	t3, s2, 0x716 <.comment+0x716>
+      b2: 69 74        	lui	s0, 1048570
+      b4: 20 39        	clc	cs0, 112(ca0)
+      b6: 62 30        	<unknown>
+      b8: 64 65        	cld	s1, 200(ca0)
+      ba: 39 38        	addiw	a6, a6, -18
+      bc: 36 33        	clc	ct1, 864(csp)
+      be: 34 34        	clc	ca3, 352(cs0)
+      c0: 66 32        	clc	ctp, 624(csp)
+      c2: 39 31        	addiw	sp, sp, -18
+      c4: 32 36        	clc	ca2, 800(csp)
+      c6: 35 63        	lui	t1, 13
+      c8: 34 38        	clc	ca3, 112(cs0)
+      ca: 32 34        	clc	cs0, 800(csp)
+      cc: 39 65        	lui	a0, 14
+      ce: 34 63        	cld	a3, 64(ca4)
+      d0: 62 34        	clc	cs0, 560(csp)
+      d2: 32 30        	<unknown>
+      d4: 62 66        	cld	a2, 24(csp)
+      d6: 39 34        	addiw	s0, s0, -18
+      d8: 38 33        	clc	ca4, 96(ca4)
+      da: 30 35        	clc	ca2, 352(ca0)
+      dc: 63           	<unknown>
+      dd: 29 00        	c.nop	10
+
+Disassembly of section .riscv.attributes:
+
+0000000000000000 <.riscv.attributes>:
+       0: 41 3e        	addiw	t3, t3, -16
+       2: 00 00        	unimp	
+       4: 00 72        	cld	s0, 32(ca2)
+       6: 69 73        	lui	t1, 1048570
+       8: 63 76 00 01  	bgeu	zero, a6, 0x14 <.comment+0x14>
+       c: 34 00        	cincoffset	ca3, csp, 8
+       e: 00 00        	unimp	
+      10: 04 10        	cincoffset	cs1, csp, 32
+      12: 05 72        	lui	tp, 1048545
+      14: 76 36        	clc	ca2, 880(csp)
+      16: 34 69        	cld	a3, 80(ca0)
+      18: 32 70        	<unknown>
+      1a: 30 5f        	clw	a2, 120(ca4)
+      1c: 6d 32        	addiw	tp, tp, -5
+      1e: 70 30        	clc	ca2, 224(cs0)
+      20: 5f 61 32 70  	<unknown>
+      24: 30 5f        	clw	a2, 120(ca4)
+      26: 66 32        	clc	ctp, 624(csp)
+      28: 70 30        	clc	ca2, 224(cs0)
+      2a: 5f 64 32 70  	<unknown>
+      2e: 30 5f        	clw	a2, 120(ca4)
+      30: 63 32 70 30  	<unknown>
+      34: 5f 78 63 68  	<unknown>
+      38: 65 72        	lui	tp, 1048569
+      3a: 69 30        	<unknown>
+      3c: 70 30        	clc	ca2, 224(cs0)
+      3e: 00           	<unknown>
+
+Disassembly of section .symtab:
+
+0000000000000000 <.symtab>:
+		...
+      18: 01 00        	nop
+      1a: 00 00        	unimp	
+      1c: 00 00        	unimp	
+      1e: 01 00        	nop
+      20: 1e 00        	c.slli	zero, 7
+      22: 00 80        	<unknown>
+		...
+      30: 06 00        	c.slli	zero, 1
+      32: 00 00        	unimp	
+      34: 00 00        	unimp	
+      36: 01 00        	nop
+      38: 2e 00        	c.slli	zero, 11
+      3a: 00 80        	<unknown>
+		...
+      48: 0b 00 00 00  	<unknown>
+      4c: 04 00        	<unknown>
+      4e: f1 ff        	bnez	a5, 0x2a <.symtab+0x2a>
+		...
+      60: 12 00        	c.slli	zero, 4
+      62: 00 00        	unimp	
+      64: 00 00        	unimp	
+      66: 01 00        	nop
+      68: 68 00        	cincoffset	ca0, csp, 12
+      6a: 00 80        	<unknown>
+		...
+      78: 1a 00        	c.slli	zero, 6
+      7a: 00 00        	unimp	
+      7c: 02 00        	c.slli64	zero
+      7e: 01 00        	nop
+      80: da 00        	slli	ra, ra, 22
+      82: 00 80        	<unknown>
+      84: 00 00        	unimp	
+      86: 00 00        	unimp	
+      88: 4e 00        	c.slli	zero, 19
+      8a: 00 00        	unimp	
+      8c: 00 00        	unimp	
+      8e: 00 00        	unimp	
+      90: 22 00        	c.slli	zero, 8
+      92: 00 00        	unimp	
+      94: 02 00        	c.slli64	zero
+      96: 01 00        	nop
+      98: 28 01        	cincoffset	ca0, csp, 136
+      9a: 00 80        	<unknown>
+      9c: 00 00        	unimp	
+      9e: 00 00        	unimp	
+      a0: 4e 00        	c.slli	zero, 19
+      a2: 00 00        	unimp	
+      a4: 00 00        	unimp	
+      a6: 00 00        	unimp	
+      a8: 2a 00        	c.slli	zero, 10
+      aa: 00 00        	unimp	
+      ac: 00 00        	unimp	
+      ae: 01 00        	nop
+      b0: 04 01        	cincoffset	cs1, csp, 128
+      b2: 00 80        	<unknown>
+		...
+      c0: 32 00        	c.slli	zero, 12
+      c2: 00 00        	unimp	
+      c4: 01 00        	nop
+      c6: 02 00        	c.slli64	zero
+      c8: 00 10        	cincoffset	cs0, csp, 32
+      ca: 01 80        	c.srli64	s0
+      cc: 00 00        	unimp	
+      ce: 00 00        	unimp	
+      d0: 10 00        	<unknown>
+      d2: 00 00        	unimp	
+      d4: 00 00        	unimp	
+      d6: 00 00        	unimp	
+      d8: 37 00 00 00  	lui	zero, 0
+      dc: 02 00        	c.slli64	zero
+      de: 01 00        	nop
+      e0: 76 01        	slli	sp, sp, 29
+      e2: 00 80        	<unknown>
+      e4: 00 00        	unimp	
+      e6: 00 00        	unimp	
+      e8: 32 00        	c.slli	zero, 12
+      ea: 00 00        	unimp	
+      ec: 00 00        	unimp	
+      ee: 00 00        	unimp	
+      f0: 46 00        	c.slli	zero, 17
+      f2: 00 00        	unimp	
+      f4: 00 00        	unimp	
+      f6: 01 00        	nop
+      f8: 52 01        	slli	sp, sp, 20
+      fa: 00 80        	<unknown>
+		...
+     108: 4e 00        	c.slli	zero, 19
+     10a: 00 00        	unimp	
+     10c: 00 00        	unimp	
+     10e: 01 00        	nop
+     110: 86 01        	slli	gp, gp, 1
+     112: 00 80        	<unknown>
+		...
+     120: 5d 00        	c.nop	23
+     122: 00 00        	unimp	
+     124: 02 02        	c.slli64	tp
+     126: 01 00        	nop
+     128: 34 00        	cincoffset	ca3, csp, 8
+     12a: 00 80        	<unknown>
+     12c: 00 00        	unimp	
+     12e: 00 00        	unimp	
+     130: a6 00        	slli	ra, ra, 9
+     132: 00 00        	unimp	
+     134: 00 00        	unimp	
+     136: 00 00        	unimp	
+     138: 97 00 00 00  	auipcc	cra, 0
+     13c: 00 00        	unimp	
+     13e: 05 00        	c.nop	1
+     140: 70 10        	cincoffset	ca2, csp, 44
+     142: 01 80        	c.srli64	s0
+     144: 00 00        	unimp	
+     146: 00 00        	unimp	
+     148: 20 00        	cincoffset	cs0, csp, 8
+     14a: 00 00        	unimp	
+     14c: 00 00        	unimp	
+     14e: 00 00        	unimp	
+     150: 56 00        	c.slli	zero, 21
+     152: 00 00        	unimp	
+     154: 10 00        	<unknown>
+     156: 01 00        	nop
+     158: 00 00        	unimp	
+     15a: 00 80        	<unknown>
+		...
+     168: 62 00        	c.slli	zero, 24
+     16a: 00 00        	unimp	
+     16c: 10 00        	<unknown>
+     16e: f1 ff        	bnez	a5, 0x14a <.symtab+0x14a>
+     170: 00 20        	clc	cs0, 0(cs0)
+     172: 00 80        	<unknown>
+		...
+     180: 70 00        	cincoffset	ca2, csp, 12
+     182: 00 00        	unimp	
+     184: 10 00        	<unknown>
+     186: f1 ff        	bnez	a5, 0x162 <.symtab+0x162>
+     188: 00 10        	cincoffset	cs0, csp, 32
+		...
+     196: 00 00        	unimp	
+     198: 7b 00 00 00  	<unknown>
+     19c: 10 00        	<unknown>
+     19e: 05 00        	c.nop	1
+     1a0: 90 10        	cincoffset	ca2, csp, 96
+     1a2: 01 80        	c.srli64	s0
+		...
+     1b0: 88 00        	cincoffset	ca0, csp, 64
+     1b2: 00 00        	unimp	
+     1b4: 10 00        	<unknown>
+     1b6: 05 00        	c.nop	1
+     1b8: 90 20        	clc	ca2, 0(cs1)
+     1ba: 01 80        	c.srli64	s0
+		...
+     1c8: 92 00        	slli	ra, ra, 4
+     1ca: 00 00        	unimp	
+     1cc: 10 00        	<unknown>
+     1ce: 05 00        	c.nop	1
+     1d0: 90 20        	clc	ca2, 0(cs1)
+     1d2: 01 80        	c.srli64	s0
+		...
+
+Disassembly of section .shstrtab:
+
+0000000000000000 <.shstrtab>:
+       0: 00 2e        	clc	cs0, 272(ca2)
+       2: 74 65        	cld	a3, 200(ca0)
+       4: 78 74        	cld	a4, 232(cs0)
+       6: 00 2e        	clc	cs0, 272(ca2)
+       8: 64 61        	cld	s1, 192(ca0)
+       a: 74 61        	cld	a3, 192(ca0)
+       c: 00 2e        	clc	cs0, 272(ca2)
+       e: 72 6f        	cld	t5, 280(csp)
+      10: 64 61        	cld	s1, 192(ca0)
+      12: 74 61        	cld	a3, 192(ca0)
+      14: 2e 73        	cld	t1, 232(csp)
+      16: 74 72        	cld	a3, 224(ca2)
+      18: 31 2e        	addiw	t3, t3, 12
+      1a: 31 00        	c.nop	12
+      1c: 5f 5f 63 61  	<unknown>
+      20: 70 5f        	clw	a2, 124(ca4)
+      22: 72 65        	cld	a0, 280(csp)
+      24: 6c 6f        	cld	a1, 216(ca4)
+      26: 63 73 00 2e  	bgeu	zero, zero, 0x30c <.symtab+0x30c>
+      2a: 63 61 70 74  	bltu	zero, t2, 0x76c <.symtab+0x76c>
+      2e: 61 62        	lui	tp, 24
+      30: 6c 65        	cld	a1, 200(ca0)
+      32: 00 2e        	clc	cs0, 272(ca2)
+      34: 63 6f 6d 6d  	bltu	s10, s6, 0x712 <.symtab+0x712>
+      38: 65 6e        	lui	t3, 25
+      3a: 74 00        	cincoffset	ca3, csp, 12
+      3c: 2e 72        	cld	tp, 232(csp)
+      3e: 69 73        	lui	t1, 1048570
+      40: 63 76 2e 61  	bgeu	t3, s2, 0x64c <.symtab+0x64c>
+      44: 74 74        	cld	a3, 232(cs0)
+      46: 72 69        	cld	s2, 280(csp)
+      48: 62 75        	cld	a0, 56(csp)
+      4a: 74 65        	cld	a3, 200(ca0)
+      4c: 73 00 2e 73  	<unknown>
+      50: 79 6d        	lui	s10, 30
+      52: 74 61        	cld	a3, 192(ca0)
+      54: 62 00        	c.slli	zero, 24
+      56: 2e 73        	cld	t1, 232(csp)
+      58: 68 73        	cld	a0, 224(ca4)
+      5a: 74 72        	cld	a3, 224(ca2)
+      5c: 74 61        	cld	a3, 192(ca0)
+      5e: 62 00        	c.slli	zero, 24
+      60: 2e 73        	cld	t1, 232(csp)
+      62: 74 72        	cld	a3, 224(ca2)
+      64: 74 61        	cld	a3, 192(ca0)
+      66: 62 00        	c.slli	zero, 24
+
+Disassembly of section .strtab:
+
+0000000000000000 <.strtab>:
+       0: 00 74        	cld	s0, 40(cs0)
+       2: 65 73        	lui	t1, 1048569
+       4: 74 00        	cincoffset	ca3, csp, 12
+       6: 70 61        	cld	a2, 192(ca0)
+       8: 72 6b        	cld	s6, 280(csp)
+       a: 00 6d        	cld	s0, 24(ca0)
+       c: 61 69        	lui	s2, 24
+       e: 6e 2e        	clc	ct3, 720(csp)
+      10: 63 00 2e 4c  	beq	t3, sp, 0x4d0 <.symtab+0x4d0>
+      14: 42 42        	clw	tp, 16(csp)
+      16: 30 5f        	clw	a2, 120(ca4)
+      18: 35 00        	c.nop	13
+      1a: 70 75        	cld	a2, 232(ca0)
+      1c: 74 63        	cld	a3, 192(ca4)
+      1e: 68 61        	cld	a0, 192(ca0)
+      20: 72 00        	c.slli	zero, 28
+      22: 67 65 74 63  	<unknown>
+      26: 68 61        	cld	a0, 192(ca0)
+      28: 72 00        	c.slli	zero, 28
+      2a: 2e 4c        	clw	s8, 200(csp)
+      2c: 42 42        	clw	tp, 16(csp)
+      2e: 31 5f        	addi	t5, zero, -20
+      30: 31 00        	c.nop	12
+      32: 75 61        	cincoffset	csp, csp, 368
+      34: 72 74        	cld	s0, 312(csp)
+      36: 00 64        	cld	s0, 8(cs0)
+      38: 61 74        	lui	s0, 1048568
+      3a: 61 5f        	addi	t5, zero, -8
+      3c: 61 76        	lui	a2, 1048568
+      3e: 61 69        	lui	s2, 24
+      40: 6c 61        	cld	a1, 192(ca0)
+      42: 62 6c        	cld	s8, 24(csp)
+      44: 65 00        	c.nop	25
+      46: 2e 4c        	clw	s8, 200(csp)
+      48: 42 42        	clw	tp, 16(csp)
+      4a: 32 5f        	clw	t5, 44(csp)
+      4c: 34 00        	cincoffset	ca3, csp, 8
+      4e: 2e 4c        	clw	s8, 200(csp)
+      50: 42 42        	clw	tp, 16(csp)
+      52: 33 5f 31 00  	srl	t5, sp, gp
+      56: 5f 73 74 61  	<unknown>
+      5a: 72 74        	cld	s0, 312(csp)
+      5c: 00 6d        	cld	s0, 24(ca0)
+      5e: 61 69        	lui	s2, 24
+      60: 6e 00        	c.slli	zero, 27
+      62: 53 54 41 52  	<unknown>
+      66: 54 5f        	clw	a3, 60(ca4)
+      68: 41 44        	addi	s0, zero, 16
+      6a: 44 52        	clw	s1, 36(ca2)
+      6c: 45 53        	addi	t1, zero, -15
+      6e: 53 00 53 54  	<unknown>
+      72: 41 43        	addi	t1, zero, 16
+      74: 4b 5f 53 49  	<unknown>
+      78: 5a 45        	clw	a0, 148(csp)
+      7a: 00 73        	cld	s0, 32(ca4)
+      7c: 74 61        	cld	a3, 192(ca0)
+      7e: 63 6b 5f 62  	bltu	t5, t0, 0x6b4 <.symtab+0x6b4>
+      82: 6f 74 74 6f  	cjal	cs0, 0x47f78 <.symtab+0x47f78>
+      86: 6d 00        	c.nop	27
+      88: 73 74 61 63  	csrrci	s0, 1590, 2
+      8c: 6b 5f 74 6f  	<unknown>
+      90: 70 00        	cincoffset	ca2, csp, 12
+      92: 5f 65 6e 64  	<unknown>
+      96: 00 5f        	clw	s0, 56(ca4)
+      98: 43 48 45 52  	fmadd.d	fa6, fa0, ft4, fa0, rmm
+      9c: 49 5f        	addi	t5, zero, -14
+      9e: 43 41 50 41  	fmadd.s	ft2, ft0, fs5, fs0, rmm
+      a2: 42 49        	clw	s2, 16(csp)
+      a4: 4c 49        	clw	a1, 20(ca0)
+      a6: 54 59        	clw	a3, 52(ca0)
+      a8: 5f 54 41 42  	<unknown>
+      ac: 4c 45        	clw	a1, 12(ca0)
+      ae: 5f           	<unknown>
+      af: 00           	<unknown>

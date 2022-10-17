@@ -1,0 +1,191 @@
+
+riscv-example:     file format elf64-littleriscv
+
+Contents of section .text:
+ 80000000 f32240f1 63980200 17110000 13010190  ."@.c...........
+ 80000010 6f004008 73005010 f5bf0111 22ec0010  o.@.s.P....."...
+ 80000020 aa87a307 f4fe9707 00009387 a70d9c63  ...............c
+ 80000030 0347f4fe 012798c3 01003e85 62640561  .G...'....>.bd.a
+ 80000040 82804111 22e40008 97070000 9387870b  ..A."...........
+ 80000050 9c63d107 9c438127 858b8127 3e852264  .c...C.'...'>."d
+ 80000060 41018280 411106e4 22e00008 0100eff0  A...A...".......
+ 80000070 5ffdaa87 eddf9707 00009387 a7089c63  _..............c
+ 80000080 9c438127 93f7f70f 81273e85 a2600264  .C.'.....'>..`.d
+ 80000090 41018280 797106f4 22f00018 aa87232e  A...yq..".....#.
+ 800000a0 f4fc9707 00009387 e7042334 f4fe21a8  ..........#4..!.
+ 800000b0 833784fe 13871700 2334e4fe 83c70700  .7......#4......
+ 800000c0 3e85eff0 9ff58337 84fe83c7 0700edf3  >......7........
+ 800000d0 eff05ff9 aa87a303 f4fe8347 74fe8527  .._........Gt..'
+ 800000e0 93f7f70f 3e85eff0 5ff3ddb7           ....>..._...    
+Contents of section .rodata:
+ 800000f0 4e657720 70726f67 72616d21 0a00      New program!..  
+Contents of section .sdata:
+ 80000100 000000c0 00000000                    ........        
+Contents of section .riscv.attributes:
+ 0000 41380000 00726973 63760001 2e000000  A8...riscv......
+ 0010 04100572 76363469 3270305f 6d327030  ...rv64i2p0_m2p0
+ 0020 5f613270 305f6632 70305f64 3270305f  _a2p0_f2p0_d2p0_
+ 0030 63327030 0008010a 0b                 c2p0.....       
+Contents of section .comment:
+ 0000 4743433a 20286731 65613937 38653330  GCC: (g1ea978e30
+ 0010 36362920 31322e31 2e3000             66) 12.1.0.     
+
+Disassembly of section .text:
+
+0000000080000000 <_start>:
+    80000000:	f14022f3          	csrr	t0,mhartid
+    80000004:	00029863          	bnez	t0,80000014 <park>
+    80000008:	00001117          	auipc	sp,0x1
+    8000000c:	90010113          	addi	sp,sp,-1792 # 80000908 <_end>
+    80000010:	0840006f          	j	80000094 <main>
+
+0000000080000014 <park>:
+    80000014:	10500073          	wfi
+    80000018:	bff5                	j	80000014 <park>
+
+000000008000001a <putchar>:
+    8000001a:	1101                	addi	sp,sp,-32
+    8000001c:	ec22                	sd	s0,24(sp)
+    8000001e:	1000                	addi	s0,sp,32
+    80000020:	87aa                	mv	a5,a0
+    80000022:	fef407a3          	sb	a5,-17(s0)
+    80000026:	00000797          	auipc	a5,0x0
+    8000002a:	0da78793          	addi	a5,a5,218 # 80000100 <uart>
+    8000002e:	639c                	ld	a5,0(a5)
+    80000030:	fef44703          	lbu	a4,-17(s0)
+    80000034:	2701                	sext.w	a4,a4
+    80000036:	c398                	sw	a4,0(a5)
+    80000038:	0001                	nop
+    8000003a:	853e                	mv	a0,a5
+    8000003c:	6462                	ld	s0,24(sp)
+    8000003e:	6105                	addi	sp,sp,32
+    80000040:	8082                	ret
+
+0000000080000042 <data_available>:
+    80000042:	1141                	addi	sp,sp,-16
+    80000044:	e422                	sd	s0,8(sp)
+    80000046:	0800                	addi	s0,sp,16
+    80000048:	00000797          	auipc	a5,0x0
+    8000004c:	0b878793          	addi	a5,a5,184 # 80000100 <uart>
+    80000050:	639c                	ld	a5,0(a5)
+    80000052:	07d1                	addi	a5,a5,20
+    80000054:	439c                	lw	a5,0(a5)
+    80000056:	2781                	sext.w	a5,a5
+    80000058:	8b85                	andi	a5,a5,1
+    8000005a:	2781                	sext.w	a5,a5
+    8000005c:	853e                	mv	a0,a5
+    8000005e:	6422                	ld	s0,8(sp)
+    80000060:	0141                	addi	sp,sp,16
+    80000062:	8082                	ret
+
+0000000080000064 <getchar>:
+    80000064:	1141                	addi	sp,sp,-16
+    80000066:	e406                	sd	ra,8(sp)
+    80000068:	e022                	sd	s0,0(sp)
+    8000006a:	0800                	addi	s0,sp,16
+    8000006c:	0001                	nop
+    8000006e:	fd5ff0ef          	jal	ra,80000042 <data_available>
+    80000072:	87aa                	mv	a5,a0
+    80000074:	dfed                	beqz	a5,8000006e <getchar+0xa>
+    80000076:	00000797          	auipc	a5,0x0
+    8000007a:	08a78793          	addi	a5,a5,138 # 80000100 <uart>
+    8000007e:	639c                	ld	a5,0(a5)
+    80000080:	439c                	lw	a5,0(a5)
+    80000082:	2781                	sext.w	a5,a5
+    80000084:	0ff7f793          	zext.b	a5,a5
+    80000088:	2781                	sext.w	a5,a5
+    8000008a:	853e                	mv	a0,a5
+    8000008c:	60a2                	ld	ra,8(sp)
+    8000008e:	6402                	ld	s0,0(sp)
+    80000090:	0141                	addi	sp,sp,16
+    80000092:	8082                	ret
+
+0000000080000094 <main>:
+    80000094:	7179                	addi	sp,sp,-48
+    80000096:	f406                	sd	ra,40(sp)
+    80000098:	f022                	sd	s0,32(sp)
+    8000009a:	1800                	addi	s0,sp,48
+    8000009c:	87aa                	mv	a5,a0
+    8000009e:	fcf42e23          	sw	a5,-36(s0)
+    800000a2:	00000797          	auipc	a5,0x0
+    800000a6:	04e78793          	addi	a5,a5,78 # 800000f0 <main+0x5c>
+    800000aa:	fef43423          	sd	a5,-24(s0)
+    800000ae:	a821                	j	800000c6 <main+0x32>
+    800000b0:	fe843783          	ld	a5,-24(s0)
+    800000b4:	00178713          	addi	a4,a5,1
+    800000b8:	fee43423          	sd	a4,-24(s0)
+    800000bc:	0007c783          	lbu	a5,0(a5)
+    800000c0:	853e                	mv	a0,a5
+    800000c2:	f59ff0ef          	jal	ra,8000001a <putchar>
+    800000c6:	fe843783          	ld	a5,-24(s0)
+    800000ca:	0007c783          	lbu	a5,0(a5)
+    800000ce:	f3ed                	bnez	a5,800000b0 <main+0x1c>
+    800000d0:	f95ff0ef          	jal	ra,80000064 <getchar>
+    800000d4:	87aa                	mv	a5,a0
+    800000d6:	fef403a3          	sb	a5,-25(s0)
+    800000da:	fe744783          	lbu	a5,-25(s0)
+    800000de:	2785                	addiw	a5,a5,1
+    800000e0:	0ff7f793          	zext.b	a5,a5
+    800000e4:	853e                	mv	a0,a5
+    800000e6:	f35ff0ef          	jal	ra,8000001a <putchar>
+    800000ea:	b7dd                	j	800000d0 <main+0x3c>
+
+Disassembly of section .rodata:
+
+00000000800000f0 <.rodata>:
+    800000f0:	654e                	ld	a0,208(sp)
+    800000f2:	72702077          	.4byte	0x72702077
+    800000f6:	6172676f          	jal	a4,80026f0c <_end+0x26604>
+    800000fa:	216d                	addiw	sp,sp,27
+    800000fc:	000a                	c.slli	zero,0x2
+
+Disassembly of section .sdata:
+
+0000000080000100 <uart>:
+    80000100:	0000                	unimp
+    80000102:	c000                	sw	s0,0(s0)
+    80000104:	0000                	unimp
+	...
+
+Disassembly of section .riscv.attributes:
+
+0000000000000000 <.riscv.attributes>:
+   0:	3841                	addiw	a6,a6,-16
+   2:	0000                	unimp
+   4:	7200                	ld	s0,32(a2)
+   6:	7369                	lui	t1,0xffffa
+   8:	01007663          	bgeu	zero,a6,14 <STACK_SIZE-0x7ec>
+   c:	002e                	c.slli	zero,0xb
+   e:	0000                	unimp
+  10:	1004                	addi	s1,sp,32
+  12:	7205                	lui	tp,0xfffe1
+  14:	3676                	fld	fa2,376(sp)
+  16:	6934                	ld	a3,80(a0)
+  18:	7032                	.2byte	0x7032
+  1a:	5f30                	lw	a2,120(a4)
+  1c:	326d                	addiw	tp,tp,-5 # fffffffffffe0ffb <_end+0xffffffff7ffe06f3>
+  1e:	3070                	fld	fa2,224(s0)
+  20:	615f 7032 5f30      	.byte	0x5f, 0x61, 0x32, 0x70, 0x30, 0x5f
+  26:	3266                	fld	ft4,120(sp)
+  28:	3070                	fld	fa2,224(s0)
+  2a:	645f 7032 5f30      	.byte	0x5f, 0x64, 0x32, 0x70, 0x30, 0x5f
+  30:	30703263          	.4byte	0x30703263
+  34:	0800                	addi	s0,sp,16
+  36:	0a01                	addi	s4,s4,0
+  38:	0b              	Address 0x0000000000000038 is out of bounds.
+
+
+Disassembly of section .comment:
+
+0000000000000000 <.comment>:
+   0:	3a434347          	fmsub.d	ft6,ft6,ft4,ft7,rmm
+   4:	2820                	fld	fs0,80(s0)
+   6:	61653167          	.4byte	0x61653167
+   a:	3739                	addiw	a4,a4,-18
+   c:	6538                	ld	a4,72(a0)
+   e:	36363033          	.4byte	0x36363033
+  12:	2029                	.2byte	0x2029
+  14:	3231                	addiw	tp,tp,-20 # ffffffffffffffec <_end+0xffffffff7ffff6e4>
+  16:	312e                	fld	ft2,232(sp)
+  18:	302e                	fld	ft0,232(sp)
+	...

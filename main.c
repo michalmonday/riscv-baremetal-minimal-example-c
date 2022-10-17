@@ -5,6 +5,7 @@
 //
 // Using information from: Flute/src_Testbench/UART_Model.bsv
 static volatile int *uart = (int *)(void *)0xC0000000;
+//static volatile int *uart = (int *)(void *)0x62300000;
 
 // It seems that receive and transmit addresses of console are the same
 // in Flute which distinguishes them at hardware level.
@@ -17,6 +18,20 @@ static volatile int *uart = (int *)(void *)0xC0000000;
 #define LSR_BITFIELD_THR_EMPTY         0x20
 #define LSR_BITFIELD_DATA_READY        0x1
 
+/*
+int main(void) {
+    //const char *s = "New program!\n";
+    //while (*s)
+    //    putchar(*s++);
+
+    //while (1) {
+    //    char c = getchar();
+    //    putchar(c+1);
+    //}
+
+    while (1);
+}
+*/
 
 static int putchar(char ch) {
     uart[UART_REG_TXFIFO] = ch;
@@ -31,7 +46,7 @@ static int getchar() {
     return uart[UART_REG_RXFIFO] & 0xFF;
 }
 
-int main(void) {
+int main(int argc) {
     const char *s = "New program!\n";
     while (*s)
         putchar(*s++);

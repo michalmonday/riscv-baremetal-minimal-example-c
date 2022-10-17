@@ -19,7 +19,7 @@ SECTIONS
   .debug : { *(.debug) }
 
   /* stack */
-  stack_bottom =.;
+  stack_bottom = .;
   . += STACK_SIZE;
   stack_top = .;
 

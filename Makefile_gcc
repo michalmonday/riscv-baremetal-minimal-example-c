@@ -4,19 +4,22 @@ GCC_FLAGS	= -ffreestanding -march=rv64gc -mabi=lp64 -static -mcmodel=medany \
 			  -fvisibility=hidden -fno-builtin \
 			  -nostdlib -nostartfiles
 
-LD_FLAGS=-T example.ld
+LD_FLAGS=-T example_original.ld
 
 .PHONY: all clean qemu
 all: $(PROG_NAME)
 
 start.o: 
-	$(RISCV64_GCC) $(GCC_FLAGS) -c start.s
+	$(RISCV64_GCC) $(GCC_FLAGS) -c start_original.s -o start.o
 
 main.o: main.c
 	$(RISCV64_GCC) $(GCC_FLAGS) -c main.c
 
 $(PROG_NAME): start.o main.o
 	$(RISCV64_GCC) $(GCC_FLAGS) -o $@ start.o main.o $(LD_FLAGS)
+	riscv64-unknown-elf-objdump -sSD $(PROG_NAME) > gcc_objdump.txt
+	riscv64-unknown-elf-objcopy -O binary $(PROG_NAME) $(PROG_NAME).bin
+	cp $(PROG_NAME) /home/michal/CHERI_FPGA/Flute/Tests/isa/
 
 clean:
 	rm *.o $(PROG_NAME)
