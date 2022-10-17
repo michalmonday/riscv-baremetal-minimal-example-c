@@ -2,7 +2,7 @@
 riscv-example:     file format elf64-littleriscv
 
 Contents of section .text:
- 70000000 f32240f1 63980200 17110000 13010190  ."@.c...........
+ 70000000 f32240f1 63980200 17010010 1301817f  ."@.c...........
  70000010 6f004008 73005010 f5bf0111 22ec0010  o.@.s.P....."...
  70000020 aa87a307 f4fe9707 00009387 a70d9c63  ...............c
  70000030 0347f4fe 012798c3 01003e85 62640561  .G...'....>.bd.a
@@ -35,8 +35,8 @@ Disassembly of section .text:
 0000000070000000 <_start>:
     70000000:	f14022f3          	csrr	t0,mhartid
     70000004:	00029863          	bnez	t0,70000014 <park>
-    70000008:	00001117          	auipc	sp,0x1
-    7000000c:	90010113          	addi	sp,sp,-1792 # 70000908 <_end>
+    70000008:	10000117          	auipc	sp,0x10000
+    7000000c:	7f810113          	addi	sp,sp,2040 # 80000800 <_end>
     70000010:	0840006f          	j	70000094 <main>
 
 0000000070000014 <park>:
@@ -135,7 +135,7 @@ Disassembly of section .rodata:
 00000000700000f0 <.rodata>:
     700000f0:	654e                	ld	a0,208(sp)
     700000f2:	72702077          	.4byte	0x72702077
-    700000f6:	6172676f          	jal	a4,70026f0c <_end+0x26604>
+    700000f6:	6172676f          	jal	a4,70026f0c <uart+0x26e0c>
     700000fa:	216d                	addiw	sp,sp,27
     700000fc:	000a                	c.slli	zero,0x2
 
@@ -163,7 +163,7 @@ Disassembly of section .riscv.attributes:
   16:	6934                	ld	a3,80(a0)
   18:	7032                	.2byte	0x7032
   1a:	5f30                	lw	a2,120(a4)
-  1c:	326d                	addiw	tp,tp,-5 # fffffffffffe0ffb <stack_bottom+0xffffffff7ffe0ef3>
+  1c:	326d                	addiw	tp,tp,-5 # fffffffffffe0ffb <_end+0xffffffff7ffe07fb>
   1e:	3070                	fld	fa2,224(s0)
   20:	615f 7032 5f30      	.byte	0x5f, 0x61, 0x32, 0x70, 0x30, 0x5f
   26:	3266                	fld	ft4,120(sp)
@@ -185,7 +185,7 @@ Disassembly of section .comment:
    c:	6538                	ld	a4,72(a0)
    e:	36363033          	.4byte	0x36363033
   12:	2029                	.2byte	0x2029
-  14:	3231                	addiw	tp,tp,-20 # ffffffffffffffec <stack_bottom+0xffffffff7ffffee4>
+  14:	3231                	addiw	tp,tp,-20 # ffffffffffffffec <_end+0xffffffff7ffff7ec>
   16:	312e                	fld	ft2,232(sp)
   18:	302e                	fld	ft0,232(sp)
 	...

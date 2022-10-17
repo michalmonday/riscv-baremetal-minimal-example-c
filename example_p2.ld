@@ -19,9 +19,9 @@ SECTIONS
   .debug : { *(.debug) }
 
   /* stack */
-  stack_bottom = . + 0x10000000;
+  stack_bottom = 0x80000000;
   . += STACK_SIZE;
-  stack_top = .;
+  stack_top = 0x80000800;
 
-  _end = .;
+  _end = stack_top;
 }
