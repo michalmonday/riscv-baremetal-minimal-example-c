@@ -15,6 +15,9 @@ start.o:
 main.o: main.c
 	$(RISCV64_GCC) $(GCC_FLAGS) -c main.c
 
+# uart.o: uart_16550.c
+# 	$(RISCV64_GCC) $(GCC_FLAGS) -c uart_16550.c
+
 $(PROG_NAME): start.o main.o
 	$(RISCV64_GCC) $(GCC_FLAGS) -o $@ start.o main.o $(LD_FLAGS)
 	riscv64-unknown-elf-objdump -sSD $(PROG_NAME) > gcc_objdump.txt
