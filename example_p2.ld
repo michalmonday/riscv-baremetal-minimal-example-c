@@ -2,7 +2,7 @@ OUTPUT_ARCH( "riscv" )
 ENTRY( _start )
 SECTIONS
 {
-  START_ADDRESS = 0x70000000;
+  START_ADDRESS = 0x80000000;
   STACK_SIZE = 0x800;
   
   /* start addresss */

@@ -66,7 +66,7 @@ int main(int argc) {
     enable_fifos();
     set_baudrate(CPU_CLK_SPEED, BAUD_RATE);
 
-    const char *s = "Hello World!\n";
+    const char *s = "Hello Sword!\n";
     while (*s)
         putchar(*s++);
 
