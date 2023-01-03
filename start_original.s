@@ -6,7 +6,14 @@ _start:
 
     la      sp, stack_top           # setup stack
     j       main                    # jump to c
+    nop 
+    nop 
+    nop 
+    j       park
 
 park:
+    nop 
+    nop 
+    nop 
     wfi
     j       park

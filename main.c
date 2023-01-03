@@ -46,17 +46,36 @@ static int getchar() {
     return uart[UART_REG_RXFIFO] & 0xFF;
 }
 
+int endfunc(char c) {
+    putchar(c);
+    return 1;
+}
+
 int main(int argc) {
     const char *s = "New program!\n";
     while (*s)
         putchar(*s++);
 
-    while (1) {
-        char c = getchar();
-        putchar(c+1);
-    }
+        
+    //while (1) {
+    //    char c = getchar();
+    //    putchar(c+1);
+    //}
 
-    //while (1);
+//    goto LABEL;
+//    asm("nop");
+//LABEL2:
+//    asm("nop");
+//    goto LABEL3;
+//LABEL:
+//    asm("nop");
+//    goto LABEL2;
+//LABEL3:
+    char ret = endfunc('a');
+    char ret2 = endfunc('b');
+    char ret3 = endfunc('c');
+    asm("wfi");
+    return 0;
 }
 
 
