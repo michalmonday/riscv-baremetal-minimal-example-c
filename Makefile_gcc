@@ -1,6 +1,7 @@
 PROG_NAME 	= riscv-example-baremetal-short
 RISCV64_GCC = riscv64-unknown-elf-gcc
-GCC_FLAGS	= -ffreestanding -march=rv64gc -mabi=lp64 -static -mcmodel=medany \
+# GCC_FLAGS	= -ffreestanding -march=rv64gc -mabi=lp64 -static -mcmodel=medany
+GCC_FLAGS	= -ffreestanding -march=rv64g -mabi=lp64 -static -mcmodel=medany \
 			  -fvisibility=hidden -fno-builtin \
 			  -nostdlib -nostartfiles
 

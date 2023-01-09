@@ -7,11 +7,11 @@
  */
 
 #include <assert.h>
-#include <ctype.h>
-#include <stdalign.h>
-#include <stddef.h>
+// #include <ctype.h>
+// #include <stdalign.h>
+// #include <stddef.h>
 // #include <stdio.h>
-#include <stdlib.h>
+// #include <stdlib.h>
 
 #define EOF (-1)
 
@@ -36,7 +36,7 @@ static volatile int *uart = (int *)(void *)0xC0000000;
 #define LSR_BITFIELD_DATA_READY        0x1
 
 
-static int putchar(char ch) {
+static int putchar2(char ch) {
     uart[UART_REG_TXFIFO] = ch;
 }
 
@@ -44,7 +44,7 @@ static int data_available() {
     return uart[UART_REG_LSR] & LSR_BITFIELD_DATA_READY;
 }
 
-static int getchar() {
+static int getchar2() {
     while (!data_available());
     return uart[UART_REG_RXFIFO] & 0xFF;
 }
@@ -58,23 +58,37 @@ static int getchar() {
 //     return 0;
 // }
 
-void puts(char *s) {
+void puts2(char *s) {
     while (*s) {
-        putchar(*s++);
+        putchar2(*s++);
     }
-    putchar('\n');
+    putchar2('\n');
+}
+
+int isxdigit2(int c) {
+	return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
+}
+
+int digittoint2(int c) {
+	if (c >= '0' && c <= '9')
+		return c - '0';
+	if (c >= 'a' && c <= 'f')
+		return c - 'a' + 10;
+	if (c >= 'A' && c <= 'F')
+		return c - 'A' + 10;
+	return 0;
 }
 
 void
 success(void)
 {
-    puts("Exploit successful, yum!");
+    puts2("Exit successful, yum!");
 }
 
 void
 no_cookies(void)
 {
-	puts("No cookies??");
+	puts2("No cookies??");
 }
 
 #pragma weak init_pointer
@@ -89,7 +103,7 @@ init_cookie_pointer(void)
 	void *pointers[12];
 	void (* volatile cookie_fn)(void);
 
-	for (size_t i = 0; i < sizeof(pointers) / sizeof(pointers[0]); i++)
+	for (int i = 0; i < sizeof(pointers) / sizeof(pointers[0]); i++)
 		init_pointer(&pointers[i]);
 	cookie_fn = no_cookies;
 }
@@ -97,26 +111,27 @@ init_cookie_pointer(void)
 static void __attribute__((noinline))
 get_cookies(void)
 {
-	alignas(void *) char cookies[sizeof(void *) * 32];
+	// alignas(void *) char cookies[sizeof(void *) * 32];
+	char cookies[sizeof(void *) * 32];
 	char *cookiep;
 	int ch, cookie;
 
-	puts("Cookie monster is hungry, provide some cookies!");
-	char msg[100];
-	sprintf(msg, "'=' skips the next %zu bytes", sizeof(void *));
-	puts(msg);
-	puts("'-' skips to the next character");
-	puts("XX as two hex digits stores a single cookie");
-	puts("> ");
+	puts2("Cookie monster is hungry, provide some cookies!");
+	// char msg[100];
+	// sprintf(msg, "'=' skips the next %zu bytes", sizeof(void *));
+	// puts2(msg);
+	puts2("'-' skips to the next character");
+	puts2("XX as two hex digits stores a single cookie");
+	puts2("> ");
 
 	cookiep = cookies;
 	for (;;) {
-		ch = getchar();
+		ch = getchar2();
 
-		if (ch == '\n' || ch == EOF)
+		if (ch == '\n' || ch == EOF || ch == 255)
 			break;
 
-		if (isspace(ch))
+		if (ch == ' ')
 			continue;
 
 		if (ch == '-') {
@@ -129,22 +144,26 @@ get_cookies(void)
 			continue;
 		}
 
-		if (isxdigit(ch)) {
-			cookie = digittoint(ch) << 4;
-			ch = getchar();
+		if (isxdigit2(ch)) {
+			cookie = digittoint2(ch) << 4;
+			ch = getchar2();
 			if (ch == EOF) {
-				puts("Half-eaten cookie, yuck!");
+				puts2("Half-eaten cookie, yuck!");
 				asm("wfi");
 			}
-			if (!isxdigit(ch)) {
-				puts("Malformed cookie");
+			if (!isxdigit2(ch)) {
+				puts2("(1)Malformed cookie, char:");
+				char s[2] = {ch, '\0'};
+				puts2(s);
 				asm("wfi");
 			}
-			cookie |= digittoint(ch);
+			cookie |= digittoint2(ch);
 			*cookiep++ = cookie;
 			continue;
 		}
-		puts("Malformed cookie");
+		puts2("(2)Malformed cookie, char:");
+		char s[2] = {ch, '\0'};
+		puts2(s);
 		asm("wfi");
 	}
 }
@@ -155,7 +174,7 @@ eat_cookies(void)
 	void *pointers[12];
 	void (* volatile cookie_fn)(void);
 
-	for (size_t i = 0; i < sizeof(pointers) / sizeof(pointers[0]); i++)
+	for (int i = 0; i < sizeof(pointers) / sizeof(pointers[0]); i++)
 		init_pointer(&pointers[i]);
 	cookie_fn();
 }

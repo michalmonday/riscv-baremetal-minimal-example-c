@@ -1,6 +1,7 @@
 PROG_NAME 	= riscv-stack-mission
 RISCV64_GCC = riscv64-unknown-elf-gcc
-GCC_FLAGS	= -ffreestanding -march=rv64gc -mabi=lp64 -static -mcmodel=medany \
+# GCC_FLAGS	= -ffreestanding -march=rv64gc -mabi=lp64 -static -mcmodel=medany
+GCC_FLAGS	= -ffreestanding -march=rv64g -mabi=lp64 -static -mcmodel=medany \
 			  -fvisibility=hidden -fno-builtin \
 			  -nostdlib -nostartfiles
 
@@ -12,14 +13,15 @@ all: $(PROG_NAME)
 start.o: 
 	$(RISCV64_GCC) $(GCC_FLAGS) -c start_original.s -o start.o
 
-main.o: stack-mission.c
+stack-mission.o: stack-mission.c
 	$(RISCV64_GCC) $(GCC_FLAGS) -c stack-mission.c
 
-$(PROG_NAME): start.o main.o
-	$(RISCV64_GCC) $(GCC_FLAGS) -o $@ start.o main.o $(LD_FLAGS)
+$(PROG_NAME): start.o stack-mission.o
+	$(RISCV64_GCC) $(GCC_FLAGS) -o $@ start.o stack-mission.o $(LD_FLAGS)
 	riscv64-unknown-elf-objdump -sSD $(PROG_NAME) > gcc_objdump.txt
 	riscv64-unknown-elf-objcopy -O binary $(PROG_NAME) $(PROG_NAME).bin
 	cp $(PROG_NAME) /home/michal/CHERI_FPGA/Flute/Tests/isa/
+	cp $(PROG_NAME).bin "/mnt/hgfs/shared ubuntu vm"
 
 clean:
 	rm *.o $(PROG_NAME)
