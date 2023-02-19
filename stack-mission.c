@@ -113,7 +113,7 @@ get_cookies(void)
 {
 	// alignas(void *) char cookies[sizeof(void *) * 32];
 	char cookies[sizeof(void *) * 32];
-	char *cookiep;
+	char *cookiep; // s0 -28
 	int ch, cookie;
 
 	puts2("Cookie monster is hungry, provide some cookies!");

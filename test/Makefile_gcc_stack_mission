@@ -1,5 +1,4 @@
-# PROG_NAME 	= riscv-example-baremetal-short
-PROG_NAME 	= riscv-console-echo
+PROG_NAME 	= test
 RISCV64_GCC = riscv64-unknown-elf-gcc
 # GCC_FLAGS	= -ffreestanding -march=rv64gc -mabi=lp64 -static -mcmodel=medany
 GCC_FLAGS	= -ffreestanding -march=rv64g -mabi=lp64 -static -mcmodel=medany \
@@ -14,17 +13,14 @@ all: $(PROG_NAME)
 start.o: 
 	$(RISCV64_GCC) $(GCC_FLAGS) -c start_original.s -o start.o
 
-main.o: main.c
-	$(RISCV64_GCC) $(GCC_FLAGS) -c main.c
+test.o: test.c
+	$(RISCV64_GCC) $(GCC_FLAGS) -c test.c
 
-$(PROG_NAME): start.o main.o
-	$(RISCV64_GCC) $(GCC_FLAGS) -o $@ start.o main.o $(LD_FLAGS)
+$(PROG_NAME): start.o test.o
+	$(RISCV64_GCC) $(GCC_FLAGS) -o $@ start.o test.o $(LD_FLAGS)
 	riscv64-unknown-elf-objdump -sSD $(PROG_NAME) > gcc_objdump.txt
 	riscv64-unknown-elf-objcopy -O binary $(PROG_NAME) $(PROG_NAME).bin
-	cp $(PROG_NAME) /home/michal/CHERI_FPGA/Flute/Tests/isa/
 
 clean:
 	rm *.o $(PROG_NAME)
 
-qemu:
-	qemu-system-riscv64 -nographic -machine sifive_u -kernel $(PROG_NAME) -bios none

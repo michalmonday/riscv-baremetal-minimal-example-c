@@ -52,15 +52,14 @@ int endfunc(char c) {
 }
 
 int main(int argc) {
-    const char *s = "New program!\n";
-    while (*s)
-        putchar(*s++);
+    // const char *s = "New program!\n";
+    // while (*s)
+    //     putchar(*s++);
 
-        
-    //while (1) {
-    //    char c = getchar();
-    //    putchar(c+1);
-    //}
+    while (1) {
+       char c = getchar();
+       putchar(c);
+    }
 
 //    goto LABEL;
 //    asm("nop");
