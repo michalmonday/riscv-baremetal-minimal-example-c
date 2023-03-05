@@ -1,0 +1,26 @@
+PROG_NAME 	= ecg
+RISCV64_GCC = riscv64-unknown-elf-gcc
+# GCC_FLAGS	= -ffreestanding -march=rv64gc -mabi=lp64 -static -mcmodel=medany
+GCC_FLAGS	= -ffreestanding -march=rv64g -mabi=lp64 -static -mcmodel=medany \
+			  -fvisibility=hidden -fno-builtin \
+			  -nostdlib -nostartfiles
+
+LD_FLAGS=-T example_original.ld
+
+.PHONY: all clean qemu
+all: $(PROG_NAME)
+
+start.o: 
+	$(RISCV64_GCC) $(GCC_FLAGS) -c start_original.s -o start.o
+
+$(PROG_NAME).o: $(PROG_NAME).c
+	$(RISCV64_GCC) $(GCC_FLAGS) -c $(PROG_NAME).c
+
+$(PROG_NAME): start.o $(PROG_NAME).o
+	$(RISCV64_GCC) $(GCC_FLAGS) -o $@ start.o $(PROG_NAME).o $(LD_FLAGS)
+	riscv64-unknown-elf-objdump -sSD $(PROG_NAME) > gcc_objdump.txt
+	riscv64-unknown-elf-objcopy -O binary $(PROG_NAME) $(PROG_NAME).bin
+
+clean:
+	rm *.o $(PROG_NAME)
+
