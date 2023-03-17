@@ -5,6 +5,8 @@
 #include <utils_flute.h>   // wait_ms, wait_s, CLK_SPEED
 #include <utils_string.h>  // itoa, atoi, stcpy, strlen, strcmp
 
+// int count = 0;
+
 int main() {
     while(1) {
         int leads_off = digital_sensors[0] + digital_sensors[1];
@@ -15,8 +17,25 @@ int main() {
         }
         char str[100] = {0};
         int ecg_reading = analog_sensors[ECG_SENSOR_INDEX];
+
+// ------------ modified part -----------------
+
+        static int count = 0;
+        // There's around 8ms delay between each reading, so the count will help to 
+        // simulate the zigzag pattern with each "side" being held for around 300ms.
+        if (count < 40) {
+            // raw analog sensor readings are between 0 and ~60000 
+            ecg_reading = 10000; // relatively low value
+        } else if (count < 80) {
+            ecg_reading = 50000; // relatively high value
+        } else {
+            count = 0;
+        }
+        count++;
+
+// --------- end of the modified part ----------
+
         itoa(ecg_reading, str, 10);
-        // uart_pynq_puts(str);
         uart_gpio_puts(str);
         wait_ms(8);
     }

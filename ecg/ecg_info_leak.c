@@ -16,7 +16,11 @@ int main() {
         char str[100] = {0};
         int ecg_reading = analog_sensors[ECG_SENSOR_INDEX];
         itoa(ecg_reading, str, 10);
-        // uart_pynq_puts(str);
+
+// ------------ modified part -----------------
+        uart_pynq_puts(str);
+// --------- end of the modified part ----------
+
         uart_gpio_puts(str);
         wait_ms(8);
     }

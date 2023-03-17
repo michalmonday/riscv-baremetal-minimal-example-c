@@ -25,6 +25,8 @@ SECTIONS
   .gnu_build_id : { *(.note.gnu.build-id) }
   .data : { *(.data) }
   .rodata : { *(.rodata) }
+  .sbss : { *(.sbss) } /* static local variables */
+  .bss : { *(.bss) } /* global variables */
   .sdata : { *(.sdata) }
   .debug : { *(.debug) }
 
