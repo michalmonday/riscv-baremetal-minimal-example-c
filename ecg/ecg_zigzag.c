@@ -2,10 +2,8 @@
 #include <uart_gpio.h>     // communicate with Esp32 board that has a display, e.g. uart_gpio_puts, uart_gpio_can_send, uart_gpio_data_available
 #include <uart_pynq.h>     // communicate with PYNQ python script, e.g. uart_pynq_puts, uart_pynq_getchar, uart_pynq_data_available
 #include <sensors.h>       // analog_inputs, digital_inputs
-#include <utils_flute.h>   // wait_ms, wait_s, CLK_SPEED
+#include <utils_flute.h>   // wait_ms, wait_s, CLK_SPEED, get_ticks_count, get_overlay_ticks_count, get_random_number
 #include <utils_string.h>  // itoa, atoi, stcpy, strlen, strcmp
-
-// int count = 0;
 
 int main() {
     while(1) {
