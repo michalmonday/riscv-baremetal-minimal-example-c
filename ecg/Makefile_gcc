@@ -32,6 +32,7 @@ postcompile: $(PROG_NAME)
 	$(RISCV64_OBDUMP) -sSD $(PROG_NAME) > $(PROG_NAME).dump
 	$(RISCV64_OBJCOPY) -O binary $(PROG_NAME) $(PROG_NAME).bin
 	cp $(PROG_NAME).bin /mnt/hgfs/shared\ ubuntu\ vm
+	cp $(PROG_NAME).dump /mnt/hgfs/shared\ ubuntu\ vm
 	rm *.o
 
 clean:
