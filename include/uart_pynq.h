@@ -20,5 +20,6 @@ extern int uart_pynq_putchar(char ch);
 extern int uart_pynq_data_available();
 extern int uart_pynq_getchar();
 extern void uart_pynq_puts(char *s);
+extern void uart_pynq_printf(char *fmt, ...);
 
 #endif

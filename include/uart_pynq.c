@@ -1,5 +1,8 @@
 #include "uart_pynq.h"
 
+#include "standard_libraries.h"
+
+
 int uart_pynq_putchar(char ch) {
    uart_pynq[UART_REG_TXFIFO] = ch;
 }
@@ -18,4 +21,13 @@ void uart_pynq_puts(char *s) {
        uart_pynq_putchar(*s++);
    }
    uart_pynq_putchar('\n');
+}
+
+void uart_pynq_printf(char *fmt, ...) {
+   char buf[1024];
+   va_list args;
+   va_start(args, fmt);
+   vsprintf(buf, fmt, args);
+   va_end(args);
+   uart_pynq_puts(buf);
 }

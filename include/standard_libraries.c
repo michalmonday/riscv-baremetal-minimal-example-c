@@ -1,23 +1,50 @@
-#include "utils_string.h"
 
-// Functions in this file were generated mostly by GitHub Copilot
+#include "standard_libraries.h"
 
-int strcmp(char *s1, char *s2);
-int sprintf(char *s, char *format, ...);
-void itoa(int i, char* str, int radix);
-int atoi(char *s, int radix);
-int strlen(char *s);
-void strcpy(char *dest, char *src);
-
-int strcmp(char *s1, char *s2) {
-    while (*s1 && *s2) {
-        if (*s1 != *s2) {
-            return 0;
-        }
-        s1++;
-        s2++;
+unsigned long strlen(char* str) {
+    unsigned long len = 0;
+    while (str[len] != '\0') {
+        len++;
     }
-    return *s1 == *s2;
+    return len;
+}
+
+void strcpy(char* dest, char* src) {
+    unsigned long i = 0;
+    while (src[i] != '\0') {
+        dest[i] = src[i];
+        i++;
+    }
+    dest[i] = '\0';
+}
+
+void vsprintf(char *buf, char *fmt, va_list args) {
+   char *p;
+   for (p = buf; *fmt; fmt++) {
+       if (*fmt != '%') {
+           *p++ = *fmt;
+           continue;
+       }
+       fmt++;
+       switch (*fmt) {
+           case 'c':
+               *p++ = va_arg(args, char);
+               break;
+           case 'd':
+               *p++ = va_arg(args, int);
+               break;
+           case 'x':
+               *p++ = va_arg(args, int);
+               break;
+           case 's':
+               strcpy(p, va_arg(args, char *));
+               p += strlen(p);
+               break;
+           default:
+               break;
+       }
+   }
+   *p = '\0';
 }
 
 // int sprintf(char *s, char *format, ...) {
@@ -69,6 +96,7 @@ int strcmp(char *s1, char *s2) {
 //     return i;
 // }
 
+
 void itoa(int i, char* str, int radix) {
     char index[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     unsigned unum;
@@ -110,15 +138,19 @@ int atoi(char *s, int radix) {
     return i * sign;
 }
 
-int strlen(char *s) {
-    int len = 0;
-    while (*s++) 
-        len++;
-    return len;
-}
-
-void strcpy(char *dest, char *src) {
-    while (*src) {
-        *dest++ = *src++;
+int strcmp(char *s1, char *s2) {
+    while (*s1 && *s2) {
+        if (*s1 != *s2) {
+            return *s1 - *s2;
+        }
+        s1++;
+        s2++;
     }
+    if (*s1) {
+        return 1;
+    }
+    if (*s2) {
+        return -1;
+    }
+    return 0;
 }

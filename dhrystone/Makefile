@@ -1,0 +1,42 @@
+# PROG_NAME 	= ecg // this is supplied like: make -f Makefile_gcc PROG_NAME=ecg
+
+PROG_NAME = dhrystone
+
+INCLUDE_DIR = ../include
+RISCV64_GCC = riscv64-unknown-elf-gcc
+RISCV64_OBDUMP = riscv64-unknown-elf-objdump
+RISCV64_OBJCOPY = riscv64-unknown-elf-objcopy
+# GCC_FLAGS	= -ffreestanding -march=rv64gc -mabi=lp64 -static -mcmodel=medany
+GCC_FLAGS	= -ffreestanding -march=rv64g -mabi=lp64 -static -mcmodel=medany \
+			  -fvisibility=hidden -fno-builtin \
+			  -nostdlib -nostartfiles \
+			  -I$(INCLUDE_DIR) \
+
+LD_FLAGS=-T example_original.ld
+
+.PHONY: all clean
+all: postcompile
+
+start.o: 
+	$(RISCV64_GCC) $(GCC_FLAGS) -c start_original.s -o start.o
+
+includes: $(INCLUDE_DIR)/*.c $(INCLUDE_DIR)/*.h
+	$(RISCV64_GCC) $(GCC_FLAGS) -c $(INCLUDE_DIR)/*.c
+
+$(PROG_NAME).o: $(PROG_NAME).c
+	$(RISCV64_GCC) $(GCC_FLAGS) -c $(PROG_NAME).c
+
+$(PROG_NAME): start.o $(PROG_NAME).o includes
+	# $(RISCV64_GCC) $(GCC_FLAGS) -o $@ start.o $(filter-out start.o, $(wildcard *.o)) $(LD_FLAGS)
+	$(RISCV64_GCC) $(GCC_FLAGS) -o $@ start.o $(PROG_NAME).o $(shell find . ! -name "start.o" ! -name "$(PROG_NAME).o" ! -path "./benchmark-dhrystone/*" -name "*.o") $(LD_FLAGS)
+
+postcompile: $(PROG_NAME)
+	$(RISCV64_OBDUMP) -sSD $(PROG_NAME) > $(PROG_NAME).dump
+	$(RISCV64_OBJCOPY) -O binary $(PROG_NAME) $(PROG_NAME).bin
+	cp $(PROG_NAME).bin /mnt/hgfs/shared\ ubuntu\ vm
+	cp $(PROG_NAME).dump /mnt/hgfs/shared\ ubuntu\ vm
+	rm *.o
+
+clean:
+	rm *.o $(PROG_NAME) $(PROG_NAME).dump $(PROG_NAME).bin
+
