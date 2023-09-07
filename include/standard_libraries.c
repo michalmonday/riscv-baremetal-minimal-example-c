@@ -28,7 +28,7 @@ void vsprintf(char *buf, char *fmt, va_list args) {
        fmt++;
        switch (*fmt) {
            case 'c':
-               *p++ = va_arg(args, char);
+               *p++ = va_arg(args, int);
                break;
            case 'd':
                *p++ = va_arg(args, int);
@@ -124,7 +124,21 @@ void itoa(int i, char* str, int radix) {
     }
 }
 
-int atoi(char *s, int radix) {
+int atoi(char *s) {
+    int i = 0;
+    int sign = 1;
+    if (*s == '-') {
+        sign = -1;
+        s++;
+    }
+    while (*s) {
+        i = i * 10 + *s - '0';
+        s++;
+    }
+    return i * sign;
+}
+
+int atoi_radix(char *s, int radix) {
     int i = 0;
     int sign = 1;
     if (*s == '-') {
@@ -153,4 +167,38 @@ int strcmp(char *s1, char *s2) {
         return -1;
     }
     return 0;
+}
+
+void memcpy(char *dest, char *src, int size) {
+    for (int i = 0; i < size; i++) {
+        dest[i] = src[i];
+    }
+}
+
+void memset(char *dest, char val, int size) {
+    for (int i = 0; i < size; i++) {
+        dest[i] = val;
+    }
+}
+
+void swap(void *a, void *b, int size) {
+    char *p = a, *q = b, temp;
+    for (int i = 0; i < size; i++) {
+        temp = p[i];
+        p[i] = q[i];
+        q[i] = temp;
+    }
+}
+
+void qsort(void *base, int n, int size, int (*comparator)(const void *, const void *)) {
+    char *p = base;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n - 1 - i; j++) {
+            char *a = p + j * size;
+            char *b = p + (j + 1) * size;
+            if (comparator(a, b) > 0) {
+                swap(a, b, size);
+            }
+        }
+    }
 }
