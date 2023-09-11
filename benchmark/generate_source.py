@@ -59,6 +59,7 @@ int main(int argc, char *argv[]) {{
     dijkstra_simple_call();
     bfs_simple_call();
     dfs_simple_call();
+    floydWarshall_simple_call();
 
  	// int graph[5][3] = {{ {{ 0, 1, 10 }},
  	// 				     {{ 0, 2, 6 }},
