@@ -14,22 +14,50 @@ SECTIONS
         8000000c:	73410113          	addi	sp,sp,1844 # 8004073c <_end>
   */
   /* STACK_SIZE = 0x10000; */
-  STACK_TOP = 0x8003fffc;
+  /* STACK_TOP = 0x8003fffc; */
+  STACK_TOP = 0x8003fc00;
+  /* STACK_TOP =    0x80030000; */
   
   /* start addresss */
   . = START_ADDRESS;
 
   /* text */
-  .text : { *(.text) } 
+  .text : { 
+    *(.text) 
+    *(.text*)
+    *(.rodata)
+    *(.rodata*)
+  } 
   
   /* data */
   .gnu_build_id : { *(.note.gnu.build-id) }
-  .data : ALIGN(4) { *(.data) }
-  .rodata : ALIGN(4) { *(.rodata) }
-  .sbss : ALIGN(4) { *(.sbss) } /* static local variables */
-  .bss : ALIGN(4) { *(.bss) } /* global variables */
-  .sdata : ALIGN(4) { *(.sdata) }
-  .debug : ALIGN(4) { *(.debug) }
+  .data : ALIGN(4) { 
+    *(.data) 
+    *(.data*)
+  }
+  .sbss : ALIGN(4) {
+    SBSS_START = .;
+     *(.sbss) 
+     *(.sbss*)
+     *(.scommon)
+    . = ALIGN(4);
+    SBSS_END = .;
+  } /* static local variables */
+  .bss : ALIGN(4) { 
+    BSS_START = .;
+    *(.bss) 
+    *(.bss*)
+    *(COMMON)
+    . = ALIGN(4);
+    BSS_END = .;
+  } /* global variables */
+  .sdata : ALIGN(4) { 
+    *(.sdata) 
+    *(.sdata*)
+  }
+  .debug : ALIGN(4) { 
+    *(.debug)
+  }
 
   HEAP_START = ALIGN(4);
 

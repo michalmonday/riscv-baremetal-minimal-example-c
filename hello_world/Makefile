@@ -38,10 +38,10 @@ $(PROG_NAME): start.o $(PROG_NAME).o includes
 	$(RISCV64_GCC) $(GCC_FLAGS) -o $@ start.o $(PROG_NAME).o $(shell find . ! -name "start.o" ! -name "$(PROG_NAME).o" -name "*.o") $(LD_FLAGS)
 
 postcompile: $(PROG_NAME)
-	# $(RISCV64_OBDUMP) -sSD $(PROG_NAME) > $(PROG_NAME).dump
-	# $(RISCV64_OBJCOPY) -O binary $(PROG_NAME) $(PROG_NAME).bin
-	# cp $(PROG_NAME).bin /mnt/hgfs/shared\ ubuntu\ vm
-	# cp $(PROG_NAME).dump /mnt/hgfs/shared\ ubuntu\ vm
+	$(RISCV64_OBDUMP) -sSD $(PROG_NAME) > $(PROG_NAME).dump
+	$(RISCV64_OBJCOPY) -O binary $(PROG_NAME) $(PROG_NAME).bin
+	cp $(PROG_NAME).bin /mnt/hgfs/shared\ ubuntu\ vm
+	cp $(PROG_NAME).dump /mnt/hgfs/shared\ ubuntu\ vm
 	rm *.o
 	echo "Done!"
 

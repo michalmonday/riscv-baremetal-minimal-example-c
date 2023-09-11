@@ -57,6 +57,8 @@
 #include <sys/time.h>
 #include <sys/times.h>
 
+#include <uart_pynq.h>
+
 /* Variables */
 //#undef errno
 extern int errno;
@@ -99,7 +101,6 @@ __attribute__((weak)) int _read(int file, char *ptr, int len)
 	for (DataIdx = 0; DataIdx < len; DataIdx++)
 	{
 		// *ptr++ = __io_getchar();
-		while (!uart_pynq_data_available()) {}
 		*ptr++ = uart_pynq_getchar();
 	}
 
