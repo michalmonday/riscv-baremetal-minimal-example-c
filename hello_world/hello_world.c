@@ -3,7 +3,17 @@
 
 void __libc_init_array(void);
 
-void init_bss() {
+void init() {
+    __asm__ volatile  (
+        ".option push;"
+        // The 'norelax' option is critical here.
+        // Without 'norelax' the global pointer will
+        // be loaded relative to the global pointer!
+         ".option norelax;"
+        "la    gp, __global_pointer$;"
+        ".option pop;"
+    );
+
 	extern char bss_start asm("BSS_START");
     extern char bss_end asm("BSS_END");
     extern char sbss_start asm("SBSS_START");
@@ -12,14 +22,14 @@ void init_bss() {
     char *bss = &bss_start;
     char *sbss = &sbss_start;
 
-    for (; bss < bss_end; bss++)
+    for (; bss < &bss_end; bss++)
         *bss = 0;
-    for (; sbss < sbss_end; sbss++) 
+    for (; sbss < &sbss_end; sbss++) 
         *sbss = 0;
 }
 
 int main(void) {
-    init_bss();
+    init();
     __libc_init_array();
 
     asm("nop");
@@ -38,17 +48,23 @@ int main(void) {
 
     uart_pynq_getchar();
     // getchar();
-    // putchar('a');
-    // putchar('a');
+    putchar('a');
+    putchar('a');
     uart_pynq_putchar('b');
     uart_pynq_putchar('b');
     uart_pynq_puts("Hello, world!\n");
+
+    uart_pynq_puts("1\n");
+    malloc(10000);
+    uart_pynq_puts("2\n");
+    malloc(10000);
+    uart_pynq_puts("3\n");
 
     printf("printf - ");
     free(malloc(1024));
     printf("after_malloc - ");
 
-    while (0) {
+    while (1) {
         asm("nop");
     }
     return 0;

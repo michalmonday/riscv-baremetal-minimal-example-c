@@ -213,5 +213,7 @@ caddr_t _sbrk(int incr)
 
 	heap_end += incr;
 
+	uart_pynq_printf("heap_end: %x\n", heap_end);
+
 	return (caddr_t) prev_heap_end;
 }

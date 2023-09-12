@@ -31,41 +31,73 @@ SECTIONS
   
   /* data */
   .gnu_build_id : { *(.note.gnu.build-id) }
-  .data : ALIGN(4) { 
+  .data : ALIGN(8) { 
     *(.data) 
     *(.data*)
+    *(.gnu.linkonce.d.*)
+    . = ALIGN(8);
+    PROVIDE( __global_pointer$ = . + 0x800 );
+    *(.sdata .sdata.* .sdata2.*)
+    *(.gnu.linkonce.s.*)
   }
-  .sbss : ALIGN(4) {
+
+  .sbss : ALIGN(8) {
     SBSS_START = .;
      *(.sbss) 
      *(.sbss*)
      *(.scommon)
-    . = ALIGN(4);
+    . = ALIGN(8);
     SBSS_END = .;
   } /* static local variables */
-  .bss : ALIGN(4) { 
+  .bss : ALIGN(8) { 
     BSS_START = .;
     *(.bss) 
     *(.bss*)
     *(COMMON)
-    . = ALIGN(4);
+    . = ALIGN(8);
     BSS_END = .;
   } /* global variables */
-  .sdata : ALIGN(4) { 
+  .sdata : ALIGN(8) { 
     *(.sdata) 
     *(.sdata*)
   }
-  .debug : ALIGN(4) { 
+
+/* from https://github.com/five-embeddev/riscv-scratchpad/blob/master/baremetal-startup-c/src/linker.lds 
+//   .tdata : ALIGN(8) {
+//         PROVIDE( __tls_base = . );
+// 	*(.tdata .tdata.* .gnu.linkonce.td.*)
+//     } 
+//     PROVIDE( __tdata_source = LOADADDR(.tdata) );
+//     PROVIDE( __tdata_size = SIZEOF(.tdata) );
+//     PROVIDE( metal_segment_data_source_start = LOADADDR(.data) );
+//     PROVIDE( metal_segment_data_target_start = ADDR(.data) );
+//     PROVIDE( metal_segment_data_target_end = ADDR(.tdata) + SIZEOF(.tdata) );
+//     .tbss : ALIGN(8) {
+// 	*(.tbss .tbss.* .gnu.linkonce.tb.*)
+// 	*(.tcommon .tcommon.*)
+// 	PROVIDE( __tls_end = . );
+//     }
+//     PROVIDE( __tbss_size = SIZEOF(.tbss) );
+//     PROVIDE( __tls_size = __tls_end - __tls_base );
+//   .tbss_space : ALIGN(8) {
+// 	. = . + __tbss_size;
+//   } 
+//   PROVIDE( metal_segment_bss_source_start = LOADADDR(.tbss) );
+//   PROVIDE( metal_segment_bss_target_start = ADDR(.tbss) );
+//   PROVIDE( metal_segment_bss_target_end = ADDR(.bss) + SIZEOF(.bss) );
+// 
+*/
+  .debug : ALIGN(8) { 
     *(.debug)
   }
 
-  HEAP_START = ALIGN(4);
+  HEAP_START = ALIGN(8);
 
-  /* .heap : ALIGN(4)
+  /* .heap : ALIGN(8)
   {
     PROVIDE(__heap_start = .);
     . = __neorv32_heap_size;
-    . = ALIGN(4);
+    . = ALIGN(8);
     PROVIDE(__heap_end = .);
   } > ram */
 

@@ -12,7 +12,7 @@ RISCV64_OBJCOPY = riscv64-unknown-elf-objcopy
 # 			  -I$(INCLUDE_DIR) \
 # 			  -I$(ALGORITHMS_DIR)
 
-GCC_FLAGS	= -march=rv64gc -mabi=lp64d -static \
+GCC_FLAGS	= -march=rv64g -mabi=lp64d -static \
 			  -fvisibility=hidden \
 			  -nostartfiles \
 			  -mcmodel=medany \
