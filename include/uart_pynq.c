@@ -30,5 +30,9 @@ void uart_pynq_printf(char *fmt, ...) {
    va_start(args, fmt);
    vsprintf(buf, fmt, args);
    va_end(args);
-   uart_pynq_puts(buf);
+   // uart_pynq_puts(buf);
+   char *s = buf;
+   while (*s) {
+       uart_pynq_putchar(*s++);
+   }
 }

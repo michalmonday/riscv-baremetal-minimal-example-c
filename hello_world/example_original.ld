@@ -28,6 +28,60 @@ SECTIONS
     *(.rodata)
     *(.rodata*)
   } 
+/* 
+    .fini : {
+        KEEP (*(SORT_NONE(.fini)))
+    } 
+
+    .preinit_array : ALIGN(8) {
+        PROVIDE_HIDDEN (__preinit_array_start = .);
+        KEEP (*(.preinit_array))
+        PROVIDE_HIDDEN (__preinit_array_end = .);
+    } 
+
+    .init_array : ALIGN(8) {
+        PROVIDE_HIDDEN (__init_array_start = .);
+        KEEP (*(SORT_BY_INIT_PRIORITY(.init_array.*) SORT_BY_INIT_PRIORITY(.ctors.*)))
+        KEEP (*(.init_array EXCLUDE_FILE (*crtbegin.o *crtbegin?.o *crtend.o *crtend?.o ) .ctors))
+        PROVIDE_HIDDEN (__init_array_end = .);
+        PROVIDE_HIDDEN ( metal_constructors_start = .);
+        KEEP (*(SORT_BY_INIT_PRIORITY(.metal.init_array.*)));
+        KEEP (*(.metal.init_array));
+        PROVIDE_HIDDEN ( metal_constructors_end = .);
+    } 
+
+    .fini_array : ALIGN(8) {
+        PROVIDE_HIDDEN (__fini_array_start = .);
+        KEEP (*(SORT_BY_INIT_PRIORITY(.fini_array.*) SORT_BY_INIT_PRIORITY(.dtors.*)))
+        KEEP (*(.fini_array EXCLUDE_FILE (*crtbegin.o *crtbegin?.o *crtend.o *crtend?.o ) .dtors))
+        PROVIDE_HIDDEN (__fini_array_end = .);
+        PROVIDE_HIDDEN ( metal_destructors_start = .);
+        KEEP (*(SORT_BY_INIT_PRIORITY(.metal.fini_array.*)));
+        KEEP (*(.metal.fini_array));
+        PROVIDE_HIDDEN ( metal_destructors_end = .);
+    } 
+
+ 
+
+    .ctors : {
+        KEEP (*crtbegin.o(.ctors))
+        KEEP (*crtbegin?.o(.ctors))
+        KEEP (*(EXCLUDE_FILE (*crtend.o *crtend?.o ) .ctors))
+        KEEP (*(SORT(.ctors.*)))
+        KEEP (*(.ctors))
+        KEEP (*(.metal.ctors .metal.ctors.*))
+    } 
+
+    .dtors : {
+        KEEP (*crtbegin.o(.dtors))
+        KEEP (*crtbegin?.o(.dtors))
+        KEEP (*(EXCLUDE_FILE (*crtend.o *crtend?.o ) .dtors))
+        KEEP (*(SORT(.dtors.*)))
+        KEEP (*(.dtors))
+        KEEP (*(.metal.dtors .metal.dtors.*))
+    }  */
+
+
   
   /* data */
   .gnu_build_id : { *(.note.gnu.build-id) }
@@ -57,10 +111,11 @@ SECTIONS
     . = ALIGN(8);
     BSS_END = .;
   } /* global variables */
-  .sdata : ALIGN(8) { 
+
+  /* .sdata : ALIGN(8) { 
     *(.sdata) 
     *(.sdata*)
-  }
+  } */
 
 /* from https://github.com/five-embeddev/riscv-scratchpad/blob/master/baremetal-startup-c/src/linker.lds 
 //   .tdata : ALIGN(8) {
