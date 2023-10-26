@@ -3,7 +3,7 @@ PROG_NAME 	= hello_world
 INCLUDE_DIR = ../include
 ALGORITHMS_DIR = algorithms
 
-TOOLCHAIN = riscv64-unknown-elf
+TOOLCHAIN = /home/michal/riscv/bin/riscv64-unknown-elf
 
 GCC = $(TOOLCHAIN)-gcc
 OBDUMP = $(TOOLCHAIN)-objdump
@@ -16,6 +16,12 @@ OBJCOPY = $(TOOLCHAIN)-objcopy
 # 			  -I$(INCLUDE_DIR) \
 # 			  -I$(ALGORITHMS_DIR)
 
+# riscv-gnu-toolchain was compiled with the following flags (in "./configure" command):
+# --with-arch=rv64g --with-arch=rv64gc
+# --with-abi=lp64d
+# --with-cmodel=medany
+# Without medany model argument, the compilation fails with errors like:
+#     "relocation truncated to fit: R_RISCV_HI20 against `.LC0'"
 GCC_FLAGS	= -march=rv64g -mabi=lp64d -static \
 			  -fvisibility=hidden \
 			  -nostartfiles \
