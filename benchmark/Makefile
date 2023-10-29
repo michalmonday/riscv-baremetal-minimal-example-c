@@ -1,7 +1,8 @@
-PROG_NAME 	= hello_world
 
 INCLUDE_DIR = ../include
-ALGORITHMS_DIR = algorithms
+ALGORITHMS_DIR = ./algorithms
+
+PROG_NAME = $(ALGORITHMS_DIR)/a2time
 
 TOOLCHAIN = riscv64-unknown-elf
 
@@ -39,14 +40,14 @@ start.o:
 #$(GCC) $(GCC_FLAGS) -c start_original.s -o start.o
 
 includes: $(INCLUDE_DIR)/*.c $(INCLUDE_DIR)/*.h 
-	$(GCC) $(GCC_FLAGS) -c $(INCLUDE_DIR)/*.c 
+	$(GCC) $(GCC_FLAGS) -c $(INCLUDE_DIR)/*.c
 
-$(PROG_NAME).o: $(PROG_NAME).c 
-	$(GCC) $(GCC_FLAGS) -c $(PROG_NAME).c
+$(PROG_NAME).o: $(PROG_NAME).c $(PROG_NAME)*.h 
+	$(GCC) $(GCC_FLAGS) -c $(PROG_NAME).c -o $@
 
 $(PROG_NAME): start.o $(PROG_NAME).o includes 
-	# $(GCC) $(GCC_FLAGS) -o $@ start.o $(filter-out start.o, $(wildcard *.o)) $(LD_FLAGS)
-	$(GCC) $(GCC_FLAGS) -o $@ start.o $(PROG_NAME).o $(shell find . ! -name "start.o" ! -name "$(PROG_NAME).o" -name "*.o") $(LD_FLAGS)
+	$(GCC) $(GCC_FLAGS) -o $@ start.o $(PROG_NAME).o $(shell find . ! -name "start.o" ! -wholename "$(PROG_NAME).o" -name "*.o") $(LD_FLAGS)
+# $(GCC) $(GCC_FLAGS) -o $@ start.o $(filter-out start.o, $(wildcard *.o)) $(LD_FLAGS)
 
 postcompile: $(PROG_NAME)
 	$(OBDUMP) -sSD $(PROG_NAME) > $(PROG_NAME).dump

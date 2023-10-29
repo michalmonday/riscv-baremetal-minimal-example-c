@@ -3,6 +3,10 @@
 // #include "standard_libraries.h"
 
 #include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stddef.h>
+#include <stdarg.h>
 
 int uart_pynq_putchar(char ch) {
    uart_pynq[UART_REG_TXFIFO] = ch;
