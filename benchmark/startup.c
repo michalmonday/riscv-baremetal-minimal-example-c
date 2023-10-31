@@ -55,6 +55,5 @@ void init() {
 
 void park() {
     asm volatile ("wfi");
-    while(1);
 }
 

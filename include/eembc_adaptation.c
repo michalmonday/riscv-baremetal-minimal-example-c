@@ -31,7 +31,6 @@ void th_exit(const char *format, ...) {
     va_end(args);
 
     asm("wfi");
-    while(1);
 }
 
 

@@ -23,7 +23,7 @@ without following the official/proper EEMBC benchmark harness:
 - replace each call to GetInputValues with:
 
     isTableLooped = loop_cnt >= sizeof(inpAngleROM)/sizeof(inpAngleROM[0]);
-    angleCounter = inpAngleROM[loop_cnt % (sizeof(inpAngleROM)/sizeof(inpAngleROM[0]))];
+    angleCounter = inpAngleROM[input_index]; //    angleCounter = inpAngleROM[loop_cnt % (sizeof(inpAngleROM)/sizeof(inpAngleROM[0]))];
 
 */
 
@@ -87,7 +87,8 @@ const int inpAngleROM[] =
     4471, 6261, 8054, 9850, 11649, 13451, 15256, 17064, 18875, 20689, 
     22503, 24317, 26131, 27945, 29759, 31573, 620, 2435, 4250, 6065, 
     7880, 9695, 11510, 13325, 16962, 18787, 20613, 22438, 24264, 26089, 
-    27915, 29740, 31566, 620, 2442, 4264 } ; 
+    27915, 29740, 31566, 620, 2442, 4264 
+} ; 
     
     /* End of test values :  inpAngleROM[] */
 
@@ -97,8 +98,6 @@ int main(void) {
 
     // stop the program
     asm("wfi");
-    while (1)  
-        asm("nop");
     return 0;
 }
 
@@ -119,8 +118,15 @@ varsize tonewheelTeeth ;    /* Number of teeth on the tonewheel */
 int t_run_test(int argc, const char *argv[] )
 {    
     int loop_cnt;
-    int iterations; 
-    scanf("%d", &iterations);
+    int iterations = 1; 
+    int input_index;
+    scanf("%d", &input_index);
+    int inputs_count = sizeof(inpAngleROM) / sizeof(inpAngleROM[0]);
+    if (input_index >= inputs_count) {
+        printf("ERROR: input_index %d is out of range, max is %d\n", input_index, inputs_count-1);
+        printf("stopping execution\n");
+        asm volatile ("wfi");
+    }
     // size_t		loop_cnt = tcdef->rec_iterations;
 
 #if BMDEBUG
@@ -213,7 +219,7 @@ int t_run_test(int argc, const char *argv[] )
     tableCount		= 0;
 	angleCounter	= 0;   /* Current 'angleCounter' pulled from  data */
 	inpAngleCount	= NULL; /* Array of 'angleCounter' test data values */
-	tonewheelTeeth	= 0; /* Number of teeth on the tonewheel */
+	tonewheelTeeth	= 60; /* Number of teeth on the tonewheel */
 
 
     /* Tell us the compiled data size */    
@@ -260,7 +266,7 @@ int t_run_test(int argc, const char *argv[] )
         /* Gets 'angleCounter' value from test data */
         // isTableLooped = GetInputValues() ;
         isTableLooped = loop_cnt >= sizeof(inpAngleROM)/sizeof(inpAngleROM[0]);
-        angleCounter = inpAngleROM[loop_cnt % (sizeof(inpAngleROM)/sizeof(inpAngleROM[0]))];
+        angleCounter = inpAngleROM[input_index];
 
 #if BMDEBUG
         th_sprintf( szDebug, "%8ld", (n_long)angleCounter ) ;
@@ -468,7 +474,7 @@ int t_run_test(int argc, const char *argv[] )
         /* Gets 'angleCounter' value from test data*/
         // isTableLooped += GetInputValues() ;
         isTableLooped = loop_cnt >= sizeof(inpAngleROM)/sizeof(inpAngleROM[0]);
-        angleCounter = inpAngleROM[loop_cnt % (sizeof(inpAngleROM)/sizeof(inpAngleROM[0]))];
+        angleCounter = inpAngleROM[input_index];
 
 #if BMDEBUG
         /* Output some debug info, if needed */
@@ -678,7 +684,7 @@ int t_run_test(int argc, const char *argv[] )
         /* Gets 'angleCounter' value from test data*/
         // isTableLooped += GetInputValues() ;
         isTableLooped = loop_cnt >= sizeof(inpAngleROM)/sizeof(inpAngleROM[0]);
-        angleCounter = inpAngleROM[loop_cnt % (sizeof(inpAngleROM)/sizeof(inpAngleROM[0]))];
+        angleCounter = inpAngleROM[input_index];
 
 #if BMDEBUG
         th_sprintf( szDebug, "%8ld", (n_long)angleCounter ) ;
@@ -902,19 +908,19 @@ int t_run_test(int argc, const char *argv[] )
     }
 
 
-//#if NON_INTRUSIVE_CRC_CHECK
-//	tcdef->CRC=0;
-///* varsize is n_short or n_long, calc crc based on e_u32 */
-///* final answers are iteration dependent */
-//	tcdef->CRC = Calc_crc32((e_u32)*inpAngleCount,tcdef->CRC ) ; 
-//	tcdef->CRC = Calc_crc32((e_u32)tonewheelTeeth,tcdef->CRC ) ; 
-//#elif	CRC_CHECK
-//	tcdef->CRC=0;
-//#else
-//	tcdef->CRC=0;
-//#endif
-//
-//	return	th_report_results(tcdef,EXPECTED_CRC);
+// #if NON_INTRUSIVE_CRC_CHECK
+// 	tcdef->CRC=0;
+// /* varsize is n_short or n_long, calc crc based on e_u32 */
+// /* final answers are iteration dependent */
+// 	tcdef->CRC = Calc_crc32((e_u32)*inpAngleCount,tcdef->CRC ) ; 
+// 	tcdef->CRC = Calc_crc32((e_u32)tonewheelTeeth,tcdef->CRC ) ; 
+// #elif	CRC_CHECK
+// 	tcdef->CRC=0;
+// #else
+// 	tcdef->CRC=0;
+// #endif
+
+	// return	th_report_results(tcdef,EXPECTED_CRC);
 
     return 0;
 } /* End of function 't_run_test' */
