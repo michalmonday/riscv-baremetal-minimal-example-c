@@ -8,6 +8,7 @@
 #define n_long long
 #define n_int int
 #define n_char char
+#define n_uchar unsigned char
 
 extern void DebugOut(char *str);
 // extern void WriteOut(char *str);

@@ -72,4 +72,5 @@ clean: clean_objects
 
 clean_objects:
 	rm -f $(shell find . -name "*.o") 2> /dev/null
+	rm -f $(shell find . -name "algorithms/*.o") 2> /dev/null
 

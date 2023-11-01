@@ -2,6 +2,7 @@ import os
 import glob
 from pathlib import Path
 
+print( os.popen("make clean").read() )
 algos = glob.glob("algorithms/*.c")
 for algo in algos:
     algo = Path(algo)

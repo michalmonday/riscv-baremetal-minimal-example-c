@@ -1,5 +1,5 @@
-#ifndef FILE_H // TODO: change the name of the define to match the filename
-#define FILE_H
+#ifndef BITMNP_H 
+#define BITMNP_H
 #include <eembc_adaptation.h>
 
 /*  PLATFORM-SPECIFIC DEFINITIONS  */    

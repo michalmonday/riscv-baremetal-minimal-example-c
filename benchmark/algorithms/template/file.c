@@ -56,9 +56,11 @@ n_int   tableCount ;        /* Number of passes through table */
 n_int   *RAMfileEOF;        /* points to end of RAM file */
 n_int   RAMfile_increment;  /* difference between varsize and n_int */
 
+int input_index;
+
 int t_run_test(int argc, const char *argv[] )
 {    
-    int input_index;
+    int iterations = 1;
     scanf("%d", &input_index);
     int inputs_count = sizeof(inpROM) / sizeof(inpROM[0]);
     if (input_index >= inputs_count) {
