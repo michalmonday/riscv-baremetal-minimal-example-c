@@ -9,6 +9,7 @@
 #define n_int int
 #define n_char char
 #define n_uchar unsigned char
+#define n_float float
 
 extern void DebugOut(char *str);
 // extern void WriteOut(char *str);

@@ -542,7 +542,9 @@ int t_run_test(int argc, const char *argv[] )
 
 n_int GetInputValues(n_void)
 {
-    tonewheelCounter = inpTonewheelROM[input_index];
+    tonewheelCounter = inpTonewheelROM[input_index++];
+    if (input_index >= sizeof(inpTonewheelROM) / sizeof(inpTonewheelROM[0]))
+        input_index = 0;
     return false;
 
     // tonewheelCounter = inpTonewheelCount[tableCount];

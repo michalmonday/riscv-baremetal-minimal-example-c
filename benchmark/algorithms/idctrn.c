@@ -763,11 +763,12 @@ n_int
 GetInputValues( n_void )
 {        
     // input_index is index of a matrix (16 bytes)
-    int array_index = input_index * ( ROWS + COLS ); 
+    int array_index = input_index++ * ( ROWS + COLS ); 
     for( int i = 0 ; i < ( ROWS + COLS ) ; i++ ) {
         inChar[i] = inpStringROM[array_index++ ] ; 
         if (array_index >= sizeof(inpStringROM) / sizeof(inpStringROM[0])) {
             array_index = 0;
+            input_index = 0;
         }
     }
     return false;
