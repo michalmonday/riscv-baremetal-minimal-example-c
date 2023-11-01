@@ -31,18 +31,17 @@ without following the official/proper EEMBC benchmark harness:
 #include "tblook.h" // change to the name of the main file (eg. "a2time.h")
 
 // forward declarations
-int t_run_test( int argc, const char *argv[] );
+static int t_run_test( int argc, const char *argv[] );
+static n_int GetInputValues( n_void );
 
-const varsize engLoadROM[] = 
-{
+static const varsize engLoadROM[] = {
     0, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 
     150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 
     270, 280, 290, 300, 310, 320, 330, 340, 350, 360, 370, 380, 
     390, 400, 410, 420, 430, 440, 450, 460, 470, 480, 490, 500
 } ;
 
-const varsize engSpeedROM[] = 
-{
+static const varsize engSpeedROM[] = {
     0, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 
     1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200,
     2300, 2400, 2500, 2600, 2700, 2800, 2900, 3000, 3100, 3200,
@@ -50,8 +49,7 @@ const varsize engSpeedROM[] =
     4300, 4400, 4500, 4600, 4700, 4800, 4900, 5000
 } ;
 
-const varsize angleTableROM[] = 
-{
+static const varsize angleTableROM[] = {
     10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30,
@@ -104,8 +102,7 @@ const varsize angleTableROM[] =
     62, 62, 62, 72, 82, 92, 92, 92, 92, 92, 92, 100, 108, 116, 124, 132, 140, 148, 156, 160, 162, 162, 162, 160, 160, 156, 140, 148, 156, 160, 156, 155, 153, 151, 149, 147, 146, 145, 144, 143, 142, 141, 140, 139, 130, 130, 130, 130, 130, 100
 } ; /* End of angleTableROM[] */
 
-const varsize inpValueROM[] = 
-{
+static const varsize inpValueROM[] = {
     0, 0, 999, 9999, 10, 100, 20, 200, 30, 300, 40, 400, 50, 500, 60, 600,
     70, 700, 80, 800, 90, 900, 100, 1000, 110, 1100, 120, 1200, 130, 1300,
     140, 1400, 150, 1500, 160, 1600, 170, 1700, 180, 1800, 190, 1900, 200, 2000,
@@ -163,11 +160,9 @@ const varsize inpValueROM[] =
     170, 2160, 170, 2170, 170, 2180, 170, 2190, 170, 2200
 } ; /* End of test values:  inpValueROM[] */
 
-const int inpROM[] = {        
-
-}; /* End of test values :  inpROM[] */
 
 
+#ifndef RANDOM_FUNCTION_GENERATOR
 int main(void) {
     t_run_test(0, NULL);
 
@@ -175,35 +170,35 @@ int main(void) {
     asm("wfi");
     return 0;
 }
+#endif
 
-extern const varsize engLoadROM[] ;      /* Linear array of 'y' axis */
-extern const varsize engSpeedROM[] ;     /* Linear array of 'x' axis */
-extern const varsize angleTableROM[] ;   /* 2D array of f( x, y )= 'angle' */
+static const varsize engLoadROM[] ;      /* Linear array of 'y' axis */
+static const varsize engSpeedROM[] ;     /* Linear array of 'x' axis */
+static const varsize angleTableROM[] ;   /* 2D array of f( x, y )= 'angle' */
 
-varsize numXEntries ;           /* The table 'x' size spec'd here */
-varsize numYEntries ;           /* The table 'y' size spec'd here */
+static varsize numXEntries ;           /* The table 'x' size spec'd here */
+static varsize numYEntries ;           /* The table 'y' size spec'd here */
 
-n_int   *RAMfile ;              /* Pointer to test output RAM file */
-n_int   *RAMfilePtr ;           /* Pointer to position in output RAM file */
-n_int   RAMfileSize ;       /* Size of the debug output RAM file */
-n_int   tableCount ;        /* Number of passes through table */
-n_int   *RAMfileEOF;        /* points to end of RAM file */
-n_int   RAMfile_increment;  /* difference between varsize and n_int */
+static n_int   *RAMfile ;              /* Pointer to test output RAM file */
+static n_int   *RAMfilePtr ;           /* Pointer to position in output RAM file */
+static n_int   RAMfileSize ;       /* Size of the debug output RAM file */
+static n_int   tableCount ;        /* Number of passes through table */
+static n_int   *RAMfileEOF;        /* points to end of RAM file */
+static n_int   RAMfile_increment;  /* difference between varsize and n_int */
 
-varsize loadValue ;             /* 'Load' pulled from test data */
-varsize speedValue ;            /* 'Speed' pulled from test data */
+static varsize loadValue ;             /* 'Load' pulled from test data */
+static varsize speedValue ;            /* 'Speed' pulled from test data */
 
-const varsize *engSpeed ;       /* Linear array of 'y' axis */
-const varsize *engLoad ;        /* Linear array of 'x' axis */
-const varsize *angleTable ;     /* 2D array of f( x, y )= 'angle' */
+static const varsize *engSpeed ;       /* Linear array of 'y' axis */
+static const varsize *engLoad ;        /* Linear array of 'x' axis */
+static const varsize *angleTable ;     /* 2D array of f( x, y )= 'angle' */
 
-int input_index;
+static int input_index;
 
-int t_run_test(int argc, const char *argv[] )
-{    
+static int t_run_test(int argc, const char *argv[] ) {    
     int iterations = 1;
     scanf("%d", &input_index);
-    int inputs_count = sizeof(inpROM) / sizeof(inpROM[0]);
+    int inputs_count = NUM_TESTS;
     if (input_index >= inputs_count) {
         printf("ERROR: input_index %d is out of range, max is %d\n", input_index, inputs_count-1);
         printf("stopping execution\n");
@@ -608,9 +603,7 @@ int t_run_test(int argc, const char *argv[] )
 //      true/false
 // ---------------------------------------------------------------------------*/
 
-n_int
-GetInputValues( n_void ) 
-{
+static n_int GetInputValues( n_void ) {
     loadValue = inpValueROM[input_index++] ;
     if (input_index >= sizeof(inpValueROM) / sizeof(inpValueROM[0])) 
         input_index = 0;

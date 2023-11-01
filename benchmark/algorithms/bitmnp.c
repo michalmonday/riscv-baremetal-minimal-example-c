@@ -31,16 +31,16 @@ without following the official/proper EEMBC benchmark harness:
 #include "bitmnp.h" // change to the name of the main file (eg. "a2time.h")
 
 // forward declarations
-int t_run_test( int argc, const char *argv[] );
+static int t_run_test( int argc, const char *argv[] );
 // n_int GetTestData(n_void);
-n_int GetInputValues(n_void);
+static n_int GetInputValues(n_void);
 
 /* Estimate of allocation for NUM_TESTS*( debug test + 2 variables )*/
 #define T_BSIZE (MAX_FILESIZE+((NUM_TESTS+1)*VAR_COUNT*4))
 
 // input data (inpROM)
 
-const varsize inpVariableROM[] = {
+static const varsize inpVariableROM[] = {
     1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 0, 0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 
     0, 6, 0, 7, 0, 8, 0, 9, 0, 0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 
     0, 0, 0, 1, 0, 2, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 
@@ -52,7 +52,7 @@ const varsize inpVariableROM[] = {
     10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1 
 } ; /* End of test values :  inpVariableROM[] */
 
-varsize digitROM[] = {
+static varsize digitROM[] = {
     0xFE, 0xFE, 0xFE, 0xFE, 0xFE, /* Solid character for ERROR */
     0x7C, 0xA2, 0x92, 0x8A, 0x7C, /* Character '0' */
     0x00, 0x82, 0xFE, 0x80, 0x00, /* Character '1' */
@@ -69,6 +69,7 @@ varsize digitROM[] = {
 }; /* End of variable 'charset[]' */
 
 
+#ifndef RANDOM_FUNCTION_GENERATOR
 int main(void) {
     t_run_test(0, NULL);
 
@@ -76,27 +77,28 @@ int main(void) {
     asm("wfi");
     return 0;
 }
+#endif
 
 /*  DECLARATIONS */    
 /* Input stimuli test data table */
 // extern const varsize inpVariableROM[] ;
 // extern const int digitROM[] ;
 
-n_int   *RAMfile ;          /* Pointer to test output RAM file */
-n_int   *RAMfilePtr ;       /* Pointer to position in output RAM file */
-n_int   RAMfileSize ;       /* Size of the debug output RAM file */
-n_int   tableCount ;        /* Number of passes through table */
-n_int   *RAMfileEOF;        /* points to end of RAM file */
-n_int   RAMfile_increment;  /* difference between varsize and n_int */
+static n_int   *RAMfile ;          /* Pointer to test output RAM file */
+static n_int   *RAMfilePtr ;       /* Pointer to position in output RAM file */
+static n_int   RAMfileSize ;       /* Size of the debug output RAM file */
+static n_int   tableCount ;        /* Number of passes through table */
+static n_int   *RAMfileEOF;        /* points to end of RAM file */
+static n_int   RAMfile_increment;  /* difference between varsize and n_int */
 
-varsize *inpNumber ;    /* Pointer to array of numbers to paint */
-n_int   *inpMode ;      /* Pointer to array of painting modes */
-varsize inputNum ;      /* The input argument for computation */
-n_int   inverted ;      /* Paint 'inverted' character in display */
+static varsize *inpNumber ;    /* Pointer to array of numbers to paint */
+static n_int   *inpMode ;      /* Pointer to array of painting modes */
+static varsize inputNum ;      /* The input argument for computation */
+static n_int   inverted ;      /* Paint 'inverted' character in display */
 
-int input_index;
+static int input_index;
 
-int t_run_test(int argc, const char *argv[] )
+static int t_run_test(int argc, const char *argv[] )
 {    
     int iterations = 1;
     scanf("%d", &input_index);
@@ -1313,7 +1315,7 @@ int t_run_test(int argc, const char *argv[] )
  *
  */
 
-n_int GetInputValues(n_void)
+static n_int GetInputValues(n_void)
 {
     inputNum = inpNumber[input_index*2];
     inverted = inpNumber[input_index*2 + 1];

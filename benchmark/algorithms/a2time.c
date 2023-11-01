@@ -34,10 +34,12 @@ without following the official/proper EEMBC benchmark harness:
 
 
 // forward declarations
-int t_run_test( int argc, const char *argv[] );
+static int t_run_test( int argc, const char *argv[] );
+int a2time(int argc, const char *argv[]) {
+    return t_run_test(argc, argv);
+}
 
-const int inpAngleROM[] = 
-{        
+static const int inpAngleROM[] = {        
     123, 456, 796, 1143, 1497, 1858, 2226, 2601, 3358, 3743, 4136, 4535, 
     4942, 5355, 5776, 6203, 6638, 7079, 7528, 7983, 8446, 8915, 9392, 9875,
     10366, 10863, 11368, 11879, 12398, 12923, 13456, 13995, 14542, 15095,
@@ -93,6 +95,7 @@ const int inpAngleROM[] =
     /* End of test values :  inpAngleROM[] */
 
 
+#ifndef RANDOM_FUNCTION_GENERATOR
 int main(void) {
     t_run_test(0, NULL);
 
@@ -100,22 +103,22 @@ int main(void) {
     asm("wfi");
     return 0;
 }
+#endif
 
 
 
 /*  DECLARATIONS */    
-n_int   *RAMfile ;          /* Pointer to test output RAM file */
-n_int   *RAMfilePtr ;       /* Pointer to position in output RAM file */
-n_int   RAMfileSize ;       /* Size of the debug output RAM file */
-n_int   tableCount ;        /* Number of passes through table */
-n_int   *RAMfileEOF;        /* points to end of RAM file */
-n_int   RAMfile_increment;  /* difference between varsize and n_int */
+static n_int   *RAMfile ;          /* Pointer to test output RAM file */
+static n_int   *RAMfilePtr ;       /* Pointer to position in output RAM file */
+static n_int   RAMfileSize ;       /* Size of the debug output RAM file */
+static n_int   tableCount ;        /* Number of passes through table */
+static n_int   *RAMfileEOF;        /* points to end of RAM file */
+static n_int   RAMfile_increment;  /* difference between varsize and n_int */
+static varsize angleCounter ;      /* Current 'angleCounter' pulled from test data */
+static varsize *inpAngleCount ;    /* Array of 'angleCounter' test data values */
+static varsize tonewheelTeeth ;    /* Number of teeth on the tonewheel */
 
-varsize angleCounter ;      /* Current 'angleCounter' pulled from test data */
-varsize *inpAngleCount ;    /* Array of 'angleCounter' test data values */
-varsize tonewheelTeeth ;    /* Number of teeth on the tonewheel */
-
-int t_run_test(int argc, const char *argv[] )
+static int t_run_test(int argc, const char *argv[] )
 {    
     int loop_cnt;
     int iterations = 1; 

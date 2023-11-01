@@ -31,11 +31,11 @@ without following the official/proper EEMBC benchmark harness:
 #include "puwmod.h" // change to the name of the main file (eg. "a2time.h")
 
 // forward declarations
-int t_run_test( int argc, const char *argv[] );
+static int t_run_test( int argc, const char *argv[] );
+static n_int GetInputValues(n_void);
 
 // input data (inpCmdROM)
-const varsize inpCmdROM[] = 
-{        
+static const varsize inpCmdROM[] = {        
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 
     100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 
     200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 
@@ -72,6 +72,7 @@ const varsize inpCmdROM[] =
 
 
 
+#ifndef RANDOM_FUNCTION_GENERATOR
 int main(void) {
     t_run_test(0, NULL);
 
@@ -79,20 +80,21 @@ int main(void) {
     asm("wfi");
     return 0;
 }
+#endif
 
 /*  DECLARATIONS */    
-n_int   *RAMfile ;          /* Pointer to test output RAM file */
-n_int   *RAMfilePtr ;       /* Pointer to position in output RAM file */
-n_int   RAMfileSize ;       /* Size of the debug output RAM file */
-n_int   tableCount ;        /* Number of passes through table */
-n_int   *RAMfileEOF;        /* points to end of RAM file */
-n_int   RAMfile_increment;  /* difference between varsize and n_int */
+static n_int   *RAMfile ;          /* Pointer to test output RAM file */
+static n_int   *RAMfilePtr ;       /* Pointer to position in output RAM file */
+static n_int   RAMfileSize ;       /* Size of the debug output RAM file */
+static n_int   tableCount ;        /* Number of passes through table */
+static n_int   *RAMfileEOF;        /* points to end of RAM file */
+static n_int   RAMfile_increment;  /* difference between varsize and n_int */
 
-varsize commandPos ;        /* Commanded position from external world */
+static varsize commandPos ;        /* Commanded position from external world */
 
-int input_index;
+static int input_index;
 
-int t_run_test(int argc, const char *argv[] )
+static int t_run_test(int argc, const char *argv[] )
 {    
     int iterations = 1;
     scanf("%d", &input_index);
@@ -928,7 +930,7 @@ int t_run_test(int argc, const char *argv[] )
 * On each pass of the table lookup, a value must be input for 'commandPos'.  
 * Each time this function is called, the next input value is 
 * pulled from the table in RAM.  The table wraps around, so that input data is *    continuous.     A flag is returned TRUE whenever the table wraps around.  * */
-n_int GetInputValues(n_void)
+static n_int GetInputValues(n_void)
 {
     commandPos = inpCmdROM[input_index++];
     if (input_index < NUM_TESTS) {

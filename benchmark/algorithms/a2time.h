@@ -76,10 +76,10 @@ typedef n_long varsize;      /* Data and variables are 32 bits */
 
 #ifndef ALGO_GLOBALS            /* Don't define these twice! */
 
-extern n_int   tableCount ;     /* Number of passes through table */
-extern varsize angleCounter ;   /* Current 'angleCounter' pulled from  data */
-extern varsize *inpAngleCount ; /* Array of 'angleCounter' test data values */
-extern varsize tonewheelTeeth ; /* Number of teeth on the tonewheel */
+// extern n_int   tableCount ;     /* Number of passes through table */
+// extern varsize angleCounter ;   /* Current 'angleCounter' pulled from  data */
+// extern varsize *inpAngleCount ; /* Array of 'angleCounter' test data values */
+// extern varsize tonewheelTeeth ; /* Number of teeth on the tonewheel */
 /*extern n_int isTopDeadCenter ;  * TRUE/FALSE flag when TDC occurs */
 
 #endif /* ALGO_GLOBALS */       

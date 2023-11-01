@@ -31,13 +31,14 @@ without following the official/proper EEMBC benchmark harness:
 #include "idctrn.h" // change to the name of the main file (eg. "a2time.h")
 
 // forward declarations
-int t_run_test( int argc, const char *argv[] );
-int unPack( unsigned char );
+static int t_run_test( int argc, const char *argv[] );
+static int unPack( unsigned char );
+static n_int GetInputValues( n_void );
 
 // input data (inpStringROM)
 
 // 8192 elements
-const unsigned char inpStringROM[] = {        
+static const unsigned char inpStringROM[] = {        
     /* Row=   0 : */    
     43, 252, 0, 255, 33, 0, 2, 1, 2, 0, 0, 14, 0, 0, 16, 1, 62, 254, 241, 240, 48, 252, 253, 3, 31, 1, 15, 16, 0, 0, 1, 31, 66, 254, 31, 240, 208, 0, 0, 2, 3, 0, 15, 242, 16, 241, 3, 18, 71, 0, 1, 0, 78, 249, 250, 16, 255, 0, 2, 1, 240, 2, 0, 16, 79, 249, 15, 1, 194, 249, 4, 2, 210, 1, 254, 18, 15, 240, 31, 207, 88, 252, 18, 240, 47, 251, 0, 0, 225, 0, 3, 244, 35, 16, 29, 253, 88, 252, 0, 34, 3, 4, 252, 31, 13, 0, 13, 226, 16, 15, 255, 245, 121, 1, 32, 224, 240, 3, 253, 32, 14, 0, 243, 2, 0, 29, 239, 17, 117, 5, 16, 241, 65, 253, 255, 31, 17, 15, 29, 15, 16, 2, 225, 79, 107, 7, 17, 240, 2, 253, 253, 2, 17, 3, 254, 0, 13, 2, 254, 226, 96, 5, 16, 254, 224, 3, 253, 13, 223, 208, 1, 255, 13, 241, 31, 225, 115, 255, 224, 226, 180, 3, 253, 15, 20, 208, 15, 4, 255, 4, 18, 163, 93, 5, 1, 32, 30, 16, 2, 209, 1, 30, 253, 20, 3, 0, 254, 16, 98, 2, 16, 240, 47, 9, 252, 29, 3, 17, 47, 42, 254, 1, 240, 32, 89, 253, 0, 254, 223, 15, 251, 34, 208, 255, 33, 31, 33, 49, 238, 30, 89, 255, 0, 0, 49, 16, 254, 3, 13, 1, 227, 14, 193, 239, 243, 14, 96, 245, 0, 0, 229, 12, 255, 3, 2, 31, 1, 229, 239, 227, 29, 3, 122, 254, 32, 239, 4, 15, 254, 237, 191, 33, 30, 224, 255, 237, 15, 51, 121, 1, 31, 32, 18, 1, 0, 211, 80, 64, 16, 225, 255, 35, 16, 4, 110, 1, 0, 16, 1, 4, 254, 13, 243, 47, 35, 14, 254, 66, 16, 89, 108, 0, 0, 0, 18, 2, 1, 27, 16, 64, 12, 18, 14, 18, 0, 239, 114, 255, 0, 15, 98, 253, 3, 1, 48, 32, 18, 17, 13, 237, 252, 33, 130, 247, 240, 2, 193, 243, 0, 29, 255, 240, 241, 4, 0, 16, 14, 18, 159, 5, 15, 241, 64, 251, 4, 210, 222, 225, 18, 241, 45, 15, 14, 2, 127, 6, 47, 0, 235, 7, 255, 2, 15, 16, 14, 16, 155, 12, 255, 17, 116, 2, 16, 16, 209, 4, 1, 31, 20, 224, 224, 17, 210, 16, 30, 194, 119, 7, 240, 31, 239, 3, 253, 33, 0, 241, 12, 208, 237, 227, 1, 63, 119, 2, 0, 31, 238, 5, 253, 16, 32, 0, 4, 1, 32, 19, 15, 47, 109, 3, 1, 240, 16, 255, 1, 17, 240, 0, 1, 46, 2, 242, 14, 238, 105, 255, 240, 240, 46, 253, 0, 255, 1, 1, 240, 16, 17, 240, 239, 35, 97, 2, 1, 0, 243, 4, 2, 241, 240, 0, 0, 2, 240, 62, 241, 31, 71, 3, 0, 16, 17, 0, 254, 0, 15, 15, 1, 0, 255, 16, 15, 226, 
     /* Row=   8 : */    
@@ -73,6 +74,7 @@ const unsigned char inpStringROM[] = {
 } ; /* End of test values :  inpStringROM[] */
 
 
+#ifndef RANDOM_FUNCTION_GENERATOR
 int main(void) {
     t_run_test(0, NULL);
 
@@ -80,20 +82,21 @@ int main(void) {
     asm("wfi");
     return 0;
 }
+#endif
 
 /*  DECLARATIONS */    
-n_int   *RAMfile ;          /* Pointer to test output RAM file */
-n_int   *RAMfilePtr ;       /* Pointer to position in output RAM file */
-n_int   RAMfileSize ;       /* Size of the debug output RAM file */
-n_int   tableCount ;        /* Number of passes through table */
-n_int   *RAMfileEOF;        /* points to end of RAM file */
-n_int   RAMfile_increment;  /* difference between varsize and n_int */
+static n_int   *RAMfile ;          /* Pointer to test output RAM file */
+static n_int   *RAMfilePtr ;       /* Pointer to position in output RAM file */
+static n_int   RAMfileSize ;       /* Size of the debug output RAM file */
+static n_int   tableCount ;        /* Number of passes through table */
+static n_int   *RAMfileEOF;        /* points to end of RAM file */
+static n_int   RAMfile_increment;  /* difference between varsize and n_int */
 
 /* Input character string representing one 8x8 block */
-unsigned char inChar[ROWS + COLS] ;    
+static unsigned char inChar[ROWS + COLS] ;    
 /* Points to input data stream */
 
-int input_index;
+static int input_index;
 
 int t_run_test(int argc, const char *argv[] )
 {    
@@ -759,9 +762,7 @@ int t_run_test(int argc, const char *argv[] )
 *
 */    
 
-n_int
-GetInputValues( n_void )
-{        
+static n_int GetInputValues( n_void ) {        
     // input_index is index of a matrix (16 bytes)
     int array_index = input_index++ * ( ROWS + COLS ); 
     for( int i = 0 ; i < ( ROWS + COLS ) ; i++ ) {
@@ -790,7 +791,7 @@ GetInputValues( n_void )
 
 // Function below was created automatically by Github Copilot,
 // the original is in the thlib.c which isn't available here.
-int unPack( unsigned char inChar )
+static int unPack( unsigned char inChar )
 {
     int outChar ; 
 

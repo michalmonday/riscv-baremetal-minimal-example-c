@@ -34,8 +34,16 @@ GCC_FLAGS	= -march=rv64g -mabi=lp64d -static \
 			  -mcmodel=medany \
 			  -I$(INCLUDE_DIR) \
 			  -I$(ALGORITHMS_DIR) \
-			  -lm
-			  # -lm is needed for math.h used in aiiftr.c
+			  -lm \
+			  -Os
+# -lm is needed for math.h used in aiiftr.c
+# -Os optimizes for size (it seems to not include ".o" object files or their contents that are not used in the final binary despite supplying them to the compiler/linker)
+
+# if RANDOM_FUNCTION_GENERATOR=true then add -DRANDOM_FUNCTION_GENERATOR to GCC_FLAGS
+RANDOM_FUNCTION_GENERATOR ?= false
+ifeq ($(RANDOM_FUNCTION_GENERATOR), true)
+	GCC_FLAGS += -DRANDOM_FUNCTION_GENERATOR
+endif
 
 LD_FLAGS=-T example_original.ld \
 	-lm # needed for math.h used in aiiftr.c
@@ -49,6 +57,9 @@ start.o:
 
 includes: $(INCLUDE_DIR)/*.c $(INCLUDE_DIR)/*.h 
 	$(GCC) $(GCC_FLAGS) -c $(INCLUDE_DIR)/*.c
+
+algorithms: $(ALGORITHMS_DIR)/*.c $(ALGORITHMS_DIR)/*.h 
+	$(GCC) $(GCC_FLAGS) -c $(ALGORITHMS_DIR)/*.c
 
 $(PROG_FULL_PATH).o: $(PROG_FULL_PATH).c $(PROG_FULL_PATH)*.h 
 	$(GCC) $(GCC_FLAGS) -c $(PROG_FULL_PATH).c -o $@
@@ -74,3 +85,12 @@ clean_objects:
 	rm -f $(shell find . -name "*.o") 2> /dev/null
 	rm -f $(shell find . -name "algorithms/*.o") 2> /dev/null
 
+main: includes algorithms start.o 
+	$(GCC) $(GCC_FLAGS) -c main.c -o main.o
+	$(GCC) $(GCC_FLAGS) -o main main.o $(shell find . ! -name "main.o" -name "*.o") $(LD_FLAGS)
+#riscv64-unknown-elf-gcc -march=rv64g -mabi=lp64d -static -fvisibility=hidden -nostartfiles -mcmodel=medany -I../include -I./algorithms -lm -DRANDOM_FUNCTION_GENERATOR -o main main.o ./utils_flute.o ./eembc_adaptation.o ./bitmnp.o ./uart_gpio.o ./rspeed.o ./start.o ./sensors.o ./puwmod.o ./uart_pynq.o ./a2time.o ./ttsprk.o ./syscalls.o -T example_original.ld -lm 
+	$(OBDUMP) -sSD main > main.dump
+	$(OBJCOPY) -O binary main main.bin
+	cp main.dump /mnt/hgfs/shared\ ubuntu\ vm
+	cp main.bin /mnt/hgfs/shared\ ubuntu\ vm
+	echo "Done!"

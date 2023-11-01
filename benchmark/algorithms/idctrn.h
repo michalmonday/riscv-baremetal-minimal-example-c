@@ -52,12 +52,12 @@ typedef n_short varsize ;     /* Data and variables are 16 bits */
 
 #ifndef ALGO_GLOBALS
 
-extern n_int tableCount ;     /* Number of passes through table */
-
-/* Pointer to array of input chars */
-extern n_uchar *inpString ;
-/* 16 byte string representing one 8x8 input block */
-extern n_uchar inChar[] ;   
+// extern n_int tableCount ;     /* Number of passes through table */
+// 
+// /* Pointer to array of input chars */
+// extern n_uchar *inpString ;
+// /* 16 byte string representing one 8x8 input block */
+// extern n_uchar inChar[] ;   
 
 #endif /* ALGO_GLOBALS */    
 

@@ -44,10 +44,10 @@ typedef n_long varsize ;       /* Data and variables are 32 bits */
 
 #ifndef ALGO_GLOBALS             /* Don't define these twice! */    
 
-extern n_int   tableCount ;     /* Number of passes through table */
-extern varsize commandPos ;      /* Current 'commanded position' pulled
-                                  * from test data */
-extern varsize *inpCmdPosition ; /* Array of 'cmdPosition' test data values */
+// extern n_int   tableCount ;     /* Number of passes through table */
+// extern varsize commandPos ;      /* Current 'commanded position' pulled
+//                                   * from test data */
+// extern varsize *inpCmdPosition ; /* Array of 'cmdPosition' test data values */
 
 #endif /* ALGO_GLOBALS */    
 

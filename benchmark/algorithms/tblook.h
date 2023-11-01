@@ -43,17 +43,17 @@ typedef n_long varsize ;          /* Data and variables are 32 bits */
 #ifndef ALGO_GLOBALS            /* Don't define these twice! */
 
 
-extern varsize numXEntries ;       /* The table 'x' size spec'd here */
-extern varsize numYEntries ;       /* The table 'y' size spec'd here */
-extern n_int   tableCount ;        /* Number of passes through table */
-extern varsize loadValue ;         /* 'Load' pulled from test data */
-extern varsize speedValue ;        /* 'Speed' pulled from test data */
-extern varsize *inpLoadValue ;     /* Array of 'load' test data */
-extern varsize *inpSpeedValue ;    /* Array of 'speed' test data */
-
-extern const varsize *engSpeed ;   /* Linear array of 'y' axis */
-extern const varsize *engLoad ;    /* Linear array of 'x' axis */
-extern const varsize *angleTable ; /* 2D array of f( x, y )= 'angle' */
+//extern varsize numXEntries ;       /* The table 'x' size spec'd here */
+//extern varsize numYEntries ;       /* The table 'y' size spec'd here */
+//extern n_int   tableCount ;        /* Number of passes through table */
+//extern varsize loadValue ;         /* 'Load' pulled from test data */
+//extern varsize speedValue ;        /* 'Speed' pulled from test data */
+//extern varsize *inpLoadValue ;     /* Array of 'load' test data */
+//extern varsize *inpSpeedValue ;    /* Array of 'speed' test data */
+//
+//extern const varsize *engSpeed ;   /* Linear array of 'y' axis */
+//extern const varsize *engLoad ;    /* Linear array of 'x' axis */
+//extern const varsize *angleTable ; /* 2D array of f( x, y )= 'angle' */
 
 #endif /* ALGO_GLOBALS */
 

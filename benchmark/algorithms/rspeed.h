@@ -50,13 +50,13 @@ typedef n_long varsize ;     /* Data and variables are 16 bits */
 
 #ifndef ALGO_GLOBALS
 
-extern n_int   tableCount ;     /* Number of passes through table */
-/* Current 'tonewheelCounter' pulled from test data */
-extern varsize tonewheelCounter ;    
-/* Array of 'tonewheelCounter' test data values */
-extern varsize *inpTonewheelCount ;
-/* Number of teeth on the tonewheel */    
-extern varsize tonewheelTeeth ;    
+// extern n_int   tableCount ;     /* Number of passes through table */
+// /* Current 'tonewheelCounter' pulled from test data */
+// extern varsize tonewheelCounter ;    
+// /* Array of 'tonewheelCounter' test data values */
+// extern varsize *inpTonewheelCount ;
+// /* Number of teeth on the tonewheel */    
+// extern varsize tonewheelTeeth ;    
 
 #endif /* ALGO_GLOBALS */    
 

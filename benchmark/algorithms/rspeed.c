@@ -31,7 +31,8 @@ without following the official/proper EEMBC benchmark harness:
 #include "rspeed.h" // change to the name of the main file (eg. "a2time.h")
 
 // forward declarations
-int t_run_test( int argc, const char *argv[] );
+static int t_run_test( int argc, const char *argv[] );
+static n_int GetInputValues(n_void);
 
 /*
 * The following test data represents values read from a realtime clock
@@ -41,7 +42,7 @@ int t_run_test( int argc, const char *argv[] );
 *
 */    
 
-const varsize inpTonewheelROM[] = 
+static const varsize inpTonewheelROM[] = 
 {        
     123, 456, 796, 1143, 1497, 1858, 2226, 2601, 3358, 3743, 4136, 4535, 4942, 5355, 5776, 
     6203, 6638, 7079, 7528, 7983, 8446, 8915, 9392, 9875, 10366, 10863, 11368, 11879, 12398, 12923, 
@@ -80,6 +81,7 @@ const varsize inpTonewheelROM[] =
 } ; /* End of test values :  inpTonewheelROM[] */
 
 
+#ifndef RANDOM_FUNCTION_GENERATOR
 int main(void) {
     t_run_test(0, NULL);
 
@@ -87,25 +89,26 @@ int main(void) {
     asm("wfi");
     return 0;
 }
+#endif
 
 /*  DECLARATIONS */    
-n_int   *RAMfile ;          /* Pointer to test output RAM file */
-n_int   *RAMfilePtr ;       /* Pointer to position in output RAM file */
-n_int   RAMfileSize ;       /* Size of the debug output RAM file */
-n_int   tableCount ;        /* Number of passes through table */
-n_int   *RAMfileEOF;        /* points to end of RAM file */
-n_int   RAMfile_increment;  /* difference between varsize and n_int */
+static n_int   *RAMfile ;          /* Pointer to test output RAM file */
+static n_int   *RAMfilePtr ;       /* Pointer to position in output RAM file */
+static n_int   RAMfileSize ;       /* Size of the debug output RAM file */
+static n_int   tableCount ;        /* Number of passes through table */
+static n_int   *RAMfileEOF;        /* points to end of RAM file */
+static n_int   RAMfile_increment;  /* difference between varsize and n_int */
 
 /* Current 'tonewheelCounter' pulled from test data */
-varsize tonewheelCounter ;   
+static varsize tonewheelCounter ;   
 /* Array of 'tonewheelCounter' test data values */
-varsize *inpTonewheelCount ; 
+static varsize *inpTonewheelCount ; 
 /* Number of teeth on the tonewheel */
-varsize tonewheelTeeth ;     
+static varsize tonewheelTeeth ;     
 
-int input_index;
+static int input_index;
 
-int t_run_test(int argc, const char *argv[] )
+static int t_run_test(int argc, const char *argv[] )
 {    
     int iterations = 1;
     scanf("%d", &input_index);
@@ -540,7 +543,7 @@ int t_run_test(int argc, const char *argv[] )
 //     return true;
 // } /* End of function 'GetTestData' */ /* *  Function :  GetInputValues * *    On each pass of the table lookup, a value must be input for 'tonewheelCounter'.  *    Each time this function is called, the next input value is *    pulled from the table in RAM.  The table wraps around, so that input data is *    continuous.     A flag is returned TRUE whenever the table wraps around.  * */
 
-n_int GetInputValues(n_void)
+static n_int GetInputValues(n_void)
 {
     tonewheelCounter = inpTonewheelROM[input_index++];
     if (input_index >= sizeof(inpTonewheelROM) / sizeof(inpTonewheelROM[0]))

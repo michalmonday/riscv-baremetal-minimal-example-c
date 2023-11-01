@@ -124,11 +124,11 @@ typedef n_short varsize ;     /* Data and variables are 16 bits */
 
 #ifndef ALGO_GLOBALS    /* Don't define these twice! */
 
-extern n_int   tableCount ;     /* Number of passes through table */
-extern varsize *inpNumber ;     /* Pointer to array of numbers to paint */
-extern n_int   *inpMode ;       /* Pointer to array of painting modes */
-extern varsize inputNum ;       /* The input argument for computation */
-extern n_int   inverted ;       /* Paint 'inverted' character in display */
+// extern n_int   tableCount ;     /* Number of passes through table */
+// extern varsize *inpNumber ;     /* Pointer to array of numbers to paint */
+// extern n_int   *inpMode ;       /* Pointer to array of painting modes */
+// extern varsize inputNum ;       /* The input argument for computation */
+// extern n_int   inverted ;       /* Paint 'inverted' character in display */
 
 #endif /* ALGO_GLOBALS */    
 

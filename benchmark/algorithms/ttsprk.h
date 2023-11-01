@@ -51,56 +51,44 @@ typedef n_long varsize ;       /* Data and variables are 32 bits */
 
 #ifndef ALGO_GLOBALS    /* Don't define these twice! */
 
-extern n_int   tableCount ;     /* Number of passes through table */
+//extern n_int   tableCount ;     /* Number of passes through table */
 /* INPUT VARIABLES : presented in the test data */    
 
-extern varsize tonewheelTeeth ; /* Number of teeth on the tonewheel */
-extern varsize engSpeed ;       /* Engine RPM's expressed in ECU units */
-extern varsize angleTime ;      /* Crankshaft angle expressed at ECU time */
-extern varsize airIntake ;      /* Intake-air volume(measure of engine load)*/
-extern varsize airTemp ;        /* Intake-air temperature */
-extern varsize engTemp ;        /* Engine coolant temperature */
-extern varsize battery ;        /* Vehicle battery voltage */
-extern varsize throttle ;       /* Throttle position */
-extern varsize lastThrottle ;   /* Previous throttle position */
-extern n_int knocked ;            /* Engine knock has been detected */
-extern n_int cranking ;           /* We're starting the engine */
+// extern varsize tonewheelTeeth ; /* Number of teeth on the tonewheel */
+// extern varsize engSpeed ;       /* Engine RPM's expressed in ECU units */
+// extern varsize angleTime ;      /* Crankshaft angle expressed at ECU time */
+// extern varsize airIntake ;      /* Intake-air volume(measure of engine load)*/
+// extern varsize airTemp ;        /* Intake-air temperature */
+// extern varsize engTemp ;        /* Engine coolant temperature */
+// extern varsize battery ;        /* Vehicle battery voltage */
+// extern varsize throttle ;       /* Throttle position */
+// extern varsize lastThrottle ;   /* Previous throttle position */
+// extern n_int knocked ;            /* Engine knock has been detected */
+// extern n_int cranking ;           /* We're starting the engine */
 
 
-extern const varsize *engSpeedAxis ;    /* Linear array of 'y' axis */
-extern const varsize *airIntakeAxis ;   /* Linear array of 'x' axis */
-extern const varsize *batteryAxis ;     /* Linear array of 'x' axis */
-extern const varsize *lambdaTbl ;       /* Y array of f( x, y )= 'lambda' */
-extern const varsize *warmupTbl ;       /* Y array of f( x, y )= 'warmup' */
-extern const varsize *advanceTbl ;      /* Y array of f( x, y )= 'advance' */
-extern const varsize *dwellTbl ;        /* Y array of f( x, y )= 'dwell' */
-extern const varsize *voltAxis ;        /* x axis for 'voltTbl' */
-extern const varsize *voltTbl ;         /* y axis, injector compensation, 
-                                         * f( battery )
-                                         */
-extern const varsize *aTempAxis ;       /* x axis for 'airTempTbl' */
-extern const varsize *airTempTbl ;      /* y axis, injector compensation, 
-                                         *  f( airTemp )
-                                         */
-extern const varsize *eTempAxis ;       /* x axis for 'engWarmTbl' and 
-                                         *  'engTempTbl' 
-                                         */
-extern const varsize *engWarmTbl ;      /* y axis, injector compensation, 
-                                         *  f( engTemp )
-                                         */
-extern const varsize *engTempTbl ;      /* y axis, ignition advnce compensation,
-                                         *  f( engTemp )
-                                         */ 
-extern const varsize *accelTbl ;        /* y axis, injector compensation,
-                                         *  f( engTemp )
-                                         */
+// extern const varsize *engSpeedAxis ;    /* Linear array of 'y' axis */
+// extern const varsize *airIntakeAxis ;   /* Linear array of 'x' axis */
+// extern const varsize *batteryAxis ;     /* Linear array of 'x' axis */
+// extern const varsize *lambdaTbl ;       /* Y array of f( x, y )= 'lambda' */
+// extern const varsize *warmupTbl ;       /* Y array of f( x, y )= 'warmup' */
+// extern const varsize *advanceTbl ;      /* Y array of f( x, y )= 'advance' */
+// extern const varsize *dwellTbl ;        /* Y array of f( x, y )= 'dwell' */
+// extern const varsize *voltAxis ;        /* x axis for 'voltTbl' */
+// extern const varsize *voltTbl ;         /* y axis, injector compensation, * f( battery ) */
+// extern const varsize *aTempAxis ;       /* x axis for 'airTempTbl' */
+// extern const varsize *airTempTbl ;      /* y axis, injector compensation, *  f( airTemp ) */
+// extern const varsize *eTempAxis ;       /* x axis for 'engWarmTbl' and *  'engTempTbl' */
+// extern const varsize *engWarmTbl ;      /* y axis, injector compensation, *  f( engTemp ) */
+// extern const varsize *engTempTbl ;      /* y axis, ignition advnce compensation, *  f( engTemp ) */ 
+// extern const varsize *accelTbl ;        /* y axis, injector compensation, *  f( engTemp ) */
 
-extern n_long voltEntries ;    /* Number of entries in each table */
-extern n_long eTempEntries ; 
-extern n_long aTempEntries ; 
-extern n_long loadEntries ; 
-extern n_long speedEntries ; 
-extern n_long battEntries ; 
+// extern n_long voltEntries ;    /* Number of entries in each table */
+// extern n_long eTempEntries ; 
+// extern n_long aTempEntries ; 
+// extern n_long loadEntries ; 
+// extern n_long speedEntries ; 
+// extern n_long battEntries ; 
 
 #endif /* ALGO_GLOBALS */    
 

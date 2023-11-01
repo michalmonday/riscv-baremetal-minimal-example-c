@@ -68,8 +68,8 @@ accumulation at each processing stage */
 
 #ifndef ALGO_GLOBALS         /* Don't define these twice! */
 
-extern n_int   tableCount ;  /* Number of passes through table */
-extern varsize *inpSignal ;  /* Pointer to array of input signal data values */
+// extern n_int   tableCount ;  /* Number of passes through table */
+// extern varsize *inpSignal ;  /* Pointer to array of input signal data values */
 
 #endif /* ALGO_GLOBALS */    
 
