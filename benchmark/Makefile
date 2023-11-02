@@ -35,15 +35,22 @@ GCC_FLAGS	= -march=rv64g -mabi=lp64d -static \
 			  -I$(INCLUDE_DIR) \
 			  -I$(ALGORITHMS_DIR) \
 			  -lm \
-			  -Os
+			  -Os \
+			  -DPROG_NAME=$(PROG_NAME)
 # -lm is needed for math.h used in aiiftr.c
 # -Os optimizes for size (it seems to not include ".o" object files or their contents that are not used in the final binary despite supplying them to the compiler/linker)
 
 # if RANDOM_FUNCTION_GENERATOR=true then add -DRANDOM_FUNCTION_GENERATOR to GCC_FLAGS
 RANDOM_FUNCTION_GENERATOR ?= false
 ifeq ($(RANDOM_FUNCTION_GENERATOR), true)
-	GCC_FLAGS += -DRANDOM_FUNCTION_GENERATOR
+	GCC_FLAGS += -DRANDOM_FUNCTION_GENERATOR=true
 endif
+
+# if SINGLE_ALGORITHM=true then add -DSINGLE_ALGORITHM to GCC_FLAGS
+SINGLE_ALGORITHM ?= false
+ifeq ($(SINGLE_ALGORITHM), true)
+	GCC_FLAGS += -DSINGLE_ALGORITHM=true
+endif 
 
 LD_FLAGS=-T example_original.ld \
 	-lm # needed for math.h used in aiiftr.c
@@ -64,15 +71,16 @@ algorithms: $(ALGORITHMS_DIR)/*.c $(ALGORITHMS_DIR)/*.h
 $(PROG_FULL_PATH).o: $(PROG_FULL_PATH).c $(PROG_FULL_PATH)*.h 
 	$(GCC) $(GCC_FLAGS) -c $(PROG_FULL_PATH).c -o $@
 
-$(PROG_BIN_FULL_PATH): start.o $(PROG_FULL_PATH).o includes 
-	$(GCC) $(GCC_FLAGS) -o $@ start.o $(PROG_FULL_PATH).o $(shell find . ! -name "start.o" ! -wholename "$(PROG_FULL_PATH).o" -name "*.o") $(LD_FLAGS)
+$(PROG_BIN_FULL_PATH): start.o $(PROG_FULL_PATH).o includes algorithms
+	$(GCC) $(GCC_FLAGS) -c main.c -o main.o
+	$(GCC) $(GCC_FLAGS) -o $@ main.o start.o $(PROG_FULL_PATH).o $(shell find . ! -name "start.o" ! -wholename "$(PROG_FULL_PATH).o" -name "*.o") $(LD_FLAGS)
 # $(GCC) $(GCC_FLAGS) -o $@ start.o $(filter-out start.o, $(wildcard *.o)) $(LD_FLAGS)
 
 postcompile: $(PROG_BIN_FULL_PATH)
 	$(OBDUMP) -sSD $(PROG_BIN_FULL_PATH) > $(PROG_BIN_FULL_PATH).dump
 	$(OBJCOPY) -O binary $(PROG_BIN_FULL_PATH) $(PROG_BIN_FULL_PATH).bin
-	cp $(PROG_BIN_FULL_PATH).dump /mnt/hgfs/shared\ ubuntu\ vm
-	cp $(PROG_BIN_FULL_PATH).bin /mnt/hgfs/shared\ ubuntu\ vm
+	cp $(PROG_BIN_FULL_PATH).dump /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs/objdump
+	cp $(PROG_BIN_FULL_PATH).bin /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs
 	echo "Done!"
 
 clean: clean_objects
@@ -87,10 +95,10 @@ clean_objects:
 
 main: includes algorithms start.o 
 	$(GCC) $(GCC_FLAGS) -c main.c -o main.o
-	$(GCC) $(GCC_FLAGS) -o main main.o $(shell find . ! -name "main.o" -name "*.o") $(LD_FLAGS)
+	$(GCC) $(GCC_FLAGS) -o main main.o start.o $(shell find . ! -name "main.o" ! -name "start.o" -name "*.o") $(LD_FLAGS)
 #riscv64-unknown-elf-gcc -march=rv64g -mabi=lp64d -static -fvisibility=hidden -nostartfiles -mcmodel=medany -I../include -I./algorithms -lm -DRANDOM_FUNCTION_GENERATOR -o main main.o ./utils_flute.o ./eembc_adaptation.o ./bitmnp.o ./uart_gpio.o ./rspeed.o ./start.o ./sensors.o ./puwmod.o ./uart_pynq.o ./a2time.o ./ttsprk.o ./syscalls.o -T example_original.ld -lm 
 	$(OBDUMP) -sSD main > main.dump
 	$(OBJCOPY) -O binary main main.bin
-	cp main.dump /mnt/hgfs/shared\ ubuntu\ vm
-	cp main.bin /mnt/hgfs/shared\ ubuntu\ vm
+	cp main.dump /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs/objdump
+	cp main.bin /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs
 	echo "Done!"

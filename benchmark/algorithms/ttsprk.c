@@ -36,6 +36,11 @@ static n_int GetInputValues( n_void );
 static n_int GetYTables( n_void );
 static n_int GetZTables( n_void );
 
+// function to be called from a separate main file
+int ttsprk(int argc, const char *argv[]) {
+    return t_run_test(argc, argv);
+}
+
 // input data (inpROM)
 
 static varsize *engSpeedValue ;  /* Test data input variable table for 'engSpeed' */
@@ -147,15 +152,15 @@ static const varsize accelROM[] = {
 
 
 
-#ifndef RANDOM_FUNCTION_GENERATOR
-int main(void) {
-    t_run_test(0, NULL);
+// #ifndef RANDOM_FUNCTION_GENERATOR
+// int main(void) {
+//     t_run_test(0, NULL);
 
-    // stop the program
-    asm("wfi");
-    return 0;
-}
-#endif
+//     // stop the program
+//     asm("wfi");
+//     return 0;
+// }
+// #endif
 
 static varsize ZTableLookup( varsize, varsize, n_long, n_long, const varsize *, 
                       const varsize *, const varsize * ) ; 
@@ -246,13 +251,10 @@ static int input_index;
 static int t_run_test(int argc, const char *argv[] )
 {    
     int iterations = 1;
-    scanf("%d", &input_index);
+    input_index = atoi(argv[0]);
     int inputs_count = NUM_TESTS;
-    if (input_index >= inputs_count) {
-        printf("ERROR: input_index %d is out of range, max is %d\n", input_index, inputs_count-1);
-        printf("stopping execution\n");
-        asm volatile ("wfi");
-    }
+    if (input_index >= inputs_count)
+        th_exit("ERROR: input_index %d is out of range, max is %d\nStopping execution.\n", input_index, inputs_count-1);
 
 
 #if BMDEBUG

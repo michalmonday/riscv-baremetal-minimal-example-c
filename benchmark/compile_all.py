@@ -7,5 +7,5 @@ algos = glob.glob("algorithms/*.c")
 for algo in algos:
     algo = Path(algo)
     #print( os.popen(f'make PROG_NAME={algo.stem} clean').read() )
-    print( os.popen(f'make PROG_NAME={algo.stem}').read() )
+    print( os.popen(f'make PROG_NAME={algo.stem} SINGLE_ALGORITHM=true').read() )
     print(f"Compiled {algo.stem}")

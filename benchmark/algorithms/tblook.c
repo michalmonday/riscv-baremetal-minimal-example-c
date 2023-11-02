@@ -34,6 +34,11 @@ without following the official/proper EEMBC benchmark harness:
 static int t_run_test( int argc, const char *argv[] );
 static n_int GetInputValues( n_void );
 
+// function to be called from a separate main file
+int tblook(int argc, const char *argv[]) {
+    return t_run_test(argc, argv);
+}
+
 static const varsize engLoadROM[] = {
     0, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 
     150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 
@@ -162,15 +167,15 @@ static const varsize inpValueROM[] = {
 
 
 
-#ifndef RANDOM_FUNCTION_GENERATOR
-int main(void) {
-    t_run_test(0, NULL);
+// #ifndef RANDOM_FUNCTION_GENERATOR
+// int main(void) {
+//     t_run_test(0, NULL);
 
-    // stop the program
-    asm("wfi");
-    return 0;
-}
-#endif
+//     // stop the program
+//     asm("wfi");
+//     return 0;
+// }
+// #endif
 
 static const varsize engLoadROM[] ;      /* Linear array of 'y' axis */
 static const varsize engSpeedROM[] ;     /* Linear array of 'x' axis */
@@ -197,13 +202,10 @@ static int input_index;
 
 static int t_run_test(int argc, const char *argv[] ) {    
     int iterations = 1;
-    scanf("%d", &input_index);
+    input_index = atoi(argv[0]);
     int inputs_count = NUM_TESTS;
-    if (input_index >= inputs_count) {
-        printf("ERROR: input_index %d is out of range, max is %d\n", input_index, inputs_count-1);
-        printf("stopping execution\n");
-        asm volatile ("wfi");
-    }
+    if (input_index >= inputs_count)
+        th_exit("ERROR: input_index %d is out of range, max is %d\nStopping execution.\n", input_index, inputs_count-1);
 
 #if BMDEBUG
     char *szTitle = 

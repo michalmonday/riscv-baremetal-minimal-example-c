@@ -12,7 +12,7 @@
 #include <stdio.h>
 void __libc_init_array(void);
 void main();
-void init();
+__attribute__((section(".text_past"))) void init();
 
 __attribute__((naked)) int _start(void) {
     // t0

@@ -35,6 +35,11 @@ without following the official/proper EEMBC benchmark harness:
 // forward declarations
 static int t_run_test( int argc, const char *argv[] );
 
+// function to be called from a separate main file
+int aifftr(int argc, const char *argv[]) {
+    return t_run_test(argc, argv);
+}
+
 // input data (inpSignalROM)
 static const int inpSignalROM[] = {        
     /* xsine512_t.dat */        
@@ -52,15 +57,15 @@ static const int inpSignalROM[] = {
 }; /* End of test values :  inpSignalROM[] */
 
 
-#ifndef RANDOM_FUNCTION_GENERATOR
-int main(void) {
-    t_run_test(0, NULL);
+// #ifndef RANDOM_FUNCTION_GENERATOR
+// int main(void) {
+//     t_run_test(0, NULL);
 
-    // stop the program
-    asm("wfi");
-    return 0;
-}
-#endif
+//     // stop the program
+//     asm("wfi");
+//     return 0;
+// }
+// #endif
 
 /*  DECLARATIONS */    
 static n_int   tableCount ;        /* Number of passes through table */
@@ -109,15 +114,11 @@ static n_int GetInputValues( varsize *real, varsize *imag );
 *****************************************************************************************/    
 static int t_run_test( int argc, const char *argv[] )
 {    
-    int iterations = 1;
-
-    scanf("%d", &input_index);
+    int iterations = 1; 
+    input_index = atoi(argv[0]);
     int inputs_count = sizeof(inpSignalROM) / sizeof(inpSignalROM[0]);
-    if (input_index >= inputs_count) {
-        printf("ERROR: input_index %d is out of range, max is %d\n", input_index, inputs_count-1);
-        printf("stopping execution\n");
-        asm volatile ("wfi");
-    }
+    if (input_index >= inputs_count)
+        th_exit("ERROR: input_index %d is out of range, max is %d\nStopping execution.\n", input_index, inputs_count-1);
 
 #if BMDEBUG
     char *szTitle = 

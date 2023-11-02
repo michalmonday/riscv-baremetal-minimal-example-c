@@ -11,6 +11,12 @@
 #define n_uchar unsigned char
 #define n_float float
 
+// arguments are passed as a csv string through stdin
+#define MAX_PROGRAM_ARGS 300
+#define MAX_PROGRAM_ARGS_STDIN_SIZE 600
+
+extern char *parse_args_from_stdin_csv(int *argc, char *argv[]);
+
 extern void DebugOut(char *str);
 // extern void WriteOut(char *str);
 // extern void DebugOut(int val);

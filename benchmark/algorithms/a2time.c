@@ -35,6 +35,8 @@ without following the official/proper EEMBC benchmark harness:
 
 // forward declarations
 static int t_run_test( int argc, const char *argv[] );
+
+// function to be called from a separate main file
 int a2time(int argc, const char *argv[]) {
     return t_run_test(argc, argv);
 }
@@ -94,16 +96,23 @@ static const int inpAngleROM[] = {
     
     /* End of test values :  inpAngleROM[] */
 
-
-#ifndef RANDOM_FUNCTION_GENERATOR
-int main(void) {
-    t_run_test(0, NULL);
-
-    // stop the program
-    asm("wfi");
-    return 0;
-}
-#endif
+// #ifndef RANDOM_FUNCTION_GENERATOR
+// int main(void) {
+//     
+//     // each argument is supplied as csv string in stdin
+//     // all arguments are input indices, allowing to run the same test multiple times
+//     char *argv[MAX_PROGRAM_ARGS]; 
+//     int argc = 0;
+//     // tokenized_inp_str may be deallocated after argv's are not needed anymore
+//     char *tokenized_inp_str = parse_args_from_stdin_csv(&argc, argv);
+// 
+//     t_run_test(argc, argv);
+// 
+//     // stop the program
+//     asm("wfi");
+//     return 0;
+// }
+// #endif
 
 
 
@@ -118,19 +127,15 @@ static varsize angleCounter ;      /* Current 'angleCounter' pulled from test da
 static varsize *inpAngleCount ;    /* Array of 'angleCounter' test data values */
 static varsize tonewheelTeeth ;    /* Number of teeth on the tonewheel */
 
+static input_index;
+
 static int t_run_test(int argc, const char *argv[] )
 {    
-    int loop_cnt;
     int iterations = 1; 
-    int input_index;
-    scanf("%d", &input_index);
+    input_index = atoi(argv[0]);
     int inputs_count = sizeof(inpAngleROM) / sizeof(inpAngleROM[0]);
-    if (input_index >= inputs_count) {
-        printf("ERROR: input_index %d is out of range, max is %d\n", input_index, inputs_count-1);
-        printf("stopping execution\n");
-        asm volatile ("wfi");
-    }
-    // size_t		loop_cnt = tcdef->rec_iterations;
+    if (input_index >= inputs_count)
+        th_exit("ERROR: input_index %d is out of range, max is %d\nStopping execution.\n", input_index, inputs_count-1);
 
 #if BMDEBUG
     char *szTitle = 
@@ -252,7 +257,7 @@ static int t_run_test(int argc, const char *argv[] )
 
     /* This is the actual benchmark algorithm. */    
 
-    for( loop_cnt = 0 ; loop_cnt < iterations ; loop_cnt++ ) /* no stopping! */
+    for( int loop_cnt = 0 ; loop_cnt < iterations ; loop_cnt++ ) /* no stopping! */
     {
 
 #if BMDEBUG

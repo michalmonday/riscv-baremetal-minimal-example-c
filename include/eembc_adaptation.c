@@ -34,4 +34,33 @@ void th_exit(const char *format, ...) {
 }
 
 
+char *parse_args_from_stdin_csv(int *argc, char *argv[]) {
+    // returns pointer to memory allocated with malloc
+    // it could be free'd by the caller but not before argv is fully used
+    // freeing it and attempting to use argv later will cause exception
+    // or other issues
+    char *inp = (char*)malloc(MAX_PROGRAM_ARGS_STDIN_SIZE);
+    // char *res = gets_s(inp, MAX_PROGRAM_ARGS_STDIN_SIZE-1);
+    char *res = fgets(inp, MAX_PROGRAM_ARGS_STDIN_SIZE-1, stdin);
+    if (!res) {
+        printf("ERROR: stdin reading fail\n");
+        printf("stopping execution\n");
+        asm volatile ("wfi");
+    }
+    // printf("Received inp string:");
+    // puts_s(inp, MAX_PROGRAM_ARGS_STDIN_SIZE-1);
+    *argc = 0;
+    char *token = strtok(inp, ",");
+    while (token != NULL) {
+        argv[*argc] = token;
+        *argc += 1;
+        token = strtok(NULL, ",");
+        if (*argc > MAX_PROGRAM_ARGS) {
+            th_exit("ERROR: too many arguments, max is %d\nstoppin execution", MAX_PROGRAM_ARGS);
+            asm volatile ("wfi");
+        }
+    }
+    return inp;
+}
+
 

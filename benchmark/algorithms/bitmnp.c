@@ -35,6 +35,11 @@ static int t_run_test( int argc, const char *argv[] );
 // n_int GetTestData(n_void);
 static n_int GetInputValues(n_void);
 
+// function to be called from a separate main file
+int bitmnp(int argc, const char *argv[]) {
+    return t_run_test(argc, argv);
+}
+
 /* Estimate of allocation for NUM_TESTS*( debug test + 2 variables )*/
 #define T_BSIZE (MAX_FILESIZE+((NUM_TESTS+1)*VAR_COUNT*4))
 
@@ -69,15 +74,15 @@ static varsize digitROM[] = {
 }; /* End of variable 'charset[]' */
 
 
-#ifndef RANDOM_FUNCTION_GENERATOR
-int main(void) {
-    t_run_test(0, NULL);
+// #ifndef RANDOM_FUNCTION_GENERATOR
+// int main(void) {
+//     t_run_test(0, NULL);
 
-    // stop the program
-    asm("wfi");
-    return 0;
-}
-#endif
+//     // stop the program
+//     asm("wfi");
+//     return 0;
+// }
+// #endif
 
 /*  DECLARATIONS */    
 /* Input stimuli test data table */
@@ -101,18 +106,15 @@ static int input_index;
 static int t_run_test(int argc, const char *argv[] )
 {    
     int iterations = 1;
-    scanf("%d", &input_index);
     // inpVariableROM data is:
     // - 1 value for "inputNum"
     // - 1 value for "inverted"  (both these are repeated)
     // so there needs to be "/2" in the calculation below 
     // (because GetInputValues reads 2 values at a time and uses "*2" multiplication of input index)
+    input_index = atoi(argv[0]);
     int inputs_count = sizeof(inpVariableROM) / sizeof(inpVariableROM[0]) / 2; 
-    if (input_index >= inputs_count) {
-        printf("ERROR: input_index %d is out of range, max is %d\n", input_index, inputs_count-1);
-        printf("stopping execution\n");
-        asm volatile ("wfi");
-    }
+    if (input_index >= inputs_count)
+        th_exit("ERROR: input_index %d is out of range, max is %d\nStopping execution.\n", input_index, inputs_count-1);
 
 
 #if BMDEBUG

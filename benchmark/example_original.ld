@@ -21,6 +21,7 @@ SECTIONS
   /* start addresss */
   . = START_ADDRESS;
 
+
   /* text */
   .text : { 
     *(.text) 
@@ -28,6 +29,10 @@ SECTIONS
     *(.rodata)
     *(.rodata*)
   } 
+
+  .text_past : {
+
+  }
 /* 
     .fini : {
         KEEP (*(SORT_NONE(.fini)))
