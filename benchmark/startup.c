@@ -12,8 +12,15 @@
 #include <stdio.h>
 void __libc_init_array(void);
 void main();
+// for some reason the "init" function was placed before _start,
+// to avoid that, the linker script now has a section called ".text_past"
+// located after ".text" for the purpose of placing the "init" function
+// in that section
 __attribute__((section(".text_past"))) void init();
 
+// naked attribute is used to avoid the the function prologue and epilogue
+// which relies on already initialized stack pointer and global pointer.
+// These are initialized in the _start function itself. 
 __attribute__((naked)) int _start(void) {
     // t0
     //extern register int t0 asm("t0");

@@ -52,6 +52,11 @@ ifeq ($(SINGLE_ALGORITHM), true)
 	GCC_FLAGS += -DSINGLE_ALGORITHM=true
 endif 
 
+MULTIPLE_ALGORITHMS ?= false
+ifeq ($(MULTIPLE_ALGORITHMS), true)
+	GCC_FLAGS += -DMULTIPLE_ALGORITHMS=true
+endif
+
 LD_FLAGS=-T example_original.ld \
 	-lm # needed for math.h used in aiiftr.c
 
@@ -63,9 +68,17 @@ start.o:
 #$(GCC) $(GCC_FLAGS) -c start_original.s -o start.o
 
 includes: $(INCLUDE_DIR)/*.c $(INCLUDE_DIR)/*.h 
+	echo AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+	echo AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+	echo AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+	echo AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 	$(GCC) $(GCC_FLAGS) -c $(INCLUDE_DIR)/*.c
 
-algorithms: $(ALGORITHMS_DIR)/*.c $(ALGORITHMS_DIR)/*.h 
+algorithms: $(ALGORITHMS_DIR)/*.c $(ALGORITHMS_DIR)/*.h
+	echo BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+	echo BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+	echo BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+	echo BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
 	$(GCC) $(GCC_FLAGS) -c $(ALGORITHMS_DIR)/*.c
 
 $(PROG_FULL_PATH).o: $(PROG_FULL_PATH).c $(PROG_FULL_PATH)*.h 
@@ -91,14 +104,15 @@ clean: clean_objects
 
 clean_objects:
 	rm -f $(shell find . -name "*.o") 2> /dev/null
-	rm -f $(shell find . -name "algorithms/*.o") 2> /dev/null
+	rm -f $(shell find . -wholename "algorithms/*.o") 2> /dev/null
 
-main: includes algorithms start.o 
-	$(GCC) $(GCC_FLAGS) -c main.c -o main.o
-	$(GCC) $(GCC_FLAGS) -o main main.o start.o $(shell find . ! -name "main.o" ! -name "start.o" -name "*.o") $(LD_FLAGS)
+# make clean && make multiple_algorithms MULTIPLE_ALGORITHMS=true PROG_NAME=main --always-make
+multiple_algorithms: algorithms includes start.o 
+	$(GCC) $(GCC_FLAGS) -c main.c -o multiple_algorithms.o
+	$(GCC) $(GCC_FLAGS) -o multiple_algorithms start.o multiple_algorithms.o  $(shell find . ! -name "main.o" ! -name "multiple_algorithms.o" ! -name "start.o" -name "*.o") $(LD_FLAGS)
 #riscv64-unknown-elf-gcc -march=rv64g -mabi=lp64d -static -fvisibility=hidden -nostartfiles -mcmodel=medany -I../include -I./algorithms -lm -DRANDOM_FUNCTION_GENERATOR -o main main.o ./utils_flute.o ./eembc_adaptation.o ./bitmnp.o ./uart_gpio.o ./rspeed.o ./start.o ./sensors.o ./puwmod.o ./uart_pynq.o ./a2time.o ./ttsprk.o ./syscalls.o -T example_original.ld -lm 
-	$(OBDUMP) -sSD main > main.dump
-	$(OBJCOPY) -O binary main main.bin
-	cp main.dump /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs/objdump
-	cp main.bin /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs
+	$(OBDUMP) -sSD multiple_algorithms > multiple_algorithms.dump
+	$(OBJCOPY) -O binary multiple_algorithms multiple_algorithms.bin
+	cp multiple_algorithms.dump /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs/objdump
+	cp multiple_algorithms.bin /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs
 	echo "Done!"
