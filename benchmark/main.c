@@ -50,27 +50,22 @@ void main(void) {
     
     // store function pointer
     int (*func_ptr)(int, char *argv[]);
-    for (int i=0; i < argc; i++) {
-        if (i % 2 == 0) {
-            if      (strcmp(argv[i], "a2time") == 0) { func_ptr = a2time; } 
-            else if (strcmp(argv[i], "bitmnp") == 0) { func_ptr = bitmnp; } 
-            else if (strcmp(argv[i], "idctrn") == 0) { func_ptr = idctrn; } 
-            else if (strcmp(argv[i], "puwmod") == 0) { func_ptr = puwmod; } 
-            else if (strcmp(argv[i], "rspeed") == 0) { func_ptr = rspeed; } 
-            else if (strcmp(argv[i], "tblook") == 0) { func_ptr = tblook; } 
-            else if (strcmp(argv[i], "ttsprk") == 0) { func_ptr = ttsprk; } 
-            else {
-                th_exit("ERROR: unknown program name \"%s\".\nStopping execution.\n", argv[i]);
-            }
-            // individual functions expect that the first argument is input index
-            // that's why "+1" is used
-            printf("Executing %s with input index %s\n", argv[i], argv[i+1]);
-            func_ptr(1, &argv[i+1]);
-            printf("%s returned\n", argv[i]);
-        } else {
-            // input index
-            // do nothing
-        } 
+    for (int i=0; i < argc; i+=2) {
+        if      (strcmp(argv[i], "a2time") == 0) { func_ptr = a2time; } 
+        else if (strcmp(argv[i], "bitmnp") == 0) { func_ptr = bitmnp; } 
+        else if (strcmp(argv[i], "idctrn") == 0) { func_ptr = idctrn; } 
+        else if (strcmp(argv[i], "puwmod") == 0) { func_ptr = puwmod; } 
+        else if (strcmp(argv[i], "rspeed") == 0) { func_ptr = rspeed; } 
+        else if (strcmp(argv[i], "tblook") == 0) { func_ptr = tblook; } 
+        else if (strcmp(argv[i], "ttsprk") == 0) { func_ptr = ttsprk; } 
+        else {
+            th_exit("ERROR: unknown program name \"%s\".\nStopping execution.\n", argv[i]);
+        }
+        // individual functions expect that the first argument is input index
+        // that's why "+1" is used
+        printf("Executing %s with input index %s\n", argv[i], argv[i+1]);
+        func_ptr(1, &argv[i+1]);
+        printf("%s returned\n", argv[i]);
     }
 
 #endif 
