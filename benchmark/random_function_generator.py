@@ -300,7 +300,7 @@ for name, inps in inputs_left_dict.items():
 
 # Testing dataset will have 3 categories:
 # 1. Consisting of the same inputs used during training (to test for false positives)
-# 2. Consisting of training benchmarks with previously unused inputs (acting as anomalous program runs)
+# 2. Consisting of training benchmarks with previously unused inputs (to test for false positives)
 # 3. Consisttng of testing benchmarks (acting as anomalous program runs)
 
 def produce_testing_stdins(training_stdins, training_benchmarks, testing_benchmarks, inputs_left_dict, stdin_category_counts):
@@ -327,20 +327,30 @@ print(f'- testing cat2: {humanbytes(estimate_csv_space(test_cat2_stdins))}')
 print(f'- testing cat3: {humanbytes(estimate_csv_space(test_cat3_stdins))}')
 
 
+# save dict to file like:
+# random_functions: {
+#     "train_stdins" : [...],
+#     "test_cat1_stdins" : [...],
+#     "test_cat2_stdins" : [...],
+#     "test_cat3_stdins" : [...]
+# }
 with open(OUTPUT_FILE, 'w') as f:
-    f.write(f'train_stdins = [\n')
-    f.write(',\n'.join([f'    "{stdin}"' for stdin in train_stdins]))
-    f.write('\n]\n\n')
+    f.write('random_functions = {\n')
+    f.write(f'    "train" : [\n')
+    f.write(',\n'.join([f'        "{stdin}"' for stdin in train_stdins]))
+    f.write('\n    ],\n\n')
 
-    f.write(f'test_cat1_stdins = [\n')
-    f.write(',\n'.join([f'    "{stdin}"' for stdin in test_cat1_stdins]))
-    f.write('\n]\n\n')
+    f.write(f'    "test_cat1" : [\n')
+    f.write(',\n'.join([f'        "{stdin}"' for stdin in test_cat1_stdins]))
+    f.write('\n    ],\n\n')
 
-    f.write(f'test_cat2_stdins = [\n')
-    f.write(',\n'.join([f'    "{stdin}"' for stdin in test_cat2_stdins]))
-    f.write('\n]\n\n')
+    f.write(f'    "test_cat2" : [\n')
+    f.write(',\n'.join([f'        "{stdin}"' for stdin in test_cat2_stdins]))
+    f.write('\n    ],\n\n')
 
-    f.write(f'test_cat3_stdins = [\n')
-    f.write(',\n'.join([f'    "{stdin}"' for stdin in test_cat3_stdins]))
-    f.write('\n]\n\n')
+    f.write(f'    "test_cat3" : [\n')
+    f.write(',\n'.join([f'        "{stdin}"' for stdin in test_cat3_stdins]))
+    f.write('\n    ]\n\n')
+
+    f.write('}\n')
 
