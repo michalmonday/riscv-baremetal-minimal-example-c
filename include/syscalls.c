@@ -201,19 +201,24 @@ caddr_t _sbrk(int incr)
 	static char *heap_end = 0;
 	char *prev_heap_end;
 
-	if (heap_end == 0)
+	if (heap_end == 0) {
 		heap_end = &end;
+		printf("&end initialization: %X\n", &end);
+	} else {
+		printf("heap_end is not zero, heap_end: %X\n", heap_end);
+	}
 
 	prev_heap_end = heap_end;
 	if (heap_end + incr > stack_ptr)
 	{
+		printf("Heap and stack collision (heap_end: %X, stack_ptr: %X)\n", heap_end, stack_ptr);
 		errno = ENOMEM;
 		return (caddr_t) -1;
 	}
 
 	heap_end += incr;
 
-	uart_pynq_printf("heap_end: %x\n", heap_end);
+	uart_pynq_printf("heap_end: %X, increase:%d\n", heap_end, incr); // TODO: INVESITIGATE WHY THIS IS NOT GOING BACK TO ORIGINAL VALUE AFTER CPU RESET WITHOUT RELOADING THE PROGRAM
 
 	return (caddr_t) prev_heap_end;
 }

@@ -1,7 +1,9 @@
 ''' This program generates standard input for the main.c file.
 The main.c program executes functions specified by stdin.
+Format:
+    "function_name,input_index,iterations,benchmark_name,input_index,iterations..."
 Example stdin for main.c:
-    "a2time,0,bitmnp,0,rspeed,0,idctrn,0,puwmod,0,tblook,0,ttsprk,0"
+    "a2time,0,1,bitmnp,0,1,rspeed,0,1,idctrn,0,1,puwmod,0,1,tblook,0,1,ttsprk,0,1"
 
 Input above would make the main.c program execute all functions once
 input index being 0. Input index can't exceed the maximum inputs count -1.
@@ -213,18 +215,14 @@ def humanbytes(B):
     elif TB <= B:
         return '{0:.2f} TB'.format(B / TB)
 
-
-tests = [1, 1024, 500000, 1048576, 50000000, 1073741824, 5000000000, 1099511627776, 5000000000000]
-
-for t in tests: print("{0} == {1}".format(t,humanbytes(t)))
-
-
 def generate_possible_inputs_dict(algos):
     possible_inputs = {}
     for name, obj in algos.items():
         possible_inputs[name] = [i for i in range(obj.max_inputs_count)]
     return possible_inputs
 
+# each algorithm has iterations variable and runs in a loop
+ITERATIONS = 10 
     
 ALL_BENCHMARK_ALGORITHMS = {b.name : b for b in [
     a2time(),
@@ -276,7 +274,7 @@ def produce_stdins(benchmarks, inputs_left_dict, stdin_count):
         random.shuffle(combination)
         # get random input for each benchmark
         inputs = [get_random_input(benchmark_name, inputs_left_dict) for benchmark_name in combination]
-        stdin = ','.join([f'{benchmark_name},{input}' for benchmark_name, input in zip(combination, inputs)])
+        stdin = ','.join([f'{benchmark_name},{input},{ITERATIONS}' for benchmark_name, input in zip(combination, inputs)])
         stdin_list.append(stdin)
     return stdin_list
 
@@ -284,7 +282,7 @@ def estimate_csv_space(stdins):
     total_space = 0
     for stdin in stdins:
         for i, token in enumerate(stdin.split(',')):
-            if i % 2 == 1:
+            if i % 3 != 0:
                 continue
             total_space += ALL_BENCHMARK_ALGORITHMS[token].estimated_csv_space
     return total_space
@@ -301,7 +299,7 @@ for name, inps in inputs_left_dict.items():
 # Testing dataset will have 3 categories:
 # 1. Consisting of the same inputs used during training (to test for false positives)
 # 2. Consisting of training benchmarks with previously unused inputs (to test for false positives)
-# 3. Consisttng of testing benchmarks (acting as anomalous program runs)
+# 3. Consisting of testing benchmarks (acting as anomalous program runs)
 
 def produce_testing_stdins(training_stdins, training_benchmarks, testing_benchmarks, inputs_left_dict, stdin_category_counts):
     cat1_stdins = random.sample(training_stdins, stdin_category_counts[0])

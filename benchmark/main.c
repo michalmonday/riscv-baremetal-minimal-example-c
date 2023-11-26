@@ -44,13 +44,14 @@ void main(void) {
 
     // When multiple algorithms are used, it is expected that the stdin csv string
     // will have the following format:
-    //      "prog_name,input_index,prog_name,input_index,..."
+    //      "prog_name,input_index,iterations,prog_name,input_index,iterations..."
     // For example:
-    //      "a2time,0,bitmnp,0,idctrn,0,puwmod,0,rspeed,0,tblook,0,ttsprk,0"
-    
+    //      "a2time,0,1,bitmnp,0,1,idctrn,0,1,puwmod,0,1,rspeed,0,1,tblook,0,1,ttsprk,0,1"
+
     // store function pointer
-    int (*func_ptr)(int, char *argv[]);
-    for (int i=0; i < argc; i+=2) {
+
+    int (*func_ptr)(int argc, char *argv[]);
+    for (int i=0; i < argc; i+=3) {
         if      (strcmp(argv[i], "a2time") == 0) { func_ptr = a2time; } 
         else if (strcmp(argv[i], "bitmnp") == 0) { func_ptr = bitmnp; } 
         else if (strcmp(argv[i], "idctrn") == 0) { func_ptr = idctrn; } 
@@ -63,12 +64,14 @@ void main(void) {
         }
         // individual functions expect that the first argument is input index
         // that's why "+1" is used
-        printf("Executing %s with input index %s\n", argv[i], argv[i+1]);
-        func_ptr(1, &argv[i+1]);
+        printf("Executing %s with input index %s and %s iterations\n", argv[i], argv[i+1], argv[i+2]);
+        func_ptr(2, &argv[i+1]);
         printf("%s returned\n", argv[i]);
     }
 
 #endif 
+
+    free(tokenized_inp_str);
 }
 
 

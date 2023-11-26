@@ -101,7 +101,7 @@ static int input_index;
 
 static int t_run_test(int argc, const char *argv[] )
 {    
-    int iterations = 1;
+    int iterations = argc > 1 ? atoi(argv[1]) : 1; 
     input_index = atoi(argv[0]);
     int inputs_count = sizeof(inpCmdROM) / sizeof(inpCmdROM[0]);
     if (input_index >= inputs_count)

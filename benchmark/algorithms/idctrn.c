@@ -105,7 +105,7 @@ static int input_index;
 
 int t_run_test(int argc, const char *argv[] )
 {    
-    int iterations = 1;
+    int iterations = argc > 1 ? atoi(argv[1]) : 1; 
     // "/ (ROWS+COLS)" is used because inChar is 16 bytes
     // there are 8192 values in inpStringROM storing 512 x 16byte matrices
     // So there are 512 possible inputs to this program: from 0 to 511

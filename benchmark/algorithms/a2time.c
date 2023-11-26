@@ -131,8 +131,8 @@ static input_index;
 
 static int t_run_test(int argc, const char *argv[] )
 {    
-    int iterations = 1; 
     input_index = atoi(argv[0]);
+    int iterations = argc > 1 ? atoi(argv[1]) : 1; 
     int inputs_count = sizeof(inpAngleROM) / sizeof(inpAngleROM[0]);
     if (input_index >= inputs_count)
         th_exit("ERROR: input_index %d is out of range, max is %d\nStopping execution.\n", input_index, inputs_count-1);
