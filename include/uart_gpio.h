@@ -23,4 +23,9 @@ extern int uart_gpio_data_available();
 extern int uart_gpio_can_send();
 extern void uart_gpio_puts(char *s);
 
+extern char uart_gpio_getchar();
+extern void uart_gpio_putchar(char ch);
+extern void uart_gpio_printf(char *fmt, ...);
+extern int uart_gpio_scanf(char *fmt, ...);
+
 #endif
