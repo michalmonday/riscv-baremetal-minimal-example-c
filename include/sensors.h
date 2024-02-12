@@ -7,7 +7,8 @@ static volatile long *analog_sensors = (long *)(long *)0xC0003000;
 #define ECG_SENSOR_INDEX 7
 
 // The same small block memory is used for digital inputs (provided from 2 SN74HC165 cascaded shift registers)
-static volatile long *digital_sensors = (long *)(long *)(0xC0003000 + (sizeof(long) * 16));
+// static volatile long *digital_sensors = (long *)(long *)(0xC0003000 + (sizeof(long) * 16));
+static volatile long *digital_sensors = (long *)(long *)(0xC0006000);
 
 
 #endif
