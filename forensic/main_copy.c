@@ -1,4 +1,5 @@
 
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -15,28 +16,19 @@
 
 #define CORRECT_PASSWORD "1234"
 
-void main(void) {
-    // each argument is supplied as csv string in stdin
-    // all arguments are input indices, allowing to run the same test multiple times
-    // char *argv[MAX_PROGRAM_ARGS]; 
-    // int argc = 0;
-    // tokenized_inp_str may be deallocated after argv's are not needed anymore
-    // char *tokenized_inp_str = parse_args_from_stdin_csv(&argc, argv);
 
-    char cmd[32] = {0};
+void authenticate() {
     char login_buffer[32] = {0};
     // char password_buffer[4] = {0};
-    int is_authorized2 = 0;
+    // int is_authorized2 = 0;
     char password_buffer[4] = {0};
     int is_authorized = 0;
 
-    printf("location of login_buffer: %p\n", login_buffer);
-    printf("location of password_buffer: %p\n", password_buffer);
-    printf("location of is_authorized: %p\n", &is_authorized);
-    printf("address difference between password_buffer and is_authorized: %d\n", (int)password_buffer - (int)&is_authorized);
-    printf("address difference between password_buffer and is_authorized2: %d\n", (int)password_buffer - (int)&is_authorized2);
-
-LOGIN:
+    // printf("location of login_buffer: %p\n", login_buffer);
+    // printf("location of password_buffer: %p\n", password_buffer);
+    // printf("location of is_authorized: %p\n", &is_authorized);
+    // printf("address difference between password_buffer and is_authorized: %d\n", (int)password_buffer - (int)&is_authorized);
+    // printf("address difference between password_buffer and is_authorized2: %d\n", (int)password_buffer - (int)&is_authorized2);
     while(!is_authorized) {
         printf("Enter password:\n> ");
         // uart_gpio_puts("Enter password:");
@@ -45,8 +37,6 @@ LOGIN:
         while (!uart_gpio_data_available()) {
             wait_ms(500);
         }
-        // let all characters arrive
-        wait_ms(300);
         uart_gpio_scanf("%s\n", password_buffer);
         printf("Password that was entered: %s\n", password_buffer);
         // uart_gpio_gets(password_buffer);
@@ -60,20 +50,27 @@ LOGIN:
     }
     uart_gpio_puts("Access granted!");
     puts("Access granted!");
+}
+
+void main(void) {
+    // each argument is supplied as csv string in stdin
+    // all arguments are input indices, allowing to run the same test multiple times
+    // char *argv[MAX_PROGRAM_ARGS]; 
+    // int argc = 0;
+    // tokenized_inp_str may be deallocated after argv's are not needed anymore
+    // char *tokenized_inp_str = parse_args_from_stdin_csv(&argc, argv);
+
 
     while (true) {
-        while(!uart_gpio_data_available())
-            wait_ms(500);
-        // let all characters arrive
-        wait_ms(300);
-        uart_gpio_scanf("%s\n", cmd);
-        if (!strcmp(cmd, "logout")) {
-            printf("Logging out\n");
-            is_authorized = 0;
-            goto LOGIN;
-        }
-        // main operation loop
+        // for ease of training using successful logins this is called in a constant loop
+        authenticate(); 
+        wait_ms(1000);
     }
+
+    // while (true) {
+    //     wait_ms(1000);
+    //     // main operation loop
+    // }
 
 // #ifdef SINGLE_ALGORITHM
 //     if (argc < 1) 

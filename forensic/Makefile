@@ -68,7 +68,7 @@ $(PROG_BIN_FULL_PATH): includes start.o
 # $(GCC) $(GCC_FLAGS) -o $@ start.o $(filter-out start.o, $(wildcard *.o)) $(LD_FLAGS)
 
 postcompile: $(PROG_BIN_FULL_PATH)
-	$(OBDUMP) -sSD $(PROG_BIN_FULL_PATH) > $(PROG_BIN_FULL_PATH).dump
+	$(OBDUMP) -sDz $(PROG_BIN_FULL_PATH) > $(PROG_BIN_FULL_PATH).dump
 	$(OBJCOPY) -O binary $(PROG_BIN_FULL_PATH) $(PROG_BIN_FULL_PATH).bin
 	cp $(PROG_BIN_FULL_PATH).dump /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs/objdump
 	cp $(PROG_BIN_FULL_PATH).bin /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs
@@ -78,7 +78,7 @@ clean: clean_objects
 	rm -f $(PROG_BIN_FULL_PATH) $(PROG_BIN_FULL_PATH).dump $(PROG_BIN_FULL_PATH).bin 2> /dev/null
 	rm -f $(shell find . -name "*.dump") 2> /dev/null
 	rm -f $(shell find . -name "*.bin") 2> /dev/null
-	rm -f $(BIN_PATH)/* 2> /dev/null
+	rm -f $(BIN_PATH)/*.o 2> /dev/null
 
 clean_objects:
 	rm -f $(shell find . -name "*.o") 2> /dev/null

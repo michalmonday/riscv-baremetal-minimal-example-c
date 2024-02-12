@@ -404,6 +404,17 @@ def produce_testing_stdins(training_stdins, training_benchmarks, testing_benchma
     cat3_stdins = produce_stdins(testing_benchmarks, inputs_left_dict, stdin_category_counts[2])
     return cat1_stdins, cat2_stdins, cat3_stdins
 
+def produce_standalone_stdins(all_benchmarks):
+    ''' Produces stdins for each benchmark alone with input index 0 and iterations to reach MIN_CLK_COUNT '''
+    return [f'{name},0,{get_iterations_to_reach_clk_count(name, MIN_CLK_COUNT)}' for name in all_benchmarks.keys()]
+
+def produce_standalone_single_iteration_stdins(all_benchmarks):
+    ''' Produces stdins for each benchmark alone with input index 0 and iterations to reach MIN_CLK_COUNT '''
+    return [f'{name},0,1' for name in all_benchmarks.keys()]
+
+standalone_stdins = produce_standalone_stdins(ALL_BENCHMARK_ALGORITHMS)
+standalone_single_iteration_stdins = produce_standalone_single_iteration_stdins(ALL_BENCHMARK_ALGORITHMS)
+
 test_cat1_stdins, test_cat2_stdins, test_cat3_stdins = produce_testing_stdins(
     train_stdins,
     TRAINING_BENCHMARKS,
@@ -432,6 +443,14 @@ print(f'- testing cat3: {humanbytes(estimate_csv_space(test_cat3_stdins))}')
 # }
 with open(OUTPUT_FILE, 'w') as f:
     f.write('random_functions = {\n')
+    f.write('    "standalone" : [\n')
+    f.write(',\n'.join([f'        "{stdin}"' for stdin in standalone_stdins]))
+    f.write('\n    ],\n\n')
+
+    f.write('    "standalone_single_iteration" : [\n')
+    f.write(',\n'.join([f'        "{stdin}"' for stdin in standalone_single_iteration_stdins]))
+    f.write('\n    ],\n\n')
+    
     f.write(f'    "train" : [\n')
     f.write(',\n'.join([f'        "{stdin}"' for stdin in train_stdins]))
     f.write('\n    ],\n\n')
