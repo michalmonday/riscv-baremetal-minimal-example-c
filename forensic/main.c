@@ -15,6 +15,10 @@
 
 #define CORRECT_PASSWORD "1234"
 
+bool is_barcode_valid(long long barcode);
+bool is_ean13_barcode(long long barcode);
+bool is_upca_barcode(long long barcode);
+
 void main(void) {
     // each argument is supplied as csv string in stdin
     // all arguments are input indices, allowing to run the same test multiple times
@@ -68,11 +72,28 @@ LOGIN:
         wait_ms(300);
         uart_gpio_scanf("%s\n", cmd);
         if (!strcmp(cmd, "logout")) {
-            printf("Logging out\n");
+            puts("Logged out");
+            uart_gpio_puts("Logged out");
             is_authorized = 0;
             goto LOGIN;
         }
-        // main operation loop
+    
+        // barcode checking code
+        char *end_ptr;
+        long long barcode = strtoll(cmd, &end_ptr, 10);
+        if (*end_ptr) {
+            puts("Invalid barcode format");
+            uart_gpio_puts("Invalid barcode format");
+            continue;
+        }
+
+        if (is_barcode_valid(barcode)) {
+            puts("Valid barcode");
+            uart_gpio_puts("Valid barcode");
+        } else {
+            puts("Invalid barcode");
+            uart_gpio_puts("Invalid barcode");
+        } 
     }
 
 // #ifdef SINGLE_ALGORITHM
@@ -102,3 +123,63 @@ LOGIN:
 //     }
 //     return 0;
 // }
+
+bool is_barcode_valid(long long barcode) {
+    return is_ean13_barcode(barcode) || is_upca_barcode(barcode);
+}
+
+// Function to validate EAN-13 barcode
+bool is_ean13_barcode(long long barcode) {
+    // Convert the long long barcode to a string for easier manipulation
+    char barcodeStr[14];
+    snprintf(barcodeStr, sizeof(barcodeStr), "%lld", barcode);
+
+    // Check if the barcode is 13 digits long
+    if (strlen(barcodeStr) != 13) {
+        return false;
+    }
+
+    // Calculate the check digit
+    int sum = 0;
+    for (int i = 0; i < 12; i++) {
+        int digit = barcodeStr[i] - '0';
+        if (i % 2 == 0) {
+            sum += digit;
+        } else {
+            sum += 3 * digit;
+        }
+    }
+
+    int checkDigit = (10 - (sum % 10)) % 10;
+
+    // Check if the calculated check digit matches the 13th digit in the barcode
+    return (checkDigit == barcodeStr[12] - '0');
+}
+
+// Function to validate UPC-A barcode
+bool is_upca_barcode(long long barcode) {
+    // Convert the long long barcode to a string for easier manipulation
+    char barcodeStr[13];
+    snprintf(barcodeStr, sizeof(barcodeStr), "%lld", barcode);
+
+    // Check if the barcode is 12 digits long
+    if (strlen(barcodeStr) != 12) {
+        return false;
+    }
+
+    // Calculate the check digit
+    int sum = 0;
+    for (int i = 0; i < 12; i++) {
+        int digit = barcodeStr[i] - '0';
+        if (i % 2 == 0) {
+            sum += 3 * digit;
+        } else {
+            sum += digit;
+        }
+    }
+
+    int checkDigit = (10 - (sum % 10)) % 10;
+
+    // Check if the calculated check digit matches the 12th digit in the barcode
+    return (checkDigit == barcodeStr[11] - '0');
+}

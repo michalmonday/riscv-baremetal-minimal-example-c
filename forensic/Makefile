@@ -64,7 +64,7 @@ includes: $(INCLUDE_DIR)/*.c $(INCLUDE_DIR)/*.h
 
 $(PROG_BIN_FULL_PATH): includes start.o 
 	$(GCC) $(GCC_FLAGS) -c main.c -o main.o
-	$(GCC) $(GCC_FLAGS) -o $@ main.o start.o $(shell find . ! -name "start.o" ! -wholename "$(PROG_FULL_PATH).o" ! -name "main.o" -name "*.o") $(LD_FLAGS)
+	$(GCC) $(GCC_FLAGS) -o $@ start.o main.o $(shell find . ! -name "start.o" ! -wholename "$(PROG_FULL_PATH).o" ! -name "main.o" -name "*.o") $(LD_FLAGS)
 # $(GCC) $(GCC_FLAGS) -o $@ start.o $(filter-out start.o, $(wildcard *.o)) $(LD_FLAGS)
 
 postcompile: $(PROG_BIN_FULL_PATH)

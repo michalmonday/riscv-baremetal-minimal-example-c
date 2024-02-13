@@ -10,6 +10,7 @@
 //     j       park
 
 #include <stdio.h>
+int _start(void);
 void __libc_init_array(void);
 void main();
 void park();
