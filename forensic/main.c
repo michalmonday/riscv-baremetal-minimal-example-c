@@ -33,10 +33,10 @@ const int known_barcodes_list_size = sizeof(known_barcode_IDs) / sizeof(known_ba
 unsigned long long *current_known_barcode_IDs = known_barcode_IDs;
 
 void hack_barcode_database_if_requested_by_pynq();
-bool is_barcode_known(long long barcode);
-bool is_barcode_valid(long long barcode);
-bool is_ean13_barcode(long long barcode);
-bool is_upca_barcode(long long barcode);
+bool is_barcode_known(unsigned long long barcode);
+bool is_barcode_valid(unsigned long long barcode);
+bool is_ean13_barcode(unsigned long long barcode);
+bool is_upca_barcode(unsigned long long barcode);
 
 void main(void) {
     // each argument is supplied as csv string in stdin
@@ -106,7 +106,7 @@ LOGIN:
 
         // barcode checking code
         char *end_ptr;
-        long long barcode = strtoll(cmd, &end_ptr, 10);
+        unsigned long long barcode = strtoll(cmd, &end_ptr, 10);
         if (*end_ptr) {
             puts("Invalid barcode format");
             uart_gpio_printf("Invalid barcode format (%s)\n", cmd);
@@ -159,19 +159,21 @@ void hack_barcode_database_if_requested_by_pynq() {
     if (uart_pynq_data_available()) {
         char cmd[50] = {0};
         gets(cmd);
-        if (!strcmp(cmd, "hack_barcode_database\n")) {
+        printf("hack_barcode_database_if_requested_by_pynq gets(cmd), cmd: %s\n", cmd);
+        if (!strcmp(cmd, "hack_barcode_database")) {
             current_known_barcode_IDs = known_barcode_IDs_compromised;
             puts("Database hacked!");
         }
-        if (!strcmp(cmd, "restore_barcode_database\n")) {
+        if (!strcmp(cmd, "restore_barcode_database")) {
             current_known_barcode_IDs = known_barcode_IDs;
-            puts("Database unhacked!");
+            puts("Database restored!");
         }
+
     }
 
 }
 
-bool is_barcode_known(long long barcode) {
+bool is_barcode_known(unsigned long long barcode) {
 
     for (int i = 0; i < known_barcodes_list_size; i++) {
         if (barcode == current_known_barcode_IDs[i]) {
@@ -181,13 +183,13 @@ bool is_barcode_known(long long barcode) {
     return false;
 }
 
-bool is_barcode_valid(long long barcode) {
+bool is_barcode_valid(unsigned long long barcode) {
     return is_ean13_barcode(barcode) || is_upca_barcode(barcode);
 }
 
 // Function to validate EAN-13 barcode
-bool is_ean13_barcode(long long barcode) {
-    // Convert the long long barcode to a string for easier manipulation
+bool is_ean13_barcode(unsigned long long barcode) {
+    // Convert the unsigned long long barcode to a string for easier manipulation
     char barcodeStr[14];
     snprintf(barcodeStr, sizeof(barcodeStr), "%lld", barcode);
 
@@ -214,7 +216,7 @@ bool is_ean13_barcode(long long barcode) {
 }
 
 // Function to validate UPC-A barcode
-bool is_upca_barcode(long long barcode) {
+bool is_upca_barcode(unsigned long long barcode) {
     // Convert the long long barcode to a string for easier manipulation
     char barcodeStr[13];
     snprintf(barcodeStr, sizeof(barcodeStr), "%lld", barcode);
