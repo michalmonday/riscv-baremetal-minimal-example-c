@@ -9,12 +9,31 @@
 // in the past it was used for communicating with Esp32 display for ECG project.
 // Now it can be used to communicate with Esp32 display that acts as a login screen.
 #include <uart_gpio.h>     
+#include <uart_pynq.h>
 #include <sensors.h>       // analog_inputs, digital_inputs
 #include <utils_flute.h>   // wait_ms, wait_s, CLK_SPEED, get_ticks_count, get_overlay_ticks_count, get_random_number
 #include <stdbool.h>
 
 #define CORRECT_PASSWORD "1234"
 
+unsigned long long known_barcode_IDs[] = {
+    4062139015344,
+    4062139015405,
+    5057753897246,
+    5010358255255
+};
+unsigned long long known_barcode_IDs_compromised[] = {
+    4062139015344,
+    4062139015405,
+    5057753897246,
+    3337875597210 // replaced 5010358255255
+};
+const int known_barcodes_list_size = sizeof(known_barcode_IDs) / sizeof(known_barcode_IDs[0]);
+
+unsigned long long *current_known_barcode_IDs = known_barcode_IDs;
+
+void hack_barcode_database_if_requested_by_pynq();
+bool is_barcode_known(long long barcode);
 bool is_barcode_valid(long long barcode);
 bool is_ean13_barcode(long long barcode);
 bool is_upca_barcode(long long barcode);
@@ -47,6 +66,7 @@ LOGIN:
         // scanf is vulnerable to buffer overflow, if we supply more than 4 characters, 
         // we can overwrite the is_authorized variable without knowing the correct password
         while (!uart_gpio_data_available()) {
+            hack_barcode_database_if_requested_by_pynq();
             wait_ms(500);
         }
         // let all characters arrive
@@ -58,38 +78,49 @@ LOGIN:
         if(!strcmp(password_buffer, CORRECT_PASSWORD)) {
             is_authorized = 1;
             puts("Correct password!");
+            uart_gpio_puts("Correct password!");
         } else {
             puts("Incorrect password!");
+            uart_gpio_puts("Incorrect password!");
         }
     }
     uart_gpio_puts("Access granted!");
     puts("Access granted!");
 
     while (true) {
-        while(!uart_gpio_data_available())
+        while (!uart_gpio_data_available()) {
+            hack_barcode_database_if_requested_by_pynq();
             wait_ms(500);
+        }
+
         // let all characters arrive
         wait_ms(300);
         uart_gpio_scanf("%s\n", cmd);
+        printf("cmd received: %s\n", cmd);
         if (!strcmp(cmd, "logout")) {
             puts("Logged out");
             uart_gpio_puts("Logged out");
             is_authorized = 0;
             goto LOGIN;
         }
-    
+
         // barcode checking code
         char *end_ptr;
         long long barcode = strtoll(cmd, &end_ptr, 10);
         if (*end_ptr) {
             puts("Invalid barcode format");
-            uart_gpio_puts("Invalid barcode format");
+            uart_gpio_printf("Invalid barcode format (%s)\n", cmd);
             continue;
         }
 
         if (is_barcode_valid(barcode)) {
-            puts("Valid barcode");
-            uart_gpio_puts("Valid barcode");
+            if (is_barcode_known(barcode)) {
+                puts("Known ID: doors opened.");
+                uart_gpio_puts("Known ID: doors opened");
+            } else {
+                puts("Unknown ID: doors closed");
+                uart_gpio_puts("Unknown ID: doors closed");
+            }
         } else {
             puts("Invalid barcode");
             uart_gpio_puts("Invalid barcode");
@@ -123,6 +154,32 @@ LOGIN:
 //     }
 //     return 0;
 // }
+
+void hack_barcode_database_if_requested_by_pynq() {
+    if (uart_pynq_data_available()) {
+        char cmd[50] = {0};
+        gets(cmd);
+        if (!strcmp(cmd, "hack_barcode_database\n")) {
+            current_known_barcode_IDs = known_barcode_IDs_compromised;
+            puts("Database hacked!");
+        }
+        if (!strcmp(cmd, "restore_barcode_database\n")) {
+            current_known_barcode_IDs = known_barcode_IDs;
+            puts("Database unhacked!");
+        }
+    }
+
+}
+
+bool is_barcode_known(long long barcode) {
+
+    for (int i = 0; i < known_barcodes_list_size; i++) {
+        if (barcode == current_known_barcode_IDs[i]) {
+            return true;
+        }
+    }
+    return false;
+}
 
 bool is_barcode_valid(long long barcode) {
     return is_ean13_barcode(barcode) || is_upca_barcode(barcode);
