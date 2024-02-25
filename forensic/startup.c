@@ -43,6 +43,8 @@ __attribute__((naked)) int _start(void) {
     // without 2 lines below, printf worked only if it had "\n" character
     setbuf(stdout, NULL);
     setbuf(stdin, NULL);
+    // setbuf(stdout, 256);
+    // setbuf(stdin, 256);
     main();
     park();
 }

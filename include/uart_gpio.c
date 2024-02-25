@@ -21,6 +21,14 @@ void uart_gpio_puts(char *s) {
     uart_gpio_putchar('\n');
 }
 
+void uart_gpio_gets(char *s) {
+    char ch;
+    while ((ch = uart_gpio_getchar()) != '\n') {
+        *s++ = ch;
+    }
+    *s = '\0';
+}
+
 char uart_gpio_getchar() {
     while (!uart_gpio_data_available());
     return uart_gpio[UART_GPIO_RX_INDEX];
@@ -38,14 +46,6 @@ void uart_gpio_printf(char *fmt, ...) {
     vsprintf(buffer, fmt, args);
     va_end(args);
     uart_gpio_puts(buffer);
-}
-
-void uart_gpio_gets(char *s) {
-    char ch;
-    while ((ch = uart_gpio_getchar()) != '\n') {
-        *s++ = ch;
-    }
-    *s = '\0';
 }
 
 int uart_gpio_scanf(char *format, ...) {

@@ -70,8 +70,10 @@ $(PROG_BIN_FULL_PATH): includes start.o
 postcompile: $(PROG_BIN_FULL_PATH)
 	$(OBDUMP) -sDz $(PROG_BIN_FULL_PATH) > $(PROG_BIN_FULL_PATH).dump
 	$(OBJCOPY) -O binary $(PROG_BIN_FULL_PATH) $(PROG_BIN_FULL_PATH).bin
+	python3 parse_objdump.py $(PROG_BIN_FULL_PATH).dump -o $(PROG_BIN_FULL_PATH)_dump.json --ignore-prefix __ --ignore-substring .
 	cp $(PROG_BIN_FULL_PATH).dump /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs/objdump
 	cp $(PROG_BIN_FULL_PATH).bin /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs
+	cp $(PROG_BIN_FULL_PATH)_dump.json /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs
 	echo "Done!"
 
 clean: clean_objects
