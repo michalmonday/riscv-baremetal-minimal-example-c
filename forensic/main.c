@@ -31,12 +31,20 @@ void main(void) {
     char cmd[64] = {0};
     char *barcode_str = cmd;
     char login_buffer[32] = {0};
+    
+    // to increase needed password length to overwrite is_authorized 
+    // (typing 5 chars instead of 4 looks more like a mistake than a hack attempt)
+    // volatile is to prevent compiler from optimizing it out
+    volatile int dummy_variable = 0; 
 
     // vulnerable password buffer
     char password_buffer[4] = {0};
-    
+
     // variable responsible for admin login authorization
     int is_authorized = 0;
+
+    printf("address difference between password_buffer and is_authorized: %lld\n", (long long)password_buffer - (long long)&is_authorized);
+    printf("address difference between password_buffer and dummy_variable: %lld\n", (long long)password_buffer - (long long)&dummy_variable);
 
 LOGIN:
     while(!is_authorized) {
