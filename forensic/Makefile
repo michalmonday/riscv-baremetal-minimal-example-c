@@ -14,6 +14,8 @@ GCC = $(TOOLCHAIN)-gcc
 OBDUMP = $(TOOLCHAIN)-objdump
 OBJCOPY = $(TOOLCHAIN)-objcopy
 
+POSTCOMPILE_DEST_DIR = /mnt/hgfs/shared\ ubuntu\ vm/FORENSIC
+
 # # GCC_FLAGS	= -ffreestanding -march=rv64gc -mabi=lp64 -static -mcmodel=medany
 # GCC_FLAGS	= -ffreestanding -march=rv64g -mabi=lp64 -static -mcmodel=medany \
 # 			  -fvisibility=hidden -fno-builtin \
@@ -63,17 +65,17 @@ includes: $(INCLUDE_DIR)/*.c $(INCLUDE_DIR)/*.h
 # 	$(GCC) $(GCC_FLAGS) -c $(PROG_FULL_PATH).c -o $@
 
 $(PROG_BIN_FULL_PATH): includes start.o 
-	$(GCC) $(GCC_FLAGS) -c main.c -o main.o
-	$(GCC) $(GCC_FLAGS) -o $@ start.o main.o $(shell find . ! -name "start.o" ! -wholename "$(PROG_FULL_PATH).o" ! -name "main.o" -name "*.o") $(LD_FLAGS)
+	$(GCC) $(GCC_FLAGS) -c $(PROG_NAME).c -o $(PROG_NAME).o
+	$(GCC) $(GCC_FLAGS) -o $@ start.o $(PROG_NAME).o $(shell find . ! -name "start.o" ! -wholename "$(PROG_FULL_PATH).o" ! -name "$(PROG_NAME).o" -name "*.o") $(LD_FLAGS)
 # $(GCC) $(GCC_FLAGS) -o $@ start.o $(filter-out start.o, $(wildcard *.o)) $(LD_FLAGS)
 
 postcompile: $(PROG_BIN_FULL_PATH)
 	$(OBDUMP) -sDz $(PROG_BIN_FULL_PATH) > $(PROG_BIN_FULL_PATH).dump
 	$(OBJCOPY) -O binary $(PROG_BIN_FULL_PATH) $(PROG_BIN_FULL_PATH).bin
 	python3 parse_objdump.py $(PROG_BIN_FULL_PATH).dump -o $(PROG_BIN_FULL_PATH)_dump.json --ignore-prefix __ --ignore-substring .
-	cp $(PROG_BIN_FULL_PATH).dump /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs/objdump
-	cp $(PROG_BIN_FULL_PATH).bin /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs
-	cp $(PROG_BIN_FULL_PATH)_dump.json /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs
+	cp $(PROG_BIN_FULL_PATH).dump $(POSTCOMPILE_DEST_DIR)/objdump
+	cp $(PROG_BIN_FULL_PATH).bin $(POSTCOMPILE_DEST_DIR)
+	cp $(PROG_BIN_FULL_PATH)_dump.json $(POSTCOMPILE_DEST_DIR)
 	echo "Done!"
 
 clean: clean_objects
