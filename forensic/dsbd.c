@@ -14,10 +14,12 @@
 #include <utils_flute.h>   // wait_ms, wait_s, CLK_SPEED, get_ticks_count, get_overlay_ticks_count, get_random_number
 #include <stdbool.h>
 
+#define PASSWORD_BUFFER_SIZE 32
+
 // "-" is just to keep the structure of the program 
 // exactly the same with the malicious version
 // (so the anomaly detection is not too easy)
-static char * correct_passwords[] = {"1234", "-"}; 
+const char *correct_passwords[] = {"1234", "-"};
 
 bool is_password_correct(char *password);
 bool is_barcode_known(char *barcode_str);
@@ -41,14 +43,12 @@ void main(void) {
     // volatile is to prevent compiler from optimizing it out
     volatile int dummy_variable = 0; 
 
-    // vulnerable password buffer
-    char password_buffer[4] = {0};
+    char password_buffer[PASSWORD_BUFFER_SIZE] = {0};
 
     // variable responsible for admin login authorization
     int is_authorized = 0;
 
-    printf("address difference between password_buffer and is_authorized: %lld\n", (long long)password_buffer - (long long)&is_authorized);
-    printf("address difference between password_buffer and dummy_variable: %lld\n", (long long)password_buffer - (long long)&dummy_variable);
+    uart_gpio_puts("reset");
 
 LOGIN:
     while(!is_authorized) {
@@ -57,8 +57,6 @@ LOGIN:
         }
         // let all characters arrive
         wait_ms(300);
-        // gets/scanf are vulnerable to buffer overflow, if we supply more than 4 characters, 
-        // we can overwrite the is_authorized variable without knowing the correct password
         uart_gpio_gets(password_buffer);
         if(is_password_correct(password_buffer)) {
             is_authorized = 1;

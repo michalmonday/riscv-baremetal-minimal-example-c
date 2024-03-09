@@ -46,6 +46,8 @@ void main(void) {
     printf("address difference between password_buffer and is_authorized: %lld\n", (long long)password_buffer - (long long)&is_authorized);
     printf("address difference between password_buffer and dummy_variable: %lld\n", (long long)password_buffer - (long long)&dummy_variable);
 
+    uart_gpio_puts("reset");
+
 LOGIN:
     while(!is_authorized) {
         while (!uart_gpio_data_available()) {
