@@ -96,9 +96,9 @@ static n_int   tableCount ;        /* Number of passes through table */
 static n_int   *RAMfileEOF;        /* points to end of RAM file */
 static n_int   RAMfile_increment;  /* difference between varsize and n_int */
 
-static varsize *inpNumber ;    /* Pointer to array of numbers to paint */
+static varsize *inpNumber = inpVariableROM;    /* Pointer to array of numbers to paint */
 static n_int   *inpMode ;      /* Pointer to array of painting modes */
-static varsize inputNum ;      /* The input argument for computation */
+static varsize inputNum;      /* The input argument for computation */
 static n_int   inverted ;      /* Paint 'inverted' character in display */
 
 static int input_index;

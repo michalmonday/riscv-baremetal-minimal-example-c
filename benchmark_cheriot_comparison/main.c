@@ -13,7 +13,7 @@ extern int ttsprk(int argc, char *argv[]);
 
 #define INPUT_INDEX "0"
 #define ITERATIONS_EACH "2"
-#define ITERATIONS_ALL 10
+#define ITERATIONS_ALL 3
 
 void main(void) {
     char *fake_argv[] = {INPUT_INDEX, ITERATIONS_EACH};
