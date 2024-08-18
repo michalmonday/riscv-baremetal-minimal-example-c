@@ -58,10 +58,10 @@ void init() {
     char *bss = &bss_start;
     char *sbss = &sbss_start;
 
-    for (; bss < &bss_end; bss++)
-        *bss = 0;
-    for (; sbss < &sbss_end; sbss++) 
-        *sbss = 0;
+    // for (; bss < &bss_end; bss++)
+    //     *bss = 0;
+    // for (; sbss < &sbss_end; sbss++) 
+    //     *sbss = 0;
 }
 
 void park() {
