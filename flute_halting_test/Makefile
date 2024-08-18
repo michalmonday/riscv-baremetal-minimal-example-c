@@ -35,7 +35,8 @@ GCC_FLAGS	= -march=rv64g -mabi=lp64d -static \
 			  -mcmodel=medany \
 			  -I$(INCLUDE_DIR) \
 			  -lm \
-			  -Os 
+			  -Os \
+			  -O0
 # -lm is needed for math.h used in aiiftr.c
 # -Os optimizes for size (it seems to not include ".o" object files or their contents that are not used in the final binary despite supplying them to the compiler/linker)
 
