@@ -27,10 +27,17 @@ import sys
 import os
 from abc import ABC, abstractmethod
 import math
+import argparse
 
-OUTPUT_FILE = 'random_functions.py'
-MIN_CLK_COUNT = 400_000
+parser = argparse.ArgumentParser(description='Generate random functions for benchmarking')
+parser.add_argument('--output-file', type=str, help='Output file name')
+parser.add_argument('--min-clk-count', type=int, default=400_000, help='Minimum clock count for each function')
+parser.add_argument('--count', type=int, default=100, help='Number of functions to generate')
+parser.add_argument('--all-algorithms-for-training', action='store_true', help='Generate functions for all algorithms')
+args = parser.parse_args()
 
+# OUTPUT_FILE = 'random_functions.py'
+# MIN_CLK_COUNT = 400_000
 
 class BenchmarkAlgorithm(ABC):
     ''' This abstract class is the base of every algorithm, 
@@ -328,7 +335,7 @@ TESTING_BENCHMARKS = {b.name : b for b in [
     ttsprk()  # Tooth to Spark
 ]}
 
-inputs_left_dict = generate_possible_inputs_dict(ALL_BENCHMARK_ALGORITHMS)
+
 
 def get_random_input(benchmark_name, inputs_left_dict):
     ''' Returns random input for the benchmark, 
@@ -344,7 +351,7 @@ def get_iterations_to_reach_clk_count(benchmark_name, clk_count):
     ''' Returns the number of iterations required to reach the specified clk_count '''
     return math.ceil(clk_count / ALL_BENCHMARK_ALGORITHMS[benchmark_name].estimated_iteration_clk_count)
 
-def produce_stdins(benchmarks, inputs_left_dict, stdin_count):
+def produce_stdins(benchmarks, inputs_left_dict, stdin_count, min_clk_count):
     stdin_list = []
     # generate all combinations of training benchmark names without repetitions 
     combinations = []
@@ -358,7 +365,7 @@ def produce_stdins(benchmarks, inputs_left_dict, stdin_count):
         random.shuffle(combination)
         # get random input for each benchmark
         inputs = [get_random_input(benchmark_name, inputs_left_dict) for benchmark_name in combination]
-        min_clk_count_per_algorithm = MIN_CLK_COUNT / len(combination)
+        min_clk_count_per_algorithm = min_clk_count / len(combination)
 
         stdin = ','.join([f'{benchmark_name},{input},{get_iterations_to_reach_clk_count(benchmark_name, min_clk_count_per_algorithm)}' for benchmark_name, input in zip(combination, inputs)])
         stdin_list.append(stdin)
@@ -384,10 +391,29 @@ def estimate_clk_count(stdins):
             total_clk_count += ALL_BENCHMARK_ALGORITHMS[token].estimated_iteration_clk_count * iterations
     return total_clk_count
 
-train_stdins = produce_stdins(TRAINING_BENCHMARKS, inputs_left_dict, 100)
+def produce_testing_stdins(training_stdins, training_benchmarks, testing_benchmarks, inputs_left_dict, stdin_category_counts):
+    cat1_stdins = random.sample(training_stdins, stdin_category_counts[0])
+    cat2_stdins = produce_stdins(training_benchmarks, inputs_left_dict, stdin_category_counts[1], args.min_clk_count)
+    cat3_stdins = produce_stdins(testing_benchmarks, inputs_left_dict, stdin_category_counts[2], args.min_clk_count)
+    return cat1_stdins, cat2_stdins, cat3_stdins
+
+def produce_standalone_stdins(all_benchmarks, min_clk_count):
+    ''' Produces stdins for each benchmark alone with input index 0 and iterations to reach min_clk_count '''
+    return [f'{name},0,{get_iterations_to_reach_clk_count(name, min_clk_count)}' for name in all_benchmarks.keys()]
+
+def produce_standalone_single_iteration_stdins(all_benchmarks):
+    ''' Produces stdins for each benchmark alone with input index 0 and iterations to reach MIN_CLK_COUNT '''
+    return [f'{name},0,1' for name in all_benchmarks.keys()]
+
+
+if args.all_algorithms_for_training:
+    TRAINING_BENCHMARKS = ALL_BENCHMARK_ALGORITHMS
+
+inputs_left_dict = generate_possible_inputs_dict(ALL_BENCHMARK_ALGORITHMS)
+
+train_stdins = produce_stdins(TRAINING_BENCHMARKS, inputs_left_dict, args.count, args.min_clk_count)
 for stdin in train_stdins:
     print(stdin)
-
 print()
 print("Inputs left after generating training examples:")
 for name, inps in inputs_left_dict.items():
@@ -398,21 +424,7 @@ for name, inps in inputs_left_dict.items():
 # 2. Consisting of training benchmarks with previously unused inputs (to test for false positives)
 # 3. Consisting of testing benchmarks (acting as anomalous program runs)
 
-def produce_testing_stdins(training_stdins, training_benchmarks, testing_benchmarks, inputs_left_dict, stdin_category_counts):
-    cat1_stdins = random.sample(training_stdins, stdin_category_counts[0])
-    cat2_stdins = produce_stdins(training_benchmarks, inputs_left_dict, stdin_category_counts[1])
-    cat3_stdins = produce_stdins(testing_benchmarks, inputs_left_dict, stdin_category_counts[2])
-    return cat1_stdins, cat2_stdins, cat3_stdins
-
-def produce_standalone_stdins(all_benchmarks):
-    ''' Produces stdins for each benchmark alone with input index 0 and iterations to reach MIN_CLK_COUNT '''
-    return [f'{name},0,{get_iterations_to_reach_clk_count(name, MIN_CLK_COUNT)}' for name in all_benchmarks.keys()]
-
-def produce_standalone_single_iteration_stdins(all_benchmarks):
-    ''' Produces stdins for each benchmark alone with input index 0 and iterations to reach MIN_CLK_COUNT '''
-    return [f'{name},0,1' for name in all_benchmarks.keys()]
-
-standalone_stdins = produce_standalone_stdins(ALL_BENCHMARK_ALGORITHMS)
+standalone_stdins = produce_standalone_stdins(ALL_BENCHMARK_ALGORITHMS, args.min_clk_count)
 standalone_single_iteration_stdins = produce_standalone_single_iteration_stdins(ALL_BENCHMARK_ALGORITHMS)
 
 test_cat1_stdins, test_cat2_stdins, test_cat3_stdins = produce_testing_stdins(
@@ -420,7 +432,7 @@ test_cat1_stdins, test_cat2_stdins, test_cat3_stdins = produce_testing_stdins(
     TRAINING_BENCHMARKS,
     TESTING_BENCHMARKS,
     inputs_left_dict,
-    stdin_category_counts=[33, 33, 34]
+    stdin_category_counts=[args.count, args.count, args.count]
     )
 
 # print estimated disk space required for csv files
@@ -441,7 +453,7 @@ print(f'- testing cat3: {humanbytes(estimate_csv_space(test_cat3_stdins))}')
 #     "test_cat2_stdins" : [...],
 #     "test_cat3_stdins" : [...]
 # }
-with open(OUTPUT_FILE, 'w') as f:
+with open(args.output_file, 'w') as f:
     f.write('random_functions = {\n')
     f.write('    "standalone" : [\n')
     f.write(',\n'.join([f'        "{stdin}"' for stdin in standalone_stdins]))
