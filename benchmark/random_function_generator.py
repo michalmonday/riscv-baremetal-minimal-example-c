@@ -337,6 +337,8 @@ TESTING_BENCHMARKS = {b.name : b for b in [
 
 
 
+# import pdb; pdb.set_trace()
+
 def get_random_input(benchmark_name, inputs_left_dict):
     ''' Returns random input for the benchmark, 
     if all inputs for the benchmark were used, returns None '''
@@ -433,6 +435,7 @@ test_cat1_stdins, test_cat2_stdins, test_cat3_stdins = produce_testing_stdins(
     TESTING_BENCHMARKS,
     inputs_left_dict,
     stdin_category_counts=[args.count, args.count, args.count]
+    # stdin_category_counts=[33, 33, 34]
     )
 
 # print estimated disk space required for csv files
