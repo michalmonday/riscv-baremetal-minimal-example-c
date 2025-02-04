@@ -506,6 +506,15 @@ static int t_run_test(int argc, const char *argv[] )
 
     for( int loop_cnt = 0 ; loop_cnt < iterations  ; loop_cnt++ )
     {
+        asm("loop_start_ttsprk:");
+#ifdef INTRODUCE_ANOMALY
+        for (volatile int i = 0; i < 10; i++) {
+                volatile int x = i;
+                volatile int y = i*i;
+                volatile int z = x + y;
+        }
+#endif
+
 
 #if BMDEBUG
         if( isTableLooped ) 

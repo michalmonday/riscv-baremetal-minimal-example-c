@@ -276,6 +276,16 @@ static int t_run_test(int argc, const char *argv[] ) {
      */
     for( int loop_cnt = 0 ; loop_cnt < iterations ; loop_cnt++ ) /* no stopping! */
     {
+        asm("loop_start_tblook:");
+#ifdef INTRODUCE_ANOMALY
+        for (volatile int i = 0; i < 10; i++) {
+                volatile int x = i;
+                volatile int y = i*i;
+                volatile int z = x + y;
+        }
+#endif
+
+
         /* 'engine load' and 'engine speed' index us into the 'angle' table */
 #if BMDEBUG
         if( isTableLooped ) 

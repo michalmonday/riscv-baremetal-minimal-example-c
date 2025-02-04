@@ -46,6 +46,12 @@ ifeq ($(RANDOM_FUNCTION_GENERATOR), true)
 	GCC_FLAGS += -DRANDOM_FUNCTION_GENERATOR=true
 endif
 
+# if EXCLUDE_BITMNP_IDCTRN=true then add -DEXCLUDE_BITMNP_IDCTRN to GCC_FLAGS
+EXCLUDE_BITMNP_IDCTRN ?= false
+ifeq ($(EXCLUDE_BITMNP_IDCTRN), true)
+	GCC_FLAGS += -DEXCLUDE_BITMNP_IDCTRN=true
+endif
+
 # if SINGLE_ALGORITHM=true then add -DSINGLE_ALGORITHM to GCC_FLAGS
 SINGLE_ALGORITHM ?= false
 ifeq ($(SINGLE_ALGORITHM), true)
@@ -55,6 +61,11 @@ endif
 MULTIPLE_ALGORITHMS ?= false
 ifeq ($(MULTIPLE_ALGORITHMS), true)
 	GCC_FLAGS += -DMULTIPLE_ALGORITHMS=true
+endif
+
+INTRODUCE_ANOMALY ?= false
+ifeq ($(INTRODUCE_ANOMALY), true)
+	GCC_FLAGS += -DINTRODUCE_ANOMALY=true
 endif
 
 LD_FLAGS=-T example_original.ld \
@@ -115,4 +126,26 @@ multiple_algorithms: algorithms includes start.o
 	$(OBJCOPY) -O binary multiple_algorithms multiple_algorithms.bin
 	cp multiple_algorithms.dump /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs/objdump
 	cp multiple_algorithms.bin /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs
+	echo "Done!"
+
+# make clean && make multiple_algorithms_debug MULTIPLE_ALGORITHMS=true PROG_NAME=main --always-make
+multiple_algorithms_debug: algorithms includes start.o 
+	$(GCC) $(GCC_FLAGS) -c main.c -o multiple_algorithms_debug.o
+	$(GCC) $(GCC_FLAGS) -o multiple_algorithms_debug start.o multiple_algorithms_debug.o  $(shell find . ! -name "main.o" ! -name "multiple_algorithms_debug.o" ! -name "start.o" -name "*.o") $(LD_FLAGS)
+#riscv64-unknown-elf-gcc -march=rv64g -mabi=lp64d -static -fvisibility=hidden -nostartfiles -mcmodel=medany -I../include -I./algorithms -lm -DRANDOM_FUNCTION_GENERATOR -o main main.o ./utils_flute.o ./eembc_adaptation.o ./bitmnp.o ./uart_gpio.o ./rspeed.o ./start.o ./sensors.o ./puwmod.o ./uart_pynq.o ./a2time.o ./ttsprk.o ./syscalls.o -T example_original.ld -lm 
+	$(OBDUMP) -sSD multiple_algorithms_debug > multiple_algorithms_debug.dump
+	$(OBJCOPY) -O binary multiple_algorithms_debug multiple_algorithms_debug.bin
+	cp multiple_algorithms_debug.dump /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs/objdump
+	cp multiple_algorithms_debug.bin /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs
+	echo "Done!"
+
+# make clean && make multiple_algorithms_continuous MULTIPLE_ALGORITHMS=true PROG_NAME=main_continuous EXCLUDE_BITMNP_IDCTRN=true --always-make
+multiple_algorithms_continuous: algorithms includes start.o 
+	$(GCC) $(GCC_FLAGS) -c main_continuous.c -o multiple_algorithms_continuous.o
+	$(GCC) $(GCC_FLAGS) -o multiple_algorithms_continuous start.o multiple_algorithms_continuous.o  $(shell find . ! -name "main_continuous.o" ! -name "multiple_algorithms_continuous.o" ! -name "start.o" ! -name "bitmnp.o" ! -name "idctrn.o" -name "*.o") $(LD_FLAGS)
+#riscv64-unknown-elf-gcc -march=rv64g -mabi=lp64d -static -fvisibility=hidden -nostartfiles -mcmodel=medany -I../include -I./algorithms -lm -DRANDOM_FUNCTION_GENERATOR -o main_continuous main_continuous.o ./utils_flute.o ./eembc_adaptation.o ./bitmnp.o ./uart_gpio.o ./rspeed.o ./start.o ./sensors.o ./puwmod.o ./uart_pynq.o ./a2time.o ./ttsprk.o ./syscalls.o -T example_original.ld -lm 
+	$(OBDUMP) -sSD multiple_algorithms_continuous > multiple_algorithms_continuous.dump
+	$(OBJCOPY) -O binary multiple_algorithms_continuous multiple_algorithms_continuous.bin
+	cp multiple_algorithms_continuous.dump /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs/objdump
+	cp multiple_algorithms_continuous.bin /mnt/hgfs/shared\ ubuntu\ vm/benchmark_programs
 	echo "Done!"
