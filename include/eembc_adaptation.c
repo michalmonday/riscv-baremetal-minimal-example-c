@@ -37,7 +37,13 @@ void th_exit(const char *format, ...) {
 }
 
 
+#ifdef CHERIBSD_RESEARCH
+char inp[] = "a2time,5,10,rspeed,3,10,puwmod,4,10,tblook,2,10,ttsprk,2,10";
+#endif
+
 char *parse_args_from_stdin_csv(int *argc, char *argv[]) {
+
+#ifndef CHERIBSD_RESEARCH
     // returns pointer to memory allocated with malloc
     // it could be free'd by the caller but not before argv is fully used
     // freeing it and attempting to use argv later will cause exception
@@ -56,6 +62,7 @@ char *parse_args_from_stdin_csv(int *argc, char *argv[]) {
         printf("stopping execution\n");
         asm volatile ("wfi");
     }
+#endif
     printf("Received inp string:");
     puts(inp);
     *argc = 0;

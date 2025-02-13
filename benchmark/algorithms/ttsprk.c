@@ -32,9 +32,12 @@ without following the official/proper EEMBC benchmark harness:
 
 // forward declarations
 static int t_run_test( int argc, const char *argv[] );
-static n_int GetInputValues( n_void );
-static n_int GetYTables( n_void );
-static n_int GetZTables( n_void );
+// static n_int GetInputValues( n_void );
+// static n_int GetYTables( n_void );
+// static n_int GetZTables( n_void );
+static n_int GetInputValues(  );
+static n_int GetYTables(  );
+static n_int GetZTables(  );
 
 // function to be called from a separate main file
 int ttsprk(int argc, const char *argv[]) {

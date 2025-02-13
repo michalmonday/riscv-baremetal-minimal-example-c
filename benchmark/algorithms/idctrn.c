@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 /*
 Notes about adapting EEMBC algorithms to run on a standalone
@@ -33,7 +34,8 @@ without following the official/proper EEMBC benchmark harness:
 // forward declarations
 static int t_run_test( int argc, const char *argv[] );
 static int unPack( unsigned char );
-static n_int GetInputValues( n_void );
+// static n_int GetInputValues( n_void );
+static n_int GetInputValues(  );
 
 // function to be called from a separate main file
 int idctrn(int argc, const char *argv[]) {

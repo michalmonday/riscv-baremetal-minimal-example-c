@@ -1,0 +1,3 @@
+./compile_for_cheri_cc riscv64-purecap -c ../include/eembc_adaptation.c -I../include -DCHERIBSD_RESEARCH -lm
+./compile_for_cheri_cc riscv64-purecap -c algorithms/*.c -I../include -lm -D CHERIBSD_RESEARCH
+./compile_for_cheri_cc riscv64-purecap main_continuous.o a2time.o aifftr.o bitmnp.o idctrn.o puwmod.o rspeed.o tblook.o ttsprk.o eembc_adaptation.o -I../include -D CHERIBSD_RESEARCH -lm

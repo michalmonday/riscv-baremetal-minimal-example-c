@@ -33,7 +33,8 @@ without following the official/proper EEMBC benchmark harness:
 // forward declarations
 static int t_run_test( int argc, const char *argv[] );
 // n_int GetTestData(n_void);
-static n_int GetInputValues(n_void);
+// static n_int GetInputValues(n_void);
+static n_int GetInputValues();
 
 // function to be called from a separate main file
 int bitmnp(int argc, const char *argv[]) {
