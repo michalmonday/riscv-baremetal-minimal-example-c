@@ -10,6 +10,7 @@
 #define n_char char
 #define n_uchar unsigned char
 #define n_float float
+#define n_void void
 
 // arguments are passed as a csv string through stdin
 #define MAX_PROGRAM_ARGS 300

@@ -8,6 +8,11 @@
 #error "Both SINGLE_ALGORITHM and MULTIPLE_ALGORITHMS are defined. Only one of them should be defined."
 #endif
 
+// throw compiler error if neither SINGLE_ALGORITHM nor MULTIPLE_ALGORITHMS are defined
+#if !defined(SINGLE_ALGORITHM) && !defined(MULTIPLE_ALGORITHMS)
+#error "Neither SINGLE_ALGORITHM nor MULTIPLE_ALGORITHMS are defined. One of them should be defined."
+#endif
+
 #ifdef SINGLE_ALGORITHM
 extern int PROG_NAME(int argc, char *argv[]);
 #endif 
@@ -121,7 +126,7 @@ void main(void) {
 
 #endif 
 
-    free(tokenized_inp_str);
+    // free(tokenized_inp_str);
 }
 
 

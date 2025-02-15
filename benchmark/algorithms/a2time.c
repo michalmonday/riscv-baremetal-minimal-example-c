@@ -127,7 +127,7 @@ static varsize angleCounter ;      /* Current 'angleCounter' pulled from test da
 static varsize *inpAngleCount ;    /* Array of 'angleCounter' test data values */
 static varsize tonewheelTeeth ;    /* Number of teeth on the tonewheel */
 
-static input_index;
+static int input_index;
 
 static int t_run_test(int argc, const char *argv[] )
 {    
