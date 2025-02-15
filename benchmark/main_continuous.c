@@ -65,7 +65,7 @@ char *parse_args_from_stdin_csv(int *argc, char *argv[]) {
         printf("argc = %d new arg = %s\n", *argc, argv[*argc-1]);
         if (*argc > MAX_PROGRAM_ARGS) {
             th_exit("ERROR: too many arguments, max is %d\nstoppin execution", MAX_PROGRAM_ARGS);
-            asm volatile ("wfi");
+            // asm volatile ("wfi");
         }
     }
     return inp;
