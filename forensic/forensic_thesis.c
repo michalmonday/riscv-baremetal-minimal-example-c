@@ -120,9 +120,9 @@ LOGIN:
 
 bool is_barcode_known(char *barcode) {
     // insecure:
-    printf("query: SELECT * FROM allowed_barcode_IDs WHERE barcode_ID = %s\n", barcode);
+    printf("query: SELECT * FROM allowed_qr_code_IDs WHERE qr_code_ID = %s\n", barcode);
     // secure:
-    // printf("query: SELECT * FROM allowed_barcode_IDs WHERE barcode_ID = %d\n", atoi(sanitize(barcode)));
+    // printf("query: SELECT * FROM allowed_qr_code_IDs WHERE qr_code_ID = %d\n", atoi(sanitize(barcode)));
     int is_in_db = 0;
     char response[64] = {0};
     wait_ms(500);
