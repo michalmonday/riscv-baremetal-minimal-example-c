@@ -32,7 +32,7 @@ extern int tblook(int argc, char *argv[]);
 extern int ttsprk(int argc, char *argv[]);
 #endif
 
-#ifdef CHERIBSD_RESEACH
+#ifdef CHERIBSD_RESEARCH
 char *parse_args_from_stdin_csv(int *argc, char *argv[]) {
     char inp[] = "a2time,5,10,rspeed,3,10,puwmod,4,10,tblook,2,10,ttsprk,2,10";
 
