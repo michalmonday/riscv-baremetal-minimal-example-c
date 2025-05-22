@@ -76,7 +76,7 @@ void main(void) {
 
 #endif 
 
-    free(tokenized_inp_str);
+    // free(tokenized_inp_str);
 }
 
 
